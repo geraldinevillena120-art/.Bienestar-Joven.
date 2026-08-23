@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienestar Joven | Tu Espacio Seguro</title>
+    <!-- Tipografía Moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS para diseño rápido y moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --primary: #6366F1; --bg: #F8FAFC; }
+        /* TEMAS PERSONALIZADOS */
+        body.theme-cielo { --primary: #0ea5e9; --bg: #f0f9ff; }
+        body.theme-lavanda { --primary: #8b5cf6; --bg: #f5f3ff; }
+        body.theme-bosque { --primary: #10b981; --bg: #f0fdf4; }
+        body.theme-atardecer { --primary: #f59e0b; --bg: #fffbeb; }
+
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg); transition: 0.5s; color: #334155; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 2.5rem; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); }
+        .btn-rounded { border-radius: 2rem; transition: all 0.3s ease; }
+        .btn-rounded:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -5px rgba(0,0,0,0.1); }
+        .hidden-section { display: none; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        progress { border-radius: 10px; overflow: hidden; }
+        progress::-webkit-progress-bar { background-color: #e2e8f0; }
+        progress::-webkit-progress-value { background-color: var(--primary); transition: 0.5s; }
+    </style>
+</head>
+<body class="theme-cielo">
+
+    <!-- MENÚ NAVEGACIÓN (Estilo App Movil) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-md border-t md:top-0 md:bottom-auto p-4 z-50">
+        <div class="max-w-4xl mx-auto flex justify-around items-center text-[10px] md:text-sm font-bold uppercase tracking-widest">
+            <button onclick="showScreen('inicio')" class="flex flex-col items-center gap-1"><span>🏠</span><span>Inicio</span></button>
+            <button onclick="showScreen('actividades')" class="flex flex-col items-center gap-1"><span>🌟</span><span>Explorar</span></button>
+            <button onclick="showScreen('metas')" class="flex flex-col items-center gap-1"><span>🎯</span><span>Metas</span></button>
+            <button onclick="showScreen('diario')" class="flex flex-col items-center gap-1"><span>🔒</span><span>Diario</span></button>
+            <button onclick="showScreen('progreso')" class="flex flex-col items-center gap-1"><span>📈</span><span>Progreso</span></button>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto p-6 pt-8 pb-32 md:pt-28">
+
+        <!-- PANTALLA INICIO -->
+        <section id="screen-inicio" class="fade-in text-center">
+            <div class="mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--primary)">Bienestar Joven</h1>
+                <p id="frase-dia" class="text-lg text-slate-500 italic px-4">"Un espacio para conocerte, cuidarte y sentirte mejor."</p>
+            </div>
+
+            <div class="glass p-8 mb-8 border-2 border-white">
+                <h3 class="text-xl font-bold mb-6">¿Cómo te sientes hoy?</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <button onclick="setMood('Feliz', '😊')" class="p-5 glass hover:bg-white text-3xl">😊</button>
+                    <button onclick="setMood('Tranquilo', '😌')" class="p-5 glass hover:bg-white text-3xl">😌</button>
+                    <button onclick="setMood('Estresado', '🤯')" class="p-5 glass hover:bg-white text-3xl">🤯</button>
+                    <button onclick="setMood('Preocupado', '😟')" class="p-5 glass hover:bg-white text-3xl">😟</button>
+                    <button onclick="setMood('Triste', '😢')" class="p-5 glass hover:bg-white text-3xl">😢</button>
+                    <button onclick="setMood('Cansado', '🔋')" class="p-5 glass hover:bg-white text-3xl">🔋</button>
+                </div>
+            </div>
+
+            <button onclick="showScreen('actividades')" class="w-full py-5 btn-rounded text-white text-xl font-bold shadow-xl" style="background-color: var(--primary)">
+                Comenzar ahora
+            </button>
+        </section>
+
+        <!-- PANTALLA ACTIVIDADES -->
+        <section id="screen-actividades" class="hidden-section fade-in">
+            <h2 class="text-3xl font-bold mb-8">Actividades</h2>
+            <div class="grid gap-4">
+                <div class="glass p-6 border-l-8 border-sky-400">
+                    <h4 class="font-bold text-lg">Relajación 4-7-8</h4>
+                    <p class="text-sm opacity-70">Inhala en 4, mantén 7, exhala en 8. Repite 4 veces.</p>
+                </div>
+                <div class="glass p-6 border-l-8 border-purple-400">
+                    <h4 class="font-bold text-lg">Dibujar emociones</h4>
+                    <p class="text-sm opacity-70">Toma un papel y dibuja tu emoción como si fuera un monstruo amigable.</p>
+                </div>
+                <div class="glass p-6 border-l-8 border-emerald-400">
+                    <h4 class="font-bold text-lg">Caminata consciente</h4>
+                    <p class="text-sm opacity-70">Camina 5 minutos notando cómo tus pies tocan el suelo.</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center p-6 glass bg-indigo-50/50">
+                <p class="text-sm font-medium">¿Quieres cambiar los colores de la web?</p>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button onclick="setTheme('cielo')" class="w-8 h-8 rounded-full bg-sky-400 border-2 border-white"></button>
+                    <button onclick="setTheme('lavanda')" class="w-8 h-8 rounded-full bg-purple-400 border-2 border-white"></button>
+                    <button onclick="setTheme('bosque')" class="w-8 h-8 rounded-full bg-emerald-400 border-2 border-white"></button>
+                    <button onclick="setTheme('atardecer')" class="w-8 h-8 rounded-full bg-amber-400 border-2 border-white"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA METAS -->
+        <section id="screen-metas" class="hidden-section fade-in">
+            <h2 class="text-3xl font-bold mb-8">Mis Metas</h2>
+            <div class="glass p-8 space-y-8 mb-8">
+                <div>
+                    <div class="flex justify-between font-bold text-sm mb-2"><span>Dormir mejor</span><span id="txt-m1">40%</span></div>
+                    <progress id="m1" class="w-full h-4" value="40" max="100"></progress>
+                </div>
+                <div>
+                    <div class="flex justify-between font-bold text-sm mb-2"><span>Autoestima</span><span id="txt-m2">70%</span></div>
+                    <progress id="m2" class="w-full h-4" value="70" max="100"></progress>
+                </div>
+                <button onclick="updateMeta('m1')" class="text-xs font-bold py-2 px-4 rounded-full border-2 border-slate-200 hover:bg-white">+ Avanzar Meta</button>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Retos de hoy</h3>
+            <div class="space-y-3">
+                <label class="glass p-5 flex items-center gap-4 cursor-pointer">
+                    <input type="checkbox" class="w-6 h-6 rounded-full text-indigo-500 border-2">
+                    <span class="font-medium">Escribir algo positivo sobre mí</span>
+                </label>
+                <label class="glass p-5 flex items-center gap-4 cursor-pointer">
+                    <input type="checkbox" class="w-6 h-6 rounded-full text-indigo-500 border-2">
+                    <span class="font-medium">Beber agua al despertar</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- PANTALLA DIARIO -->
+        <section id="screen-diario" class="hidden-section fade-in">
+            <div id="diario-lock" class="text-center py-20">
+                <div class="text-6xl mb-6">🔒</div>
+                <h2 class="text-2xl font-bold mb-4">Tu Espacio Privado</h2>
+                <input type="password" id="pin" maxlength="4" placeholder="Crea un PIN de 4 números" class="w-48 p-4 rounded-2xl border-2 text-center text-2xl tracking-widest mb-6 focus:outline-none focus:border-indigo-400">
+                <button onclick="checkPIN()" class="w-full py-4 btn-rounded text-white font-bold" style="background-color: var(--primary)">Desbloquear Diario</button>
+                <p class="text-[10px] mt-10 text-slate-400">Los datos se guardan solo en este dispositivo.</p>
+            </div>
+
+            <div id="diario-open" class="hidden-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold">Mi Diario</h2>
+                    <button onclick="lockDiary()" class="text-sm font-bold opacity-50 underline">Cerrar</button>
+                </div>
+                <textarea id="diario-texto" class="w-full h-80 p-8 glass border-none focus:ring-4 focus:ring-indigo-100 outline-none text-lg" placeholder="Hoy me siento..."></textarea>
+                <button onclick="saveDiary()" class="w-full mt-4 py-4 btn-rounded text-white font-bold shadow-lg" style="background-color: var(--primary)">Guardar mis pensamientos</button>
+            </div>
+        </section>
+
+        <!-- PANTALLA PROGRESO -->
+        <section id="screen-progreso" class="hidden-section fade-in">
+            <h2 class="text-3xl font-bold mb-8">Mi Progreso</h2>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="glass p-6 text-center">
+                    <span class="text-3xl block mb-2">🔥</span>
+                    <span class="text-2xl font-bold">3 Días</span>
+                    <p class="text-[10px] uppercase text-slate-400 font-bold">Racha</p>
+                </div>
+                <div class="glass p-6 text-center">
+                    <span class="text-3xl block mb-2">🏅</span>
+                    <span class="text-2xl font-bold">12</span>
+                    <p class="text-[10px] uppercase text-slate-400 font-bold">Retos</p>
+                </div>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Insignias</h3>
+            <div class="flex gap-4">
+                <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-3xl shadow-inner border-4 border-white" title="Primer paso">🌱</div>
+                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-3xl shadow-inner border-4 border-white opacity-40" title="7 Días">💎</div>
+            </div>
+            <div class="mt-12 p-8 glass bg-white/80">
+                <h4 class="font-bold mb-2">Privacidad y Seguridad</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">Bienestar Joven no recolecta tus datos personales. Todo lo que escribes en tu diario y tus metas se guarda localmente en tu navegador. Nadie más puede verlo.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const frases = [
+            "Eres suficiente tal y como eres ahora.",
+            "Está bien no estar bien a veces.",
+            "Tu salud mental es una prioridad.",
+            "Pequeños pasos llevan a grandes cambios.",
+            "Respira, todo va a estar bien.",
+            "Confía en tu proceso personal.",
+            "Eres una persona valiente por estar aquí.",
+            "No compares tu vida con lo que ves en redes.",
+            "Mereces descansar y desconectar.",
+            "Mañana será una nueva oportunidad."
+        ];
+
+        function showScreen(id) {
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById('screen-' + id).classList.remove('hidden-section');
+            if(id === 'inicio') {
+                const f = frases[Math.floor(Math.random() * frases.length)];
+                document.getElementById('frase-dia').innerText = `"${f}"`;
+            }
+            window.scrollTo(0,0);
+        }
+
+        function setMood(m, e) {
+            alert(`${e} Registrado: Te sientes ${m}. ¡Gracias por escucharte!`);
+            localStorage.setItem('ultimo-animo', m);
+            showScreen('actividades');
+        }
+
+        function setTheme(t) {
+            document.body.className = 'theme-' + t;
+            localStorage.setItem('tema-v2', t);
+        }
+
+        // --- LÓGICA DIARIO ---
+        let miPin = localStorage.getItem('diario-pin-v2') || "";
+        
+        function checkPIN() {
+            const input = document.getElementById('pin').value;
+            if (miPin === "") {
+                if(input.length === 4) {
+                    localStorage.setItem('diario-pin-v2', input);
+                    miPin = input;
+                    alert("PIN creado con éxito.");
+                    openDiary();
+                } else { alert("Introduce 4 números para crear tu PIN."); }
+            } else if (input === miPin) {
+                openDiary();
+            } else { alert("PIN incorrecto."); }
+        }
+
+        function openDiary() {
+            document.getElementById('diario-lock').classList.add('hidden-section');
+            document.getElementById('diario-open').classList.remove('hidden-section');
+            document.getElementById('diario-texto').value = localStorage.getItem('diario-content-v2') || "";
+        }
+
+        function saveDiary() {
+            localStorage.setItem('diario-content-v2', document.getElementById('diario-texto').value);
+            alert("Pensamientos guardados bajo llave 🔐");
+            lockDiary();
+        }
+
+        function lockDiary() {
+            document.getElementById('diario-lock').classList.remove('hidden-section');
+            document.getElementById('diario-open').classList.add('hidden-section');
+            document.getElementById('pin').value = "";
+        }
+
+        function updateMeta(id) {
+            const m = document.getElementById(id);
+            if(m.value < 100) m.value += 10;
+            document.getElementById('txt-' + id).innerText = m.value + "%";
+        }
+
+        // Cargar preferencias al abrir
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('tema-v2');
+            if(savedTheme) setTheme(savedTheme);
+        };
+    </script>
+</body>
+</html>
