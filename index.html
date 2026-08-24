@@ -24,11 +24,9 @@
         .glass { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.5); }
         .hidden-section { display: none !important; }
         
-        /* BOTONES DE MISIÓN */
         .btn-pending { background: #e2e8f0; color: #64748b; }
         .btn-completed { background: linear-gradient(135deg, var(--primary), #a78bfa); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
 
-        /* LIBRO / DIARIO */
         .notebook-page {
             background: #fff;
             background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
@@ -37,19 +35,19 @@
             padding: 1.5rem 1rem 1.5rem 3rem;
             border-left: 5px solid #f87171;
             font-family: 'Indie Flower', cursive;
-            min-height: 350px;
+            min-height: 300px;
             box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
-            position: relative;
+            border-radius: 8px;
         }
 
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .pet-bounce { animation: bounce 2s infinite ease-in-out; display: inline-block; position: relative; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
         #celebration {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 100; display: none;
             justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.2); backdrop-filter: blur(2px);
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(4px);
         }
     </style>
 </head>
@@ -57,53 +55,66 @@
 
     <div id="celebration">
         <div class="glass p-10 text-center animate-bounce shadow-2xl border-4 border-white">
-            <span class="text-6xl mb-4 block">✨🏆🎊</span>
+            <span class="text-6xl mb-4 block">✨🎊🏆</span>
             <h2 id="msg-celebracion" class="text-2xl font-bold text-indigo-600">¡SÍ! ¡LO LOGRASTE!</h2>
         </div>
     </div>
 
-    <!-- PANTALLA LOGIN (Solo si no hay datos) -->
+    <!-- PANTALLA 1: LOGIN GOOGLE -->
     <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
-        <p class="text-slate-500 mb-10 max-w-xs italic">Tu espacio seguro para crecer.</p>
+        <p class="text-slate-500 mb-10 max-w-xs italic">Cuidar tu mente es el primer paso.</p>
         <div class="glass p-10 w-full max-w-sm flex flex-col items-center shadow-xl">
-            <div id="g_id_onload" data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+            <div id="g_id_onload" 
+                 data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" 
+                 data-callback="handleCredentialResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
         </div>
     </section>
 
-    <!-- PANTALLA ONBOARDING (Solo la primera vez) -->
+    <!-- PANTALLA 2: REGISTRO PERSONALIZADO -->
     <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-600">Configuración</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-600">¡Personaliza tu espacio!</h2>
         <div class="glass p-8 space-y-5">
-            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none">
-            <input type="text" id="reg-pet-name" placeholder="Nombre de tu Mascota" class="w-full p-4 rounded-2xl border outline-none">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
-                <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
-                    <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
-                </select>
+            <div>
+                <label class="text-[10px] font-bold opacity-50 uppercase">Tu Nombre</label>
+                <input type="text" id="reg-nombre" placeholder="Ej: Geraldine" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
             </div>
-            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Comenzar</button>
+            <div>
+                <label class="text-[10px] font-bold opacity-50 uppercase">Nombre para tu Mascota</label>
+                <input type="text" id="reg-pet-name" placeholder="Ej: Copito" class="w-full p-4 rounded-2xl border outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-bold opacity-50 uppercase">Edad (12-17)</label>
+                    <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold opacity-50 uppercase">Elige Mascota</label>
+                    <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
+                        <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Comenzar Aventura 🚀</button>
         </div>
     </section>
 
-    <!-- HEADER -->
+    <!-- APP HEADER -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold text-indigo-600">Bienestar Joven</h2>
-        <div class="flex items-center gap-2 text-[10px]">
-            <span id="header-racha" class="font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded-md">🔥 0</span>
-            <button onclick="logout()" class="opacity-40 underline">Salir</button>
+        <div class="flex items-center gap-2">
+            <span id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 0</span>
         </div>
     </header>
 
-    <!-- NAV INFERIOR -->
+    <!-- NAVEGACIÓN -->
     <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white border-t p-3 z-50 flex justify-around items-center text-[10px] font-bold uppercase">
-        <button onclick="showScreen('inicio')" id="btn-inicio" class="flex flex-col items-center"><span>🏠</span><span>Inicio</span></button>
-        <button onclick="showScreen('actividades')" id="btn-actividades" class="flex flex-col items-center"><span>🌟</span><span>Misiones</span></button>
-        <button onclick="showScreen('metas')" id="btn-metas" class="flex flex-col items-center"><span>🎯</span><span>Metas</span></button>
-        <button onclick="showScreen('diario')" id="btn-diario" class="flex flex-col items-center"><span>📖</span><span>Diario</span></button>
-        <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center"><span>🎨</span><span>Ajustes</span></button>
+        <button onclick="showScreen('inicio')" id="btn-inicio" class="flex flex-col items-center gap-1"><span>🏠</span><span>Inicio</span></button>
+        <button onclick="showScreen('actividades')" id="btn-actividades" class="flex flex-col items-center gap-1"><span>🌟</span><span>Misiones</span></button>
+        <button onclick="showScreen('metas')" id="btn-metas" class="flex flex-col items-center gap-1"><span>🎯</span><span>Metas</span></button>
+        <button onclick="showScreen('diario')" id="btn-diario" class="flex flex-col items-center gap-1"><span>📖</span><span>Diario</span></button>
+        <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center gap-1"><span>🎨</span><span>Ajustes</span></button>
     </nav>
 
     <!-- CONTENIDO -->
@@ -111,16 +122,17 @@
 
         <!-- INICIO -->
         <section id="screen-inicio" class="text-center fade-in">
-            <div class="glass p-6 mb-6">
-                <div class="pet-bounce text-8xl mb-4">
-                    <span id="pet-acc" class="absolute -top-4 left-1/2 -translate-x-1/2 text-3xl"></span>
+            <div class="glass p-8 mb-6">
+                <div class="pet-bounce text-8xl">
+                    <span id="pet-acc" class="absolute -top-6 left-1/2 -translate-x-1/2 text-4xl"></span>
                     <span id="pet-display">🐶</span>
                 </div>
-                <h3 class="text-xl font-bold mt-2" id="pet-name-display"></h3>
-                <p id="pet-compliment" class="text-sm text-indigo-500 italic mt-2 px-4"></p>
+                <h3 class="text-2xl font-bold mt-4" id="pet-name-display">Mascota</h3>
+                <p id="pet-compliment" class="text-sm text-indigo-500 italic mt-2 px-6 font-medium"></p>
             </div>
+            
             <div class="glass p-6">
-                <p class="text-[10px] font-bold opacity-40 mb-4 uppercase tracking-widest">¿Cómo te sientes hoy?</p>
+                <h3 class="text-[10px] font-bold opacity-40 uppercase tracking-widest mb-6">¿Cómo te sientes en este momento?</h3>
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="updateByMood('Feliz')" class="p-4 glass text-2xl hover:scale-110 transition">😊</button>
                     <button onclick="updateByMood('Tranquilo')" class="p-4 glass text-2xl hover:scale-110 transition">😌</button>
@@ -137,7 +149,8 @@
 
         <!-- MISIONES -->
         <section id="screen-actividades" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-4">Misiones Diarias</h2>
+            <h2 class="text-2xl font-bold mb-2">Misiones Diarias</h2>
+            <p id="mood-label" class="text-xs text-slate-400 mb-6 italic"></p>
             <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
@@ -149,18 +162,18 @@
             </div>
             <div id="new-goal-form" class="hidden-section glass p-6 mb-6 border-2 border-indigo-200">
                 <input type="text" id="custom-goal-text" placeholder="¿Qué quieres lograr?" class="w-full p-3 rounded-xl border mb-3">
-                <button onclick="addCustomGoal()" class="w-full py-2 bg-indigo-600 text-white rounded-xl font-bold">Añadir</button>
+                <button onclick="addCustomGoal()" class="w-full py-2 bg-indigo-600 text-white rounded-xl font-bold">Añadir Meta</button>
             </div>
             <div id="lista-metas" class="space-y-4"></div>
         </section>
 
-        <!-- DIARIO TIPO LIBRO -->
+        <!-- DIARIO -->
         <section id="screen-diario" class="hidden-section fade-in">
             <div id="diario-lock" class="text-center py-10">
-                <div class="text-5xl mb-4">🔐</div>
-                <h3 class="font-bold mb-4">Tu Diario Privado</h3>
+                <div class="text-6xl mb-6">🔒</div>
+                <h3 class="font-bold mb-4">Diario Protegido</h3>
                 <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-4 rounded-2xl border-2 mb-4 w-32 mx-auto block outline-none">
-                <button onclick="checkPIN()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Abrir Libro</button>
+                <button onclick="checkPIN()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Abrir Cuaderno</button>
             </div>
             
             <div id="diario-open" class="hidden-section">
@@ -169,27 +182,51 @@
                     <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold">CERRAR LIBRO</button>
                 </div>
                 
-                <div class="notebook-page shadow-lg" id="notebook-ui">
-                    <div class="flex justify-between items-center mb-2 opacity-50 text-[10px] font-bold uppercase">
+                <div class="notebook-page shadow-xl mb-4" id="notebook-ui">
+                    <div class="flex justify-between items-center mb-2 opacity-50 text-[10px] font-bold">
                         <span id="page-date">Nueva Página</span>
                         <span id="page-number">Pág. 1</span>
                     </div>
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Escribe aquí tus pensamientos..."></textarea>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Querido diario, hoy quiero contar que..."></textarea>
                 </div>
                 
-                <div class="flex justify-between mt-6">
-                    <button onclick="prevPage()" class="p-3 bg-white border rounded-full shadow-sm">⬅️</button>
-                    <button onclick="saveDiary()" id="btn-save-diary" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar Página</button>
-                    <button onclick="nextPage()" class="p-3 bg-white border rounded-full shadow-sm">➡️</button>
+                <div class="flex justify-between items-center px-2">
+                    <button onclick="prevPage()" class="p-3 bg-white border rounded-full">⬅️</button>
+                    <button onclick="saveDiary()" id="btn-save-diary" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar Página</button>
+                    <button onclick="nextPage()" class="p-3 bg-white border rounded-full">➡️</button>
                 </div>
             </div>
         </section>
 
-        <!-- AJUSTES -->
+        <!-- AJUSTES Y SUGERENCIAS -->
         <section id="screen-progreso" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-6">Ajustes</h2>
+            <h2 class="text-2xl font-bold mb-6">Ajustes y Progreso</h2>
+            
+            <!-- RACHA Y RECOMPENSAS -->
             <div class="glass p-6 mb-6">
-                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Elige el color de tu Bienestar:</p>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[10px] font-bold opacity-50 uppercase">Tu Racha actual</p>
+                        <p class="text-3xl font-bold text-orange-500"><span id="stats-racha">0</span> Días 🔥</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold opacity-50 uppercase">Puntos</p>
+                        <p id="puntos-val" class="text-xl font-bold text-indigo-600">0</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-indigo-50 rounded-xl">
+                    <p class="text-[10px] font-bold text-indigo-600 mb-1 uppercase tracking-wider">Objetivos de Recompensa:</p>
+                    <div class="flex justify-between text-[9px] font-bold opacity-70">
+                        <span>3 Días: 🎩 Sombrero</span>
+                        <span>5 Días: 👑 Corona</span>
+                        <span>10 Días: 💎 Aura</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLORES -->
+            <div class="glass p-6 mb-6">
+                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Elige tu Color:</p>
                 <div class="grid grid-cols-4 gap-3">
                     <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400"></button>
                     <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400"></button>
@@ -201,57 +238,90 @@
                     <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400"></button>
                 </div>
             </div>
-            <div class="glass p-6 text-center">
-                <p class="text-[10px] font-bold opacity-40 uppercase mb-2">Puntos de Bienestar</p>
-                <p id="puntos-val" class="text-5xl font-bold text-indigo-600">0</p>
+
+            <!-- SUGERENCIAS -->
+            <div class="glass p-6 bg-indigo-50">
+                <h3 class="font-bold text-sm mb-4 text-indigo-600 uppercase">🎒 Sugerencias para tu día</h3>
+                <div class="space-y-4 text-[11px] leading-relaxed">
+                    <p><strong>• Planificación:</strong> Antes de dormir, anota las 3 cosas más importantes de mañana. ¡Te quitará peso de la mente!</p>
+                    <p><strong>• En el Colegio:</strong> Si te sientes agobiado, haz la "respiración de la mano": recorre tus dedos inhalando y exhalando.</p>
+                    <p><strong>• Sin Estrés:</strong> Divide tus tareas grandes en pasos de 10 minutos. ¡Es más fácil empezar así!</p>
+                    <p><strong>• Bienestar:</strong> Bebe un vaso de agua cada vez que cambies de clase o de tarea.</p>
+                </div>
             </div>
+
+            <button onclick="logout()" class="w-full mt-10 text-[10px] text-red-400 font-bold underline">BORRAR TODOS MIS DATOS</button>
         </section>
 
     </main>
 
     <script>
         let userData = null;
-        let currentPageIndex = -1; // -1 significa página nueva en blanco
+        let currentPageIndex = -1;
+
+        const compliments = [
+            "¡Eres una persona increíble!", "Tu bienestar es lo más importante.", 
+            "¡Me encanta pasar tiempo contigo!", "Hoy es un gran día para brillar.", 
+            "Eres valiente por cuidar tus emociones.", "¡Cada paso que das cuenta!",
+            "¡Qué alegría verte de nuevo!", "Tu sonrisa ilumina mi día virtual."
+        ];
 
         const misionesMood = {
-            'Feliz': [{t:"Dile un cumplido a alguien", d:"Haz que el día de otra persona también brille."}, {t:"Anota tu alegría", d:"Escribe por qué estás feliz hoy."}, {t:"Baila 2 minutos", d:"Sigue el ritmo de tu canción favorita."}],
-            'Estresado': [{t:"Respira 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Pausa Digital", d:"Apaga pantallas por 15 min."}, {t:"Ordena un cajón", d:"El orden externo trae orden interno."}],
-            'Triste': [{t:"Abrazo Mariposa", d:"Toca tus hombros rítmicamente."}, {t:"Bebe agua fresca", d:"Siente cómo te hidrata."}, {t:"Dibuja algo", d:"Expresa tu pena en trazos."}]
-            // ... se pueden añadir el resto igual
+            'Feliz': [{t:"Comparte alegría", d:"Dile algo bueno a alguien hoy."}, {t:"Cápsula de Gratitud", d:"Anota 3 cosas buenas de tu día."}, {t:"Momento Baile", d:"Baila tu canción favorita 1 min."}],
+            'Tranquilo': [{t:"Pausa de lectura", d:"Lee 5 páginas de un libro."}, {t:"Observar nubes", d:"Mira el cielo por 3 minutos."}, {t:"Música Zen", d:"Escucha sonidos de naturaleza."}],
+            'Estresado': [{t:"Respiración 4-7-8", d:"Inhala 4, mantén 7, exhala 8."}, {t:"Pausa de pantalla", d:"Apaga el móvil por 15 min."}, {t:"Ordenar espacio", d:"Limpia tu mesa o escritorio."}],
+            'Preocupado': [{t:"Escribir miedo", d:"Anota tu duda y táchala fuerte."}, {t:"Habla con alguien", d:"Cuéntale tu duda a alguien de confianza."}, {t:"5-4-3-2-1", d:"5 cosas que ves, 4 que tocas..."}],
+            'Triste': [{t:"Autocuidado", d:"Lávate la cara con agua fresca."}, {t:"Abrazo Mariposa", d:"Toca tus hombros rítmicamente."}, {t:"Dibujo libre", d:"Dibuja garabatos de colores."}],
+            'Agotado': [{t:"Micro-siesta", d:"Cierra los ojos 5 min en silencio."}, {t:"Estiramiento", d:"Estira brazos hacia el techo."}, {t:"Hidratación", d:"Bebe un vaso de agua muy lento."}],
+            'Enojado': [{t:"Soltar energía", d:"Haz 10 saltos muy rápidos."}, {t:"Escribir y romper", d:"Escribe tu enojo y rompe el papel."}, {t:"Hielo", d:"Sujeta un hielo 30 segundos."}],
+            'Frustrado': [{t:"Pausa Pomodoro", d:"Para 2 min y camina un poco."}, {t:"Cambio de lugar", d:"Vete a otra habitación."}, {t:"Lávate manos", d:"Siente el agua fría en tus manos."}],
+            'Agobiado': [{t:"Solo 1 Cosa", d:"Haz la tarea más pequeña ahora mismo."}, {t:"Pedir ayuda", d:"Pregunta a alguien cómo empezar."}, {t:"Respira hondo", d:"Haz 3 respiraciones profundas."}]
         };
 
-        const frasesExito = ["¡Increíble trabajo!", "¡Eres imparable!", "¡Cada paso cuenta!", "¡Qué bien lo hiciste!", "¡Orgulloso de ti!"];
-
-        // --- PERSISTENCIA INMEDIATA ---
+        // --- PERSISTENCIA CORREGIDA ---
         window.onload = () => {
-            const saved = localStorage.getItem('bj_v7');
+            const saved = localStorage.getItem('bj_final_v1');
             if (saved) {
                 userData = JSON.parse(saved);
-                if (userData.nombre) loginSuccess();
+                if (userData.registrado) {
+                    loginSuccess();
+                }
             }
             const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
         };
 
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            userData = JSON.parse(localStorage.getItem('bj_v7')) || { 
-                email: payload.email, nombre: payload.given_name, racha: 1, puntos: 0, diario: [], pin: null,
+            
+            // Si ya existe el usuario, no sobrescribir sus datos de racha/mascota
+            const saved = localStorage.getItem('bj_final_v1');
+            if (saved) {
+                userData = JSON.parse(saved);
+                if(userData.registrado) { loginSuccess(); return; }
+            }
+
+            // Si es nuevo o no ha terminado el registro
+            userData = {
+                email: payload.email,
+                registrado: false,
+                puntos: 0, racha: 1, diario: [], pin: null, ultimaC: new Date().toLocaleDateString(),
                 metas: [
                     {id:'m1', t:'Dormir mejor', v:0, tip:'💡 Apaga el móvil 30 min antes.'},
                     {id:'m2', t:'Autoestima', v:0, tip:'💡 Di algo lindo frente al espejo.'},
                     {id:'m3', t:'Plan Escolar', v:0, tip:'💡 Organiza tus tareas por prioridad.'}
                 ]
             };
-            if(!userData.nombre) {
-                document.getElementById('screen-login').classList.add('hidden-section');
-                document.getElementById('screen-onboarding').classList.remove('hidden-section');
-            } else { loginSuccess(); }
+            document.getElementById('screen-login').classList.add('hidden-section');
+            document.getElementById('screen-onboarding').classList.remove('hidden-section');
+            document.getElementById('reg-nombre').value = payload.given_name;
         };
 
         function finishRegistration() {
             userData.nombre = document.getElementById('reg-nombre').value;
             userData.petName = document.getElementById('reg-pet-name').value || "Mascota";
             userData.petEmoji = document.getElementById('reg-pet').value;
+            userData.edad = document.getElementById('reg-edad').value;
+            userData.registrado = true;
             save(); loginSuccess();
         }
 
@@ -264,69 +334,71 @@
             updateUI(); showScreen('inicio');
         }
 
-        function save() { localStorage.setItem('bj_v7', JSON.stringify(userData)); }
-
-        function celebrate(msg) {
-            document.getElementById('msg-celebracion').innerText = msg || frasesExito[Math.floor(Math.random()*frasesExito.length)];
-            const cel = document.getElementById('celebration');
-            cel.style.display = 'flex';
-            setTimeout(() => { cel.style.display = 'none'; }, 2000);
-        }
+        function save() { localStorage.setItem('bj_final_v1', JSON.stringify(userData)); }
 
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
-            document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('text-indigo-600'));
-            document.getElementById('btn-' + id).classList.add('text-indigo-600');
+            document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('text-indigo-600', 'scale-110'));
+            document.getElementById('btn-' + id).classList.add('text-indigo-600', 'scale-110');
+            if(id === 'inicio') updateMascota();
             if(id === 'metas') renderMetas();
             window.scrollTo(0,0);
         }
 
-        function updateUI() {
-            document.getElementById('pet-display').innerText = userData.petEmoji || "🐶";
-            document.getElementById('pet-name-display').innerText = userData.petName || "Mascota";
-            document.getElementById('header-racha').innerText = "🔥 " + (userData.racha || 0);
-            document.getElementById('puntos-val').innerText = userData.puntos || 0;
+        function updateMascota() {
+            document.getElementById('pet-name-display').innerText = userData.petName;
+            document.getElementById('pet-display').innerText = userData.petEmoji;
+            document.getElementById('pet-compliment').innerText = `"${compliments[Math.floor(Math.random()*compliments.length)]}"`;
+            
             const acc = document.getElementById('pet-acc');
-            if(userData.racha >= 5) acc.innerText = "👑"; else if(userData.racha >= 3) acc.innerText = "🎩";
+            if(userData.racha >= 10) acc.innerText = "💎";
+            else if(userData.racha >= 5) acc.innerText = "👑";
+            else if(userData.racha >= 3) acc.innerText = "🎩";
+            else acc.innerText = "";
         }
 
-        // --- MISIONES DINÁMICAS ---
+        function updateUI() {
+            document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
+            document.getElementById('stats-racha').innerText = userData.racha;
+            document.getElementById('puntos-val').innerText = userData.puntos;
+        }
+
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
             list.innerHTML = "";
             const misiones = misionesMood[mood] || misionesMood['Feliz'];
             misiones.forEach((m, i) => {
                 list.innerHTML += `
-                    <div class="glass p-6">
-                        <h4 class="font-bold text-sm">${m.t}</h4>
+                    <div class="glass p-6 fade-in shadow-sm">
+                        <h4 class="font-bold text-sm mb-1">${m.t}</h4>
                         <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
-                        <button id="miss-${mood}-${i}" onclick="completeMission('miss-${mood}-${i}')" class="w-full py-3 rounded-xl font-bold text-xs btn-pending transition-all">
+                        <button id="m-${mood}-${i}" onclick="completeMission('m-${mood}-${i}')" class="w-full py-3 rounded-xl font-bold text-[10px] btn-pending transition-all">
                             COMPLETAR MISIÓN
                         </button>
                     </div>`;
             });
+            document.getElementById('mood-label').innerText = "Recomendaciones para tu humor: " + mood;
             showScreen('actividades');
         }
 
         function completeMission(id) {
             const btn = document.getElementById(id);
             if(btn.classList.contains('btn-completed')) return;
-            btn.className = "w-full py-3 rounded-xl font-bold text-xs btn-completed transition-all scale-105";
+            btn.className = "w-full py-3 rounded-xl font-bold text-[10px] btn-completed transition-all scale-105";
             btn.innerHTML = "MISIÓN COMPLETADA ✅";
             userData.puntos += 20; save(); updateUI();
-            celebrate();
+            celebrate("¡Lo lograste! Eres genial 🌟");
         }
 
-        // --- METAS ---
         function renderMetas() {
             const container = document.getElementById('lista-metas');
             container.innerHTML = userData.metas.map(m => `
-                <div class="glass p-6 ${m.v >= 100 ? 'bg-green-50 border-green-200' : ''}">
+                <div class="glass p-6 border-2 ${m.v >= 100 ? 'border-green-200 bg-green-50' : 'border-white'}">
                     <div class="flex justify-between font-bold text-xs mb-1"><span>${m.t}</span><span>${m.v}%</span></div>
                     <progress class="w-full h-2" value="${m.v}" max="100"></progress>
-                    <p class="text-[10px] mt-2 opacity-70 italic">${m.tip || '¡Sigue avanzando!'}</p>
-                    ${m.v < 100 ? `<button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-3 bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition">Marcar Paso (+10%) 🚀</button>` : '¡Meta completada! 🎊'}
+                    <p class="text-[10px] mt-2 opacity-70 italic">${m.tip}</p>
+                    ${m.v < 100 ? `<button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-3 bg-white border border-indigo-100 rounded-xl font-bold text-[9px] uppercase tracking-tighter hover:bg-indigo-500 hover:text-white transition">Marcar Paso (+10%) 🚀</button>` : ''}
                 </div>`).join('');
         }
 
@@ -335,7 +407,8 @@
             if(m && m.v < 100) {
                 m.v += 10; userData.puntos += 10;
                 save(); renderMetas(); updateUI();
-                if(m.v % 50 === 0 || m.v >= 100) celebrate("¡Meta subiendo! 🚀");
+                if(m.v >= 100) celebrate("¡Meta alcanzada! ¡Felicidades! 🏆");
+                else celebrate("¡Sigue así, vas por buen camino!");
             }
         }
 
@@ -343,74 +416,56 @@
         function addCustomGoal() {
             const t = document.getElementById('custom-goal-text').value;
             if(!t) return;
-            userData.metas.push({ id: Date.now().toString(), t: t, v: 0, tip: '💡 ¡Tú pusiste este reto!' });
+            userData.metas.push({ id: Date.now().toString(), t: t, v: 0, tip: '💡 Meta personalizada.' });
             document.getElementById('custom-goal-text').value = "";
             toggleNewGoal(); save(); renderMetas();
         }
 
-        // --- DIARIO (LIBRO DE PÁGINAS) ---
+        // --- DIARIO ---
         function checkPIN() {
             const v = document.getElementById('pin').value;
             if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary();} }
             else { if(v===userData.pin) openDiary(); else alert("PIN Incorrecto"); }
         }
-
         function openDiary() {
             document.getElementById('diario-lock').classList.add('hidden-section');
             document.getElementById('diario-open').classList.remove('hidden-section');
-            currentPageIndex = -1; // Iniciar en blanco
-            updateNotebookView();
+            currentPageIndex = -1; updateNotebookView();
         }
-
         function updateNotebookView() {
             const area = document.getElementById('texto-diario');
             const dateLabel = document.getElementById('page-date');
             const pageLabel = document.getElementById('page-number');
-            const btnSave = document.getElementById('btn-save-diary');
-
             if (currentPageIndex === -1) {
-                area.value = "";
-                area.readOnly = false;
+                area.value = ""; area.readOnly = false;
                 dateLabel.innerText = "Nueva Página: " + new Date().toLocaleDateString();
                 pageLabel.innerText = "Pág. " + (userData.diario.length + 1);
-                btnSave.classList.remove('hidden-section');
             } else {
-                const entry = userData.diario[currentPageIndex];
-                area.value = entry.c;
-                area.readOnly = true;
-                dateLabel.innerText = entry.f;
+                const e = userData.diario[currentPageIndex];
+                area.value = e.c; area.readOnly = true;
+                dateLabel.innerText = e.f;
                 pageLabel.innerText = "Pág. " + (userData.diario.length - currentPageIndex);
-                btnSave.classList.add('hidden-section');
             }
         }
-
         function saveDiary() {
             const t = document.getElementById('texto-diario').value;
             if(!t) return;
             userData.diario.unshift({f: new Date().toLocaleString(), c: t});
             userData.puntos += 30; save(); 
-            alert("Página guardada y libro cerrado.");
-            lockDiary(); celebrate("Pensamiento guardado 📖");
+            lockDiary(); celebrate("Pensamiento guardado bajo llave 📖");
         }
-
-        function prevPage() {
-            if(currentPageIndex < userData.diario.length - 1) {
-                currentPageIndex++;
-                updateNotebookView();
-            }
-        }
-
-        function nextPage() {
-            if(currentPageIndex > -1) {
-                currentPageIndex--;
-                updateNotebookView();
-            }
-        }
-
+        function prevPage() { if(currentPageIndex < userData.diario.length - 1) { currentPageIndex++; updateNotebookView(); } }
+        function nextPage() { if(currentPageIndex > -1) { currentPageIndex--; updateNotebookView(); } }
         function lockDiary() {
             document.getElementById('diario-lock').classList.remove('hidden-section');
             document.getElementById('diario-open').classList.add('hidden-section');
             document.getElementById('pin').value = "";
+        }
+
+        function celebrate(msg) {
+            document.getElementById('msg-celebracion').innerText = msg;
+            document.getElementById('celebration').style.display = 'flex';
+            setTimeout(() => { document.getElementById('celebration').style.display = 'none'; }, 2000);
         }
 
         function logout() { if(confirm("¿Seguro que quieres borrar tus datos locales?")) { localStorage.clear(); location.reload(); } }
