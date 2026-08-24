@@ -12,7 +12,6 @@
     
     <style>
         :root { --primary: #6366F1; --bg: #F8FAFC; }
-        /* 8 COLORES DE TEMAS */
         body.theme-cielo { --primary: #0ea5e9; --bg: #f0f9ff; }
         body.theme-lavanda { --primary: #8b5cf6; --bg: #f5f3ff; }
         body.theme-bosque { --primary: #10b981; --bg: #f0fdf4; }
@@ -25,9 +24,27 @@
         body { font-family: 'Outfit', sans-serif; background-color: var(--bg); color: #334155; transition: 0.5s; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.5); }
         .hidden-section { display: none !important; }
-        .pet-bounce { animation: bounce 2s infinite ease-in-out; position: relative; display: inline-block; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         
+        /* BOTÓN LLAMATIVO */
+        .btn-strike {
+            background: linear-gradient(135deg, var(--primary), #a78bfa);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+        }
+        .btn-strike:hover { transform: scale(1.05) translateY(-2px); }
+
+        /* CELEBRACIÓN */
+        #celebration {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100; display: none;
+            justify-content: center; align-items: center;
+            background: rgba(255,255,255,0.3); backdrop-filter: blur(4px);
+        }
+
+        .pet-bounce { animation: bounce 2s infinite ease-in-out; display: inline-block; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
         .notebook {
             background: #fff;
             background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
@@ -36,21 +53,24 @@
             padding: 1.5rem 1rem 1.5rem 3rem;
             border-left: 4px double #f87171;
             font-family: 'Indie Flower', cursive;
-            font-size: 1.2rem;
-            border-radius: 8px;
         }
-
-        .mood-btn { transition: all 0.2s; border: 2px solid transparent; }
-        .mood-btn:hover { transform: scale(1.1); border-color: var(--primary); }
-        .tab-active { color: var(--primary); border-bottom: 3px solid var(--primary); transform: scale(1.1); }
     </style>
 </head>
 <body class="theme-cielo">
 
+    <!-- CELEBRACIÓN OVERLAY -->
+    <div id="celebration" class="fade-in">
+        <div class="glass p-10 text-center animate-bounce shadow-2xl border-4 border-indigo-200">
+            <span class="text-6xl mb-4 block">✨🎊🏆</span>
+            <h2 class="text-3xl font-bold text-indigo-600">¡LO LOGRASTE!</h2>
+            <p class="font-bold">¡Felicidades, sigue así!</p>
+        </div>
+    </div>
+
     <!-- LOGIN -->
     <section id="landing-page" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
-        <p class="text-slate-500 mb-10 max-w-xs">Tu espacio seguro. Inicia sesión para conocer a tu mascota.</p>
+        <p class="text-slate-500 mb-10 max-w-xs italic text-sm">"Un espacio donde tu mente es la prioridad."</p>
         <div class="glass p-10 w-full max-w-sm flex flex-col items-center shadow-xl">
             <div id="g_id_onload" data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
@@ -61,15 +81,15 @@
     <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
         <h2 class="text-3xl font-bold mb-6 text-indigo-600">Configuración</h2>
         <div class="glass p-8 space-y-5">
-            <input type="text" id="reg-nombre" placeholder="¿Cómo te llamas?" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
-            <input type="text" id="reg-pet-name" placeholder="Nombre para tu mascota" class="w-full p-4 rounded-2xl border outline-none">
+            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
+            <input type="text" id="reg-pet-name" placeholder="Nombre de tu Mascota" class="w-full p-4 rounded-2xl border outline-none">
             <div class="grid grid-cols-2 gap-4">
                 <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
                 <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
                     <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
                 </select>
             </div>
-            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Entrar</button>
+            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Comenzar</button>
         </div>
     </section>
 
@@ -78,7 +98,7 @@
         <h2 class="font-bold text-indigo-600">Bienestar Joven</h2>
         <div class="flex items-center gap-2">
             <span id="header-racha" class="text-[10px] font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded-md">🔥 0</span>
-            <button onclick="logout()" class="text-[10px] opacity-40 font-bold underline">SALIR</button>
+            <button onclick="logout()" class="text-[10px] opacity-40 font-bold underline">Cerrar Sesión</button>
         </div>
     </header>
 
@@ -91,65 +111,60 @@
         <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center gap-1"><span>🎨</span><span>Ajustes</span></button>
     </nav>
 
-    <!-- APP CONTENT -->
+    <!-- CONTENT -->
     <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-24 pb-28">
 
-        <!-- PANTALLA INICIO -->
+        <!-- INICIO -->
         <section id="screen-inicio" class="text-center fade-in">
             <div class="glass p-6 mb-6">
                 <div class="pet-bounce">
                     <span id="pet-acc" class="absolute -top-4 left-1/2 -translate-x-1/2 text-3xl"></span>
                     <span id="pet-display" class="text-8xl">🐶</span>
                 </div>
-                <h3 class="text-xl font-bold mt-4"><span id="pet-name-display">Mascota</span> dice:</h3>
-                <p id="pet-compliment" class="text-sm text-indigo-500 font-medium italic mt-1">"¡Eres muy importante!"</p>
+                <h3 class="text-xl font-bold mt-4"><span id="pet-name-display"></span></h3>
+                <p id="pet-compliment" class="text-sm text-indigo-500 font-medium italic mt-2 px-4"></p>
             </div>
             
             <div class="glass p-6">
-                <h3 class="font-bold mb-4 text-slate-500 uppercase text-xs tracking-widest">¿Cómo te sientes en este momento?</h3>
+                <h3 class="font-bold mb-6 text-slate-500 text-xs tracking-widest uppercase">¿Cómo va tu día?</h3>
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="updateByMood('Feliz')" class="mood-btn p-4 glass text-2xl">😊</button>
-                    <button onclick="updateByMood('Tranquilo')" class="mood-btn p-4 glass text-2xl">😌</button>
-                    <button onclick="updateByMood('Estresado')" class="mood-btn p-4 glass text-2xl">🤯</button>
-                    <button onclick="updateByMood('Preocupado')" class="mood-btn p-4 glass text-2xl">😟</button>
-                    <button onclick="updateByMood('Triste')" class="mood-btn p-4 glass text-2xl">😢</button>
-                    <button onclick="updateByMood('Agotado')" class="mood-btn p-4 glass text-2xl">🔋</button>
-                    <button onclick="updateByMood('Enojado')" class="mood-btn p-4 glass text-2xl">😠</button>
-                    <button onclick="updateByMood('Frustrado')" class="mood-btn p-4 glass text-2xl">😖</button>
-                    <button onclick="updateByMood('Agobiado')" class="mood-btn p-4 glass text-2xl">😰</button>
+                    <button onclick="updateByMood('Feliz')" class="p-4 glass text-2xl hover:scale-110 transition">😊</button>
+                    <button onclick="updateByMood('Tranquilo')" class="p-4 glass text-2xl hover:scale-110 transition">😌</button>
+                    <button onclick="updateByMood('Estresado')" class="p-4 glass text-2xl hover:scale-110 transition">🤯</button>
+                    <button onclick="updateByMood('Preocupado')" class="p-4 glass text-2xl hover:scale-110 transition">😟</button>
+                    <button onclick="updateByMood('Triste')" class="p-4 glass text-2xl hover:scale-110 transition">😢</button>
+                    <button onclick="updateByMood('Agotado')" class="p-4 glass text-2xl hover:scale-110 transition">🔋</button>
+                    <button onclick="updateByMood('Enojado')" class="p-4 glass text-2xl hover:scale-110 transition">😠</button>
+                    <button onclick="updateByMood('Frustrado')" class="p-4 glass text-2xl hover:scale-110 transition">😖</button>
+                    <button onclick="updateByMood('Agobiado')" class="p-4 glass text-2xl hover:scale-110 transition">😰</button>
                 </div>
             </div>
         </section>
 
         <!-- MISIONES -->
         <section id="screen-actividades" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-2">Misiones Diarias</h2>
-            <p id="mood-label" class="text-xs text-slate-400 mb-6 italic">Selecciona tu humor para ver misiones.</p>
-            <div id="lista-actividades" class="grid gap-3"></div>
+            <h2 class="text-2xl font-bold mb-2">Misiones Flash ⚡</h2>
+            <p id="mood-label" class="text-xs text-slate-400 mb-6 italic"></p>
+            <div id="lista-actividades" class="grid gap-4"></div>
         </section>
 
         <!-- METAS -->
         <section id="screen-metas" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-6">Mis Metas</h2>
-            <div class="space-y-4">
-                <div class="glass p-6">
-                    <div class="flex justify-between font-bold text-xs mb-1"><span>Dormir mejor</span><span id="txt-m1">0%</span></div>
-                    <progress id="m1" class="w-full h-2" value="0" max="100"></progress>
-                    <p class="text-[10px] mt-2 opacity-70">💡 Tip: Evita el café o bebidas energéticas después de las 4 PM.</p>
-                    <button onclick="advanceMeta('m1')" class="mt-3 text-[9px] font-bold border px-4 py-1 rounded-full uppercase">+ 1 Paso logrado</button>
-                </div>
-                <div class="glass p-6">
-                    <div class="flex justify-between font-bold text-xs mb-1"><span>Autoestima</span><span id="txt-m2">0%</span></div>
-                    <progress id="m2" class="w-full h-2" value="0" max="100"></progress>
-                    <p class="text-[10px] mt-2 opacity-70">💡 Tip: Escribe una cualidad tuya en un post-it y pégalo en tu cuarto.</p>
-                    <button onclick="advanceMeta('m2')" class="mt-3 text-[9px] font-bold border px-4 py-1 rounded-full uppercase">+ 1 Paso logrado</button>
-                </div>
-                <div class="glass p-6">
-                    <div class="flex justify-between font-bold text-xs mb-1"><span>Planificación escolar</span><span id="txt-m3">0%</span></div>
-                    <progress id="m3" class="w-full h-2" value="0" max="100"></progress>
-                    <p class="text-[10px] mt-2 opacity-70">💡 Tip: Usa la técnica Pomodoro (25 min estudio / 5 min descanso).</p>
-                    <button onclick="advanceMeta('m3')" class="mt-3 text-[9px] font-bold border px-4 py-1 rounded-full uppercase">+ 1 Paso logrado</button>
-                </div>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Mis Desafíos</h2>
+                <button onclick="toggleNewGoal()" class="bg-indigo-100 p-2 rounded-full text-indigo-600 font-bold">✏️ Nueva</button>
+            </div>
+
+            <!-- Formulario Nueva Meta -->
+            <div id="new-goal-form" class="hidden-section glass p-6 mb-6 border-2 border-indigo-200">
+                <p class="text-xs font-bold mb-2 uppercase">Define tu propia meta:</p>
+                <input type="text" id="custom-goal-text" placeholder="Ej: Estudiar sin distracciones" class="w-full p-3 rounded-xl border mb-3">
+                <input type="text" id="custom-goal-tip" placeholder="Consejo para lograrla" class="w-full p-3 rounded-xl border mb-4">
+                <button onclick="addCustomGoal()" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold">Crear Meta</button>
+            </div>
+
+            <div id="lista-metas" class="space-y-4">
+                <!-- Metas por defecto + personalizadas -->
             </div>
         </section>
 
@@ -157,69 +172,61 @@
         <section id="screen-diario" class="hidden-section fade-in">
             <div id="diario-lock" class="text-center py-10">
                 <div class="text-5xl mb-4">🔐</div>
-                <h3 class="font-bold mb-4">Diario Protegido</h3>
-                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-3 rounded-xl border-2 mb-4 w-32 mx-auto block">
-                <button onclick="checkPIN()" class="px-8 py-2 bg-indigo-600 text-white rounded-full font-bold">Abrir</button>
+                <h3 class="font-bold mb-4">Tu Diario Privado</h3>
+                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-4 rounded-2xl border-2 mb-4 w-32 mx-auto block outline-none focus:border-indigo-400">
+                <button onclick="checkPIN()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Desbloquear</button>
             </div>
             <div id="diario-open" class="hidden-section">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-bold">Mi Cuaderno</h2>
-                    <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-3 py-1 rounded-full font-bold">CERRAR Y BLOQUEAR</button>
+                    <h2 class="font-bold text-xl">Mi Cuaderno</h2>
+                    <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold uppercase tracking-wider">Cerrar con PIN</button>
                 </div>
-                <div class="notebook mb-4">
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none" rows="8" placeholder="Escribe aquí..."></textarea>
+                <div class="notebook mb-4 shadow-sm">
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none" rows="8" placeholder="¿Cómo te sientes hoy realmente?"></textarea>
                 </div>
-                <button onclick="saveDiary()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Guardar página</button>
+                <button onclick="saveDiary()" class="w-full py-5 btn-strike rounded-3xl font-bold text-lg">Guardar Hoy</button>
                 <div id="historial-diario" class="mt-8 space-y-3"></div>
             </div>
         </section>
 
-        <!-- AJUSTES Y PROGRESO -->
+        <!-- AJUSTES -->
         <section id="screen-progreso" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-6">Ajustes y Progreso</h2>
+            <h2 class="text-2xl font-bold mb-6">Ajustes</h2>
             
-            <!-- CAMBIO DE COLOR -->
             <div class="glass p-6 mb-6">
-                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Tema de la App (8 Colores):</p>
+                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Tema de Color:</p>
                 <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setTheme('cielo')" class="w-full h-8 rounded-lg bg-sky-400 border-2 border-white"></button>
-                    <button onclick="setTheme('lavanda')" class="w-full h-8 rounded-lg bg-purple-400 border-2 border-white"></button>
-                    <button onclick="setTheme('bosque')" class="w-full h-8 rounded-lg bg-emerald-400 border-2 border-white"></button>
-                    <button onclick="setTheme('atardecer')" class="w-full h-8 rounded-lg bg-amber-400 border-2 border-white"></button>
-                    <button onclick="setTheme('menta')" class="w-full h-8 rounded-lg bg-teal-400 border-2 border-white"></button>
-                    <button onclick="setTheme('rosa')" class="w-full h-8 rounded-lg bg-pink-400 border-2 border-white"></button>
-                    <button onclick="setTheme('oceano')" class="w-full h-8 rounded-lg bg-blue-600 border-2 border-white"></button>
-                    <button onclick="setTheme('sol')" class="w-full h-8 rounded-lg bg-yellow-400 border-2 border-white"></button>
+                    <button onclick="setTheme('cielo')" class="w-full h-10 rounded-xl bg-sky-400 border-2 border-white"></button>
+                    <button onclick="setTheme('lavanda')" class="w-full h-10 rounded-xl bg-purple-400 border-2 border-white"></button>
+                    <button onclick="setTheme('bosque')" class="w-full h-10 rounded-xl bg-emerald-400 border-2 border-white"></button>
+                    <button onclick="setTheme('atardecer')" class="w-full h-10 rounded-xl bg-amber-400 border-2 border-white"></button>
+                    <button onclick="setTheme('menta')" class="w-full h-10 rounded-xl bg-teal-400 border-2 border-white"></button>
+                    <button onclick="setTheme('rosa')" class="w-full h-10 rounded-xl bg-pink-400 border-2 border-white"></button>
+                    <button onclick="setTheme('oceano')" class="w-full h-10 rounded-xl bg-blue-600 border-2 border-white"></button>
+                    <button onclick="setTheme('sol')" class="w-full h-10 rounded-xl bg-yellow-400 border-2 border-white"></button>
                 </div>
             </div>
 
-            <!-- NOMBRE MASCOTA Y RACHA -->
             <div class="glass p-6 mb-6">
-                <p class="text-[10px] font-bold opacity-50 mb-2 uppercase">Nombre de mi mascota:</p>
-                <div class="flex gap-2">
-                    <input type="text" id="edit-pet-name" class="flex-1 p-2 rounded-lg border text-sm outline-none">
-                    <button onclick="updatePetName()" class="bg-indigo-600 text-white px-4 rounded-lg text-xs font-bold">Cambiar</button>
-                </div>
-                <div class="mt-6 flex justify-between items-center">
+                <div class="flex justify-between items-center mb-4">
                     <div>
-                        <p class="text-xs font-bold opacity-50 uppercase">Racha Actual</p>
+                        <p class="text-xs font-bold opacity-50 uppercase">Racha</p>
                         <p class="text-3xl font-bold text-orange-500"><span id="stats-racha">0</span> Días</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xs font-bold opacity-50 uppercase">Recompensa</p>
-                        <p id="racha-reward" class="text-xs font-bold text-indigo-500 italic">¡Sigue así!</p>
+                        <p class="text-xs font-bold opacity-50 uppercase">Nivel Bienestar</p>
+                        <p id="puntos-val" class="text-3xl font-bold text-indigo-600">0</p>
                     </div>
                 </div>
+                <div id="reward-info" class="p-3 bg-indigo-50 rounded-xl text-[10px] italic text-indigo-600 text-center"></div>
             </div>
 
-            <!-- CONSEJOS COLEGIO -->
-            <div class="glass p-6 bg-indigo-50 border-indigo-100">
-                <h3 class="font-bold text-indigo-600 mb-3 text-sm">🎒 Consejos para el Colegio</h3>
-                <ul class="text-[11px] space-y-2 opacity-80">
-                    <li>• Si te agobias en clase, respira profundo 3 veces contando hasta 4.</li>
-                    <li>• Organiza tu mochila la noche anterior para evitar el estrés matutino.</li>
-                    <li>• Divide tus tareas grandes en pasos pequeñitos. ¡Es más fácil!</li>
-                    <li>• No tengas miedo de preguntar al profesor; todos estamos aprendiendo.</li>
+            <div class="glass p-6 bg-indigo-50/50">
+                <h3 class="font-bold text-sm mb-3">🎒 Tips Escolares</h3>
+                <ul class="text-[10px] space-y-2 opacity-70">
+                    <li>• Haz listas cortas de tareas. ¡Tachar cosas da paz!</li>
+                    <li>• Si una tarea te da miedo, hazla solo por 5 minutos.</li>
+                    <li>• Beber agua ayuda a tu cerebro a concentrarse mejor.</li>
                 </ul>
             </div>
         </section>
@@ -227,28 +234,40 @@
     </main>
 
     <script>
-        let userData = JSON.parse(localStorage.getItem('bj_v5')) || null;
-
-        const compliments = ["¡Eres muy importante!", "Tu esfuerzo vale mucho.", "Me encanta estar contigo.", "¡Hoy brillas con luz propia!", "Todo va a estar bien.", "Eres genial tal como eres."];
+        // --- BASE DE DATOS Y ESTADO ---
+        let userData = JSON.parse(localStorage.getItem('bj_v6')) || null;
 
         const misionesMood = {
-            'Feliz': [{t:"Comparte alegría", d:"Dile algo bueno a un compañero hoy."}, {t:"Gratitud", d:"Anota 3 cosas buenas de tu día."}, {t:"Baile", d:"Baila tu canción favorita 2 min."}],
-            'Tranquilo': [{t:"Lectura", d:"Lee 5 páginas de un libro."}, {t:"Observación", d:"Mira nubes o árboles 3 min."}, {t:"Música", d:"Escucha sonidos de naturaleza."}],
-            'Estresado': [{t:"Respiración 4-7-8", d:"Inhala 4, mantén 7, exhala 8."}, {t:"Pausa", d:"Aléjate de las pantallas 15 min."}, {t:"Orden", d:"Limpia tu escritorio o un cajón."}],
-            'Preocupado': [{t:"Círculo de control", d:"Distingue qué puedes cambiar y qué no."}, {t:"Escribir", d:"Anota lo que te preocupa en el diario."}, {t:"Hablar", d:"Cuéntale tu duda a alguien de confianza."}],
-            'Triste': [{t:"Abrazo Mariposa", d:"Cruza manos y toca tus hombros rítmicamente."}, {t:"Cuidado", d:"Lávate la cara con agua fresca."}, {t:"Dibujo", d:"Dibuja un círculo y llénalo de colores."}],
-            'Agotado': [{t:"Siesta", d:"Cierra los ojos 10 min sin celular."}, {t:"Agua", d:"Bebe un vaso de agua muy lento."}, {t:"Estiramiento", d:"Estira brazos y espalda suavemente."}],
-            'Enojado': [{t:"Actividad Física", d:"Haz 10 saltos o corre un poco."}, {t:"Papel", d:"Racha un papel y luego arrójalo (descárgate)."}, {t:"Frío", d:"Sujeta un hielo en tu mano 30 seg."}],
-            'Frustrado': [{t:"Pomodoro", d:"Trabaja en algo solo 5 min y descansa."}, {t:"Cambio", d:"Cambia de habitación o lugar."}, {t:"Respiro", d:"Lávate las manos con agua fría."}],
-            'Agobiado': [{t:"5-4-3-2-1", d:"Busca 5 cosas que ves, 4 que tocas, 3 oyes..."}, {t:"Prioridad", d:"Haz solo LA cosa más importante hoy."}, {t:"Ayuda", d:"Pide a alguien que te ayude con una tarea pequeña."}]
+            'Feliz': [{t:"Regala una sonrisa", d:"Busca a alguien y dile un cumplido real."}, {t:"Cápsula del tiempo", d:"Escribe 3 cosas que amas de hoy."}, {t:"Modo Baile", d:"Baila 1 minuto como si nadie viera."}],
+            'Tranquilo': [{t:"Respiro Lento", d:"Cierra los ojos y respira 10 veces."}, {t:"Oír el mundo", d:"Busca 3 sonidos que hay a tu alrededor."}, {t:"Gratitud", d:"Anota algo simple que agradeces."}],
+            'Estresado': [{t:"Misión 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Hielo", d:"Sujeta un hielo 20 seg para resetear."}, {t:"Fuera Móvil", d:"Deja el celular en otra habitación 10 min."}],
+            'Preocupado': [{t:"El Círculo", d:"Dibuja un círculo y pon fuera lo que no controlas."}, {t:"Escribir Miedo", d:"Escribe tu preocupación y tacha el papel."}, {t:"Habla ya", d:"Cuéntale tu duda a alguien."}],
+            'Triste': [{t:"Autocuidado", d:"Bebe agua fresca o lávate la cara."}, {t:"Mariposa", d:"Cruza manos sobre pecho y da toquecitos."}, {t:"Dibujo Libre", d:"Dibuja garabatos sin pensar mucho."}],
+            'Agotado': [{t:"Micro-siesta", d:"Cierra ojos 5 min en silencio."}, {t:"Estiramiento", d:"Estira brazos hacia el techo 30 seg."}, {t:"Verde", d:"Mira una planta o árbol por la ventana."}],
+            'Enojado': [{t:"Actividad 10", d:"Haz 10 saltos o sentadillas rápido."}, {t:"Rugido", d:"Tensa todos tus músculos 10s y suelta."}, {t:"Escribir Fuerte", d:"Escribe lo que te enoja con fuerza."}],
+            'Frustrado': [{t:"Pausa Pomodoro", d:"Para lo que haces y camina 2 min."}, {t:"Manos Frías", d:"Moja tus muñecas con agua fría."}, {t:"Cambio de lugar", d:"Vete a otra silla o habitación."}],
+            'Agobiado': [{t:"Solo 1 Cosa", d:"Elige UNA tarea mínima y hazla ya."}, {t:"5-4-3-2-1", d:"5 cosas que ves, 4 tocas, 3 oyes..."}, {t:"Pedir Ayuda", d:"Pregunta a alguien cómo hacer algo."}]
         };
 
+        const petMsgs = {
+            0: ["¡Hola! Despiértame con una racha.", "Me alegra verte, ¿empezamos?", "Hoy es un buen día para cuidarte."],
+            1: ["¡Buen inicio! Eres importante.", "Me encanta acompañarte.", "Un pequeño paso hoy, un gran cambio mañana."],
+            3: ["¡3 días! Tu racha me hace muy feliz.", "🎩 ¡Mira mi sombrero! Lo lograste tú.", "Te ves con mucha más calma hoy."],
+            5: ["👑 ¡Nivel Realeza! Eres imparable.", "Gracias por cuidar de nosotros.", "Cada día brillas más."],
+            10: ["🚀 ¡Eres una leyenda del bienestar!", "Tu constancia es inspiradora.", "¡Gracias por darme el mejor hogar!"]
+        };
+
+        // --- FUNCIONES CORE ---
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
             if (!userData || userData.email !== payload.email) {
                 userData = { 
                     email: payload.email, nombre: payload.given_name, petName: "Mascota", petEmoji: "🐶", 
-                    racha: 0, puntos: 0, diario: [], metas: { m1: 0, m2: 0, m3: 0 }, pin: null, ultimaC: null 
+                    racha: 0, puntos: 0, diario: [], pin: null, ultimaC: null,
+                    metas: [
+                        {id: 'm1', t: 'Mejorar Sueño', v: 0, tip: '💡 Deja el celular 30 min antes de dormir.'},
+                        {id: 'm2', t: 'Autoestima', v: 0, tip: '💡 Di algo positivo de ti en el espejo.'}
+                    ]
                 };
                 document.getElementById('landing-page').classList.add('hidden-section');
                 document.getElementById('screen-onboarding').classList.remove('hidden-section');
@@ -283,15 +302,31 @@
             }
         }
 
+        function celebrate() {
+            const cel = document.getElementById('celebration');
+            cel.style.display = 'flex';
+            setTimeout(() => { cel.style.display = 'none'; }, 2000);
+        }
+
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
             document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('tab-active'));
             document.getElementById('btn-' + id).classList.add('tab-active');
-            if(id === 'inicio') {
-                document.getElementById('pet-compliment').innerText = `"${compliments[Math.floor(Math.random()*compliments.length)]}"`;
-            }
+            if(id === 'inicio') updatePetMsg();
+            if(id === 'metas') renderMetas();
             window.scrollTo(0, 0);
+        }
+
+        function updatePetMsg() {
+            let key = 0;
+            if(userData.racha >= 10) key = 10;
+            else if(userData.racha >= 5) key = 5;
+            else if(userData.racha >= 3) key = 3;
+            else if(userData.racha >= 1) key = 1;
+            
+            const msgs = petMsgs[key];
+            document.getElementById('pet-compliment').innerText = `"${msgs[Math.floor(Math.random()*msgs.length)]}"`;
         }
 
         function updateUI() {
@@ -299,59 +334,91 @@
             document.getElementById('pet-name-display').innerText = userData.petName;
             document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
             document.getElementById('stats-racha').innerText = userData.racha;
-            document.getElementById('edit-pet-name').value = userData.petName;
-            
-            // Accesorios por racha
-            const acc = document.getElementById('pet-acc');
-            const rewardTxt = document.getElementById('racha-reward');
-            if(userData.racha >= 2) { acc.innerText = "🎩"; rewardTxt.innerText = "¡Accesorio Desbloqueado!"; }
-            else if(userData.racha >= 5) { acc.innerText = "👑"; rewardTxt.innerText = "¡Nivel Realeza!"; }
-            else { acc.innerText = ""; }
-
             document.getElementById('puntos-val').innerText = userData.puntos;
-            ['m1','m2','m3'].forEach(m => {
-                document.getElementById(m).value = userData.metas[m];
-                document.getElementById('txt-'+m).innerText = userData.metas[m] + "%";
-            });
+            
+            const acc = document.getElementById('pet-acc');
+            const rewardTxt = document.getElementById('reward-info');
+            if(userData.racha >= 5) { acc.innerText = "👑"; rewardTxt.innerText = "Recompensa: ¡Corona Real activada!"; }
+            else if(userData.racha >= 3) { acc.innerText = "🎩"; rewardTxt.innerText = "Recompensa: ¡Sombrerito de Gala!"; }
+            else { acc.innerText = ""; rewardTxt.innerText = "Llega a 3 días para un regalo."; }
         }
 
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
-            document.getElementById('mood-label').innerText = "Para sentirte mejor (" + mood + "):";
+            document.getElementById('mood-label').innerText = "Recomendado para hoy (" + mood + "):";
             list.innerHTML = "";
             (misionesMood[mood] || []).forEach(m => {
-                list.innerHTML += `<div class="glass p-5 border-l-4 border-indigo-500">
-                    <h4 class="font-bold text-sm">${m.t}</h4>
-                    <p class="text-[11px] opacity-60 mb-3">${m.d}</p>
-                    <button onclick="gainPoints(10)" class="text-[9px] font-bold text-indigo-600 underline">COMPLETADA +10 PTS</button>
+                list.innerHTML += `<div class="glass p-6 border-l-4 border-indigo-500 shadow-sm">
+                    <h4 class="font-bold text-sm mb-1">${m.t}</h4>
+                    <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
+                    <button onclick="gainPoints(20, true)" class="w-full py-3 btn-strike rounded-xl font-bold text-xs uppercase tracking-wider">¡Misión Completada! ✅</button>
                 </div>`;
             });
             showScreen('actividades');
         }
 
-        function gainPoints(p) { userData.puntos += p; save(); updateUI(); alert("¡Genial! +"+p+" puntos."); }
-        function advanceMeta(id) { if(userData.metas[id] < 100) { userData.metas[id] += 10; userData.puntos += 5; save(); updateUI(); } }
-        function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
-        function updatePetName() { userData.petName = document.getElementById('edit-pet-name').value; save(); updateUI(); alert("Nombre actualizado."); }
-        function save() { localStorage.setItem('bj_v5', JSON.stringify(userData)); }
-        function logout() { localStorage.removeItem('bj_v5'); location.reload(); }
+        function gainPoints(p, celeb) {
+            userData.puntos += p; save(); updateUI();
+            if(celeb) celebrate();
+        }
 
-        // DIARIO
+        // --- METAS PERSONALIZADAS ---
+        function renderMetas() {
+            const container = document.getElementById('lista-metas');
+            container.innerHTML = userData.metas.map(m => `
+                <div class="glass p-6 border-2 ${m.v >= 100 ? 'border-green-300 bg-green-50/50' : 'border-white'}">
+                    <div class="flex justify-between font-bold text-xs mb-1">
+                        <span>${m.t}</span>
+                        <span>${m.v}%</span>
+                    </div>
+                    <progress class="w-full h-3" value="${m.v}" max="100"></progress>
+                    <p class="text-[10px] mt-2 opacity-70 italic">${m.v >= 100 ? '🎉 ¡Felicidades! Meta alcanzada.' : m.tip}</p>
+                    ${m.v < 100 ? `<button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-2 bg-white/80 border border-indigo-200 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition">Marcar Progreso 🚀</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function advanceMeta(id) {
+            const m = userData.metas.find(x => x.id === id);
+            if(m && m.v < 100) {
+                m.v += 20; userData.puntos += 10;
+                if(m.v >= 100) celebrate();
+                save(); renderMetas(); updateUI();
+            }
+        }
+
+        function toggleNewGoal() { document.getElementById('new-goal-form').classList.toggle('hidden-section'); }
+
+        function addCustomGoal() {
+            const txt = document.getElementById('custom-goal-text').value;
+            const tip = document.getElementById('custom-goal-tip').value || '💡 ¡Tú puedes lograrlo!';
+            if(!txt) return;
+            userData.metas.push({ id: Date.now().toString(), t: txt, v: 0, tip: tip });
+            document.getElementById('custom-goal-text').value = "";
+            document.getElementById('custom-goal-tip').value = "";
+            toggleNewGoal(); save(); renderMetas();
+        }
+
+        // --- DIARIO ---
         function checkPIN() {
             const v = document.getElementById('pin').value;
-            if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary();} }
+            if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary(); celebrate();} }
             else { if(v===userData.pin) openDiary(); else alert("PIN Incorrecto"); }
         }
         function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); renderHistory(); }
         function saveDiary() {
             const t = document.getElementById('texto-diario').value; if(!t) return;
-            userData.diario.unshift({f: new Date().toLocaleDateString(), c: t});
-            userData.puntos += 15; save(); document.getElementById('texto-diario').value=""; renderHistory(); updateUI();
+            userData.diario.unshift({f: new Date().toLocaleString(), c: t});
+            userData.puntos += 25; save(); document.getElementById('texto-diario').value=""; renderHistory(); updateUI(); celebrate();
         }
         function renderHistory() {
             document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="glass p-4 text-[11px] italic opacity-70"><p class="font-bold mb-1">${d.f}</p><p>"${d.c}"</p></div>`).join('');
         }
         function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value = ""; }
+
+        function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
+        function save() { localStorage.setItem('bj_v6', JSON.stringify(userData)); }
+        function logout() { localStorage.removeItem('bj_v6'); location.reload(); }
 
         window.onload = () => {
             const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
