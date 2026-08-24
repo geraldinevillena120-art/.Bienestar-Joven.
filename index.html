@@ -3,317 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienestar Joven | Tu Espacio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Bienestar Joven | Tu Espacio Seguro</title>
+    
+    <!-- SCRIPT OFICIAL DE GOOGLE (Necesario para que el login funcione) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Indie+Flower&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         :root { --primary: #6366F1; --bg: #F8FAFC; }
-        body.theme-cielo { --primary: #0ea5e9; --bg: #f0f9ff; }
-        body.theme-lavanda { --primary: #8b5cf6; --bg: #f5f3ff; }
-        body.theme-bosque { --primary: #10b981; --bg: #f0fdf4; }
-        body { font-family: 'Outfit', sans-serif; background-color: var(--bg); transition: 0.5s; color: #334155; overflow-x: hidden; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg); color: #334155; }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.5); }
+        .notebook {
+            background: #fff;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 100% 2rem;
+            padding: 2rem 1rem 2rem 3.5rem;
+            border-left: 5px double #f87171;
+            font-family: 'Indie Flower', cursive;
+            min-height: 250px;
+        }
         .hidden-section { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        progress::-webkit-progress-value { background-color: var(--primary); border-radius: 10px; transition: 1s; }
-        progress::-webkit-progress-bar { background-color: #e2e8f0; border-radius: 10px; }
+        .pet-bounce { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-    <!-- NAVEGACIÓN -->
-    <nav class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t p-4 z-50 md:top-0 md:bottom-auto">
-        <div class="max-w-4xl mx-auto flex justify-around items-center text-[10px] font-bold uppercase tracking-tighter md:text-xs">
-            <button onclick="showScreen('inicio')" class="flex flex-col items-center"><span>🏠</span><span>Inicio</span></button>
-            <button onclick="showScreen('actividades')" class="flex flex-col items-center"><span>🌟</span><span>Misiones</span></button>
-            <button onclick="showScreen('metas')" class="flex flex-col items-center"><span>🎯</span><span>Metas</span></button>
-            <button onclick="showScreen('diario')" class="flex flex-col items-center"><span>🔒</span><span>Diario</span></button>
-            <button onclick="showScreen('progreso')" class="flex flex-col items-center"><span>📈</span><span>Mi Avance</span></button>
+    <!-- PANTALLA 1: LOGIN REAL DE GOOGLE -->
+    <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+        <h1 class="text-4xl font-bold text-indigo-600 mb-2">Bienestar Joven</h1>
+        <p class="text-slate-500 mb-8">Inicia sesión para guardar tu progreso y mascota.</p>
+        
+        <div class="glass p-10 w-full max-w-sm flex flex-col items-center">
+            <!-- BOTÓN REAL DE GOOGLE -->
+            <div id="g_id_onload"
+                 data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com"
+                 data-callback="handleCredentialResponse">
+            </div>
+            <div class="g_id_signin" data-type="standard"></div>
+            
+            <p class="text-[10px] text-slate-400 mt-6 italic">Tu información está protegida por Google y Bienestar Joven.</p>
+        </div>
+    </section>
+
+    <!-- PANTALLA 2: REGISTRO DE PERFIL (Solo la primera vez) -->
+    <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
+        <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">¡Casi listo! 🌟</h2>
+        <div class="glass p-6 space-y-4">
+            <div class="text-center mb-4">
+                <img id="user-photo" src="" class="w-20 h-20 rounded-full mx-auto border-4 border-white shadow-md">
+                <p id="user-email" class="text-[10px] text-slate-400 mt-2"></p>
+            </div>
+            <div>
+                <label class="text-[10px] font-bold opacity-50 uppercase">Nombre para la mascota</label>
+                <input type="text" id="reg-nombre" class="w-full p-3 rounded-xl border mt-1 outline-none">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-bold opacity-50 uppercase">Edad (12-17)</label>
+                    <input type="number" id="reg-edad" min="12" max="17" class="w-full p-3 rounded-xl border mt-1">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold opacity-50 uppercase">Sexo</label>
+                    <select id="reg-sexo" class="w-full p-3 rounded-xl border mt-1">
+                        <option>Femenino</option><option>Masculino</option><option>Otro</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="text-[10px] font-bold opacity-50 uppercase">Elige tu mascota</label>
+                <select id="reg-pet" class="w-full p-3 rounded-xl border mt-1">
+                    <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
+                </select>
+            </div>
+            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold mt-4">Entrar a mi espacio</button>
+        </div>
+    </section>
+
+    <!-- NAVEGACIÓN Y CONTENIDO (Oculto hasta loguearse) -->
+    <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white/90 border-t p-4 z-50 md:top-0 md:bottom-auto">
+        <div class="max-w-4xl mx-auto flex justify-around items-center text-[10px] font-bold uppercase">
+            <button onclick="showScreen('inicio')">🏠 Inicio</button>
+            <button onclick="showScreen('actividades')">🌟 Misiones</button>
+            <button onclick="showScreen('metas')">🎯 Metas</button>
+            <button onclick="showScreen('diario')">📖 Diario</button>
+            <button onclick="showScreen('progreso')">📈 Avance</button>
         </div>
     </nav>
 
-    <main class="max-w-xl mx-auto p-6 pt-6 pb-28 md:pt-24">
-
+    <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-6 pb-28 md:pt-24">
         <!-- PANTALLA INICIO -->
-        <section id="screen-inicio" class="fade-in text-center">
-            <h1 class="text-4xl font-bold mb-2" style="color: var(--primary)">Bienestar Joven</h1>
-            <p id="frase-dinamica" class="text-slate-500 italic mb-10 h-12 flex items-center justify-center px-4"></p>
-
-            <div class="glass p-8 mb-8">
-                <h3 class="text-xl font-bold mb-6">¿Cómo te sientes hoy?</h3>
-                <div class="grid grid-cols-3 gap-4">
-                    <button onclick="updateByMood('Feliz')" class="p-5 glass hover:scale-110 transition text-3xl">😊</button>
-                    <button onclick="updateByMood('Tranquilo')" class="p-5 glass hover:scale-110 transition text-3xl">😌</button>
-                    <button onclick="updateByMood('Estresado')" class="p-5 glass hover:scale-110 transition text-3xl">🤯</button>
-                    <button onclick="updateByMood('Preocupado')" class="p-5 glass hover:scale-110 transition text-3xl">😟</button>
-                    <button onclick="updateByMood('Triste')" class="p-5 glass hover:scale-110 transition text-3xl">😢</button>
-                    <button onclick="updateByMood('Cansado')" class="p-5 glass hover:scale-110 transition text-3xl">🔋</button>
-                </div>
+        <section id="screen-inicio" class="text-center fade-in">
+            <div class="glass p-6 mb-6">
+                <div id="pet-display" class="text-7xl pet-bounce mb-2">🐶</div>
+                <h3 class="font-bold">¡Hola, <span id="display-name"></span>!</h3>
+                <p class="text-xs text-slate-500">Tu racha: <span id="racha-val">0</span> días 🔥</p>
             </div>
-            
-            <div class="flex justify-center gap-2 mb-4">
-                <div id="racha-dot" class="w-3 h-3 rounded-full bg-slate-300"></div>
-                <p class="text-xs font-bold text-slate-400">RACHA DE HOY: <span id="racha-val">0</span> DÍAS</p>
+            <p id="frase-dinamica" class="italic text-slate-400 text-sm mb-6"></p>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="showScreen('actividades')" class="p-6 glass bg-indigo-50 border-indigo-200">
+                    <p class="text-xs font-bold text-indigo-600">Hacer misiones</p>
+                </button>
+                <button onclick="showScreen('diario')" class="p-6 glass bg-rose-50 border-rose-200">
+                    <p class="text-xs font-bold text-rose-600">Escribir diario</p>
+                </button>
             </div>
         </section>
 
-        <!-- ACTIVIDADES DINÁMICAS -->
-        <section id="screen-actividades" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-2">Misiones para ti</h2>
-            <p id="mood-subtitle" class="text-sm text-slate-500 mb-6 italic">Selecciona cómo te sientes para personalizar esto.</p>
-            
-            <div id="lista-actividades" class="grid gap-4">
-                <!-- Se llena con JavaScript -->
-                <p class="text-center p-10 glass opacity-50">Primero dime cómo te sientes en Inicio ✨</p>
-            </div>
-        </section>
-
-        <!-- METAS (EN BLANCO) -->
-        <section id="screen-metas" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-6">Mis Metas</h2>
-            <div class="glass p-6 space-y-8">
-                <div>
-                    <div class="flex justify-between text-sm font-bold mb-2"><span>Dormir mejor</span><span id="txt-m1">0%</span></div>
-                    <progress id="m1" class="w-full h-3" value="0" max="100"></progress>
-                    <button onclick="subirMeta('m1')" class="mt-2 text-[10px] bg-white px-3 py-1 rounded-full shadow-sm">+ Registrar avance</button>
-                </div>
-                <div>
-                    <div class="flex justify-between text-sm font-bold mb-2"><span>Reducir estrés</span><span id="txt-m2">0%</span></div>
-                    <progress id="m2" class="w-full h-3" value="0" max="100"></progress>
-                    <button onclick="subirMeta('m2')" class="mt-2 text-[10px] bg-white px-3 py-1 rounded-full shadow-sm">+ Registrar avance</button>
-                </div>
-                <div>
-                    <div class="flex justify-between text-sm font-bold mb-2"><span>Autoestima</span><span id="txt-m3">0%</span></div>
-                    <progress id="m3" class="w-full h-3" value="0" max="100"></progress>
-                    <button onclick="subirMeta('m3')" class="mt-2 text-[10px] bg-white px-3 py-1 rounded-full shadow-sm">+ Registrar avance</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- DIARIO PRIVADO -->
+        <!-- DIARIO TIPO CUADERNO -->
         <section id="screen-diario" class="hidden-section fade-in">
-            <div id="diario-lock" class="text-center py-10">
-                <span class="text-5xl block mb-4">🔒</span>
-                <h2 class="text-xl font-bold mb-4">Tu Diario Privado</h2>
-                <input type="password" id="pin" maxlength="4" placeholder="Crea un PIN de 4 números" class="text-center p-4 rounded-2xl border-2 mb-4 w-48 block mx-auto outline-none focus:border-indigo-400">
-                <button onclick="checkPIN()" class="px-10 py-3 rounded-full text-white font-bold" style="background-color: var(--primary)">Entrar</button>
+            <h2 class="text-2xl font-bold mb-4">Mi Cuaderno Privado</h2>
+            <div class="notebook mb-4">
+                <p class="text-[10px] font-bold text-red-400 mb-2" id="fecha-diario"></p>
+                <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none" rows="8" placeholder="Escribe aquí tus sentimientos..."></textarea>
             </div>
-            <div id="diario-open" class="hidden-section">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Querido Diario...</h2>
-                    <button onclick="cerrarDiario()" class="text-xs underline opacity-50">Cerrar</button>
-                </div>
-                <textarea id="diario-texto" class="w-full h-64 p-6 glass outline-none focus:ring-2 focus:ring-indigo-200" placeholder="Suelta todo lo que sientes aquí..."></textarea>
-                <button onclick="guardarDiario()" class="w-full mt-4 py-4 rounded-2xl text-white font-bold shadow-lg" style="background-color: var(--primary)">Guardar hoy</button>
+            <button onclick="savePage()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Guardar página</button>
+            
+            <div id="historial-diario" class="mt-10 space-y-4">
+                <!-- Páginas anteriores aparecerán aquí -->
             </div>
         </section>
-
-        <!-- PROGRESO Y MÉTRICAS -->
-        <section id="screen-progreso" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-6">Mi Resumen</h2>
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="glass p-6 text-center">
-                    <p class="text-3xl mb-1">🔥</p>
-                    <p id="stats-racha" class="text-2xl font-bold">0</p>
-                    <p class="text-[10px] uppercase font-bold opacity-50">Días seguidos</p>
-                </div>
-                <div class="glass p-6 text-center">
-                    <p class="text-3xl mb-1">✅</p>
-                    <p id="stats-retos" class="text-2xl font-bold">0</p>
-                    <p class="text-[10px] uppercase font-bold opacity-50">Retos hechos</p>
-                </div>
-            </div>
-
-            <h3 class="font-bold mb-4">Insignias</h3>
-            <div id="insignias-container" class="flex gap-4 flex-wrap">
-                <div class="w-16 h-16 glass flex items-center justify-center grayscale opacity-30" id="badge-1">🌱</div>
-                <div class="w-16 h-16 glass flex items-center justify-center grayscale opacity-30" id="badge-2">🚀</div>
-                <div class="w-16 h-16 glass flex items-center justify-center grayscale opacity-30" id="badge-3">💎</div>
-            </div>
-
-            <div class="mt-10 p-6 glass text-[10px] leading-relaxed opacity-60">
-                <p>MÉTRICAS DE IMPACTO: Esta sesión se registra localmente para medir la efectividad de las actividades en el bienestar percibido.</p>
-            </div>
-        </section>
-
+        
+        <!-- Otras secciones irían aquí (Metas, Progreso, etc.) -->
     </main>
 
     <script>
-        // --- BASE DE DATOS ---
-        const frases = [
-            "Eres suficiente tal y como eres ahora.",
-            "Está bien no estar bien a veces.",
-            "Tu salud mental es una prioridad, no un lujo.",
-            "Pequeños pasos llevan a grandes cambios.",
-            "Respira. Has superado cosas difíciles antes.",
-            "Confía en tu proceso, no tienes que correr.",
-            "Eres una persona valiente por cuidar de ti.",
-            "Hoy es un buen día para ser amable contigo mismo/a.",
-            "Tu valor no depende de tus notas ni de los demás.",
-            "Está bien tomarse un descanso si el mundo pesa."
-        ];
+        let userData = JSON.parse(localStorage.getItem('bj_user_data')) || null;
 
-        const actividadesPorMood = {
-            'Triste': [
-                {t: "Escritura de desahogo", d: "Escribe en el diario todo lo que te duele sin juzgarte."},
-                {t: "Abrazo de mariposa", d: "Cruza tus manos sobre el pecho y da golpecitos suaves."},
-                {t: "Música de consuelo", d: "Escucha una canción que te haga sentir comprendido/a."}
-            ],
-            'Estresado': [
-                {t: "Respiración cuadrada", d: "Inhala 4s, mantén 4s, exhala 4s, espera 4s."},
-                {t: "Escaneo corporal", d: "Siente la tensión en tus pies y ve subiendo hasta la cabeza."},
-                {t: "Desconexión digital", d: "Deja el celular 15 minutos lejos de ti."}
-            ],
-            'Feliz': [
-                {t: "Caja de gratitud", d: "Escribe 3 cosas buenas que te pasaron hoy."},
-                {t: "Comparte tu luz", d: "Envía un mensaje positivo a alguien que aprecies."},
-                {t: "Baile de victoria", d: "Pon tu canción favorita y muévete con libertad."}
-            ],
-            'Cansado': [
-                {t: "Siesta de 20 min", d: "Regálate un descanso corto para recargar energía."},
-                {t: "Estiramiento suave", d: "Estira tus brazos y espalda muy lento."},
-                {t: "Hidratación", d: "Bebe un vaso de agua fresca lentamente."}
-            ],
-            'Preocupado': [
-                {t: "Círculo de control", d: "Identifica qué cosas puedes cambiar y cuáles no."},
-                {t: "Tierra 5-4-3-2-1", d: "Busca 5 cosas que veas, 4 que toques, 3 que oigas..."},
-                {t: "Habla con alguien", d: "Cuéntale a un amigo o adulto de confianza tu duda."}
-            ],
-            'Tranquilo': [
-                {t: "Lectura ligera", d: "Lee 5 páginas de un libro que te guste."},
-                {t: "Observación de naturaleza", d: "Mira por la ventana y detalla las nubes o los árboles."},
-                {t: "Planificación suave", d: "Escribe algo lindo que quieras hacer mañana."}
-            ]
-        };
+        // 1. MANEJAR RESPUESTA DE GOOGLE
+        function handleCredentialResponse(response) {
+            // Decodificar el token de Google para obtener info del usuario
+            const base64Url = response.credential.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(window.atob(base64));
 
-        // --- LÓGICA DE ESTADO Y RACHA ---
-        let racha = parseInt(localStorage.getItem('bj_racha')) || 0;
-        let retosHechos = parseInt(localStorage.getItem('bj_retos')) || 0;
-        let ultimaConexion = localStorage.getItem('bj_ultima_fecha'); // Formato YYYY-MM-DD
+            console.log("Usuario de Google:", payload);
 
-        function verificarRacha() {
-            const hoy = new Date().toISOString().split('T')[0];
-            if (ultimaConexion) {
-                const fecha1 = new Date(ultimaConexion);
-                const fecha2 = new Date(hoy);
-                const diff = (fecha2 - fecha1) / (1000 * 60 * 60 * 24);
-
-                if (diff === 1) { /* Es el día siguiente, racha se mantiene */ }
-                else if (diff > 1) { racha = 0; } // Se rompió la racha
-            }
-            actualizarUI();
-        }
-
-        function completarReto() {
-            const hoy = new Date().toISOString().split('T')[0];
-            if (ultimaConexion !== hoy) {
-                racha++;
-                localStorage.setItem('bj_ultima_fecha', hoy);
-            }
-            retosHechos++;
-            localStorage.setItem('bj_racha', racha);
-            localStorage.setItem('bj_retos', retosHechos);
-            verificarInsignias();
-            actualizarUI();
-            alert("¡Misión cumplida! Tu racha ha subido.");
-        }
-
-        function actualizarUI() {
-            document.getElementById('racha-val').innerText = racha;
-            document.getElementById('stats-racha').innerText = racha;
-            document.getElementById('stats-retos').innerText = retosHechos;
-            document.getElementById('racha-dot').className = racha > 0 ? "w-3 h-3 rounded-full bg-orange-400 shadow-sm" : "w-3 h-3 rounded-full bg-slate-300";
-        }
-
-        // --- ACTIVIDADES SEGÚN MOOD ---
-        function updateByMood(mood) {
-            const container = document.getElementById('lista-actividades');
-            container.innerHTML = "";
-            document.getElementById('mood-subtitle').innerText = `Actividades para cuando te sientes: ${mood}`;
-            
-            actividadesPorMood[mood].forEach(act => {
-                container.innerHTML += `
-                    <div class="glass p-6 border-l-4 border-indigo-400 fade-in">
-                        <h4 class="font-bold text-lg">${act.t}</h4>
-                        <p class="text-sm opacity-70 mb-4">${act.d}</p>
-                        <button onclick="completarReto()" class="text-xs font-bold text-indigo-600 underline">Marcar como completada</button>
-                    </div>
-                `;
-            });
-            showScreen('actividades');
-        }
-
-        // --- METAS ---
-        function subirMeta(id) {
-            const prog = document.getElementById(id);
-            if(prog.value < 100) {
-                prog.value += 10;
-                document.getElementById('txt-' + id).innerText = prog.value + "%";
-                localStorage.setItem('bj_meta_'+id, prog.value);
-            }
-        }
-
-        // --- DIARIO ---
-        let miPin = localStorage.getItem('bj_pin') || "";
-        function checkPIN() {
-            const val = document.getElementById('pin').value;
-            if(!miPin) {
-                if(val.length === 4) { miPin = val; localStorage.setItem('bj_pin', val); abrirDiario(); }
-                else alert("El PIN debe ser de 4 números.");
+            if (userData && userData.email === payload.email) {
+                loginSuccess();
             } else {
-                if(val === miPin) abrirDiario();
-                else alert("PIN incorrecto.");
+                // Es un usuario nuevo o no hay datos
+                document.getElementById('screen-login').classList.add('hidden-section');
+                document.getElementById('screen-onboarding').classList.remove('hidden-section');
+                document.getElementById('user-photo').src = payload.picture;
+                document.getElementById('user-email').innerText = payload.email;
+                document.getElementById('reg-nombre').value = payload.given_name;
+                
+                userData = { email: payload.email, foto: payload.picture, racha: 0, diario: [] };
             }
         }
-        function abrirDiario() {
-            document.getElementById('diario-lock').classList.add('hidden-section');
-            document.getElementById('diario-open').classList.remove('hidden-section');
-            document.getElementById('diario-texto').value = localStorage.getItem('bj_diario_txt') || "";
-        }
-        function guardarDiario() {
-            localStorage.setItem('bj_diario_txt', document.getElementById('diario-texto').value);
-            alert("Guardado con éxito en tu dispositivo.");
-            cerrarDiario();
-        }
-        function cerrarDiario() {
-            document.getElementById('diario-lock').classList.remove('hidden-section');
-            document.getElementById('diario-open').classList.add('hidden-section');
-            document.getElementById('pin').value = "";
+
+        function finishRegistration() {
+            userData.nombre = document.getElementById('reg-nombre').value;
+            userData.edad = document.getElementById('reg-edad').value;
+            userData.pet = document.getElementById('reg-pet').value;
+            localStorage.setItem('bj_user_data', JSON.stringify(userData));
+            loginSuccess();
         }
 
-        // --- MENSAJES Y NAVEGACIÓN ---
-        function rotarFrase() {
-            const p = document.getElementById('frase-dinamica');
-            p.innerText = `"${frases[Math.floor(Math.random() * frases.length)]}"`;
+        function loginSuccess() {
+            document.getElementById('screen-login').classList.add('hidden-section');
+            document.getElementById('screen-onboarding').classList.add('hidden-section');
+            document.getElementById('main-nav').classList.remove('hidden-section');
+            document.getElementById('app-content').classList.remove('hidden-section');
+            
+            document.getElementById('display-name').innerText = userData.nombre;
+            document.getElementById('pet-display').innerText = userData.pet;
+            document.getElementById('racha-val').innerText = userData.racha;
+            showScreen('inicio');
+        }
+
+        // 2. LÓGICA DEL DIARIO
+        function savePage() {
+            const content = document.getElementById('texto-diario').value;
+            if(!content) return;
+            const entry = { fecha: new Date().toLocaleString(), texto: content };
+            userData.diario.unshift(entry);
+            localStorage.setItem('bj_user_data', JSON.stringify(userData));
+            document.getElementById('texto-diario').value = "";
+            renderHistory();
+            alert("Página guardada.");
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historial-diario');
+            container.innerHTML = userData.diario.map(e => `
+                <div class="glass p-5 text-sm italic">
+                    <p class="text-[10px] font-bold opacity-30">${e.fecha}</p>
+                    <p>"${e.texto}"</p>
+                </div>
+            `).join('');
         }
 
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
-            if(id === 'inicio') rotarFrase();
-            window.scrollTo(0,0);
+            if(id === 'diario') {
+                document.getElementById('fecha-diario').innerText = new Date().toLocaleDateString();
+                renderHistory();
+            }
         }
 
-        function verificarInsignias() {
-            if(retosHechos >= 1) document.getElementById('badge-1').classList.remove('grayscale', 'opacity-30');
-            if(racha >= 3) document.getElementById('badge-2').classList.remove('grayscale', 'opacity-30');
-            if(retosHechos >= 10) document.getElementById('badge-3').classList.remove('grayscale', 'opacity-30');
-        }
-
-        // --- INICIO ---
         window.onload = () => {
-            verificarRacha();
-            rotarFrase();
-            // Cargar metas guardadas
-            ['m1','m2','m3'].forEach(m => {
-                const val = localStorage.getItem('bj_meta_'+m);
-                if(val) {
-                    document.getElementById(m).value = val;
-                    document.getElementById('txt-'+m).innerText = val + "%";
-                }
-            });
-            verificarInsignias();
+            if(userData) loginSuccess();
         };
     </script>
 </body>
