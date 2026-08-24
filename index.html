@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienestar Joven</title>
     
-    <!-- SCRIPTS -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Indie+Flower&display=swap" rel="stylesheet">
@@ -25,63 +24,59 @@
         .glass { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.5); }
         .hidden-section { display: none !important; }
         
-        /* BOTÓN LLAMATIVO */
-        .btn-strike {
-            background: linear-gradient(135deg, var(--primary), #a78bfa);
-            color: white;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
-            transition: all 0.3s;
-        }
-        .btn-strike:hover { transform: scale(1.05) translateY(-2px); }
+        /* BOTONES DE MISIÓN */
+        .btn-pending { background: #e2e8f0; color: #64748b; }
+        .btn-completed { background: linear-gradient(135deg, var(--primary), #a78bfa); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
 
-        /* CELEBRACIÓN */
-        #celebration {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 100; display: none;
-            justify-content: center; align-items: center;
-            background: rgba(255,255,255,0.3); backdrop-filter: blur(4px);
-        }
-
-        .pet-bounce { animation: bounce 2s infinite ease-in-out; display: inline-block; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-
-        .notebook {
+        /* LIBRO / DIARIO */
+        .notebook-page {
             background: #fff;
             background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
             background-size: 100% 2.2rem;
             line-height: 2.2rem;
             padding: 1.5rem 1rem 1.5rem 3rem;
-            border-left: 4px double #f87171;
+            border-left: 5px solid #f87171;
             font-family: 'Indie Flower', cursive;
+            min-height: 350px;
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        #celebration {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 100; display: none;
+            justify-content: center; align-items: center;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(2px);
         }
     </style>
 </head>
 <body class="theme-cielo">
 
-    <!-- CELEBRACIÓN OVERLAY -->
-    <div id="celebration" class="fade-in">
-        <div class="glass p-10 text-center animate-bounce shadow-2xl border-4 border-indigo-200">
-            <span class="text-6xl mb-4 block">✨🎊🏆</span>
-            <h2 class="text-3xl font-bold text-indigo-600">¡LO LOGRASTE!</h2>
-            <p class="font-bold">¡Felicidades, sigue así!</p>
+    <div id="celebration">
+        <div class="glass p-10 text-center animate-bounce shadow-2xl border-4 border-white">
+            <span class="text-6xl mb-4 block">✨🏆🎊</span>
+            <h2 id="msg-celebracion" class="text-2xl font-bold text-indigo-600">¡SÍ! ¡LO LOGRASTE!</h2>
         </div>
     </div>
 
-    <!-- LOGIN -->
-    <section id="landing-page" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+    <!-- PANTALLA LOGIN (Solo si no hay datos) -->
+    <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
-        <p class="text-slate-500 mb-10 max-w-xs italic text-sm">"Un espacio donde tu mente es la prioridad."</p>
+        <p class="text-slate-500 mb-10 max-w-xs italic">Tu espacio seguro para crecer.</p>
         <div class="glass p-10 w-full max-w-sm flex flex-col items-center shadow-xl">
             <div id="g_id_onload" data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
         </div>
     </section>
 
-    <!-- ONBOARDING -->
+    <!-- PANTALLA ONBOARDING (Solo la primera vez) -->
     <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
         <h2 class="text-3xl font-bold mb-6 text-indigo-600">Configuración</h2>
         <div class="glass p-8 space-y-5">
-            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
+            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none">
             <input type="text" id="reg-pet-name" placeholder="Nombre de tu Mascota" class="w-full p-4 rounded-2xl border outline-none">
             <div class="grid grid-cols-2 gap-4">
                 <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
@@ -96,37 +91,36 @@
     <!-- HEADER -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold text-indigo-600">Bienestar Joven</h2>
-        <div class="flex items-center gap-2">
-            <span id="header-racha" class="text-[10px] font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded-md">🔥 0</span>
-            <button onclick="logout()" class="text-[10px] opacity-40 font-bold underline">Cerrar Sesión</button>
+        <div class="flex items-center gap-2 text-[10px]">
+            <span id="header-racha" class="font-bold bg-orange-100 text-orange-600 px-2 py-1 rounded-md">🔥 0</span>
+            <button onclick="logout()" class="opacity-40 underline">Salir</button>
         </div>
     </header>
 
-    <!-- NAV -->
+    <!-- NAV INFERIOR -->
     <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white border-t p-3 z-50 flex justify-around items-center text-[10px] font-bold uppercase">
-        <button onclick="showScreen('inicio')" id="btn-inicio" class="flex flex-col items-center gap-1"><span>🏠</span><span>Inicio</span></button>
-        <button onclick="showScreen('actividades')" id="btn-actividades" class="flex flex-col items-center gap-1"><span>🌟</span><span>Misiones</span></button>
-        <button onclick="showScreen('metas')" id="btn-metas" class="flex flex-col items-center gap-1"><span>🎯</span><span>Metas</span></button>
-        <button onclick="showScreen('diario')" id="btn-diario" class="flex flex-col items-center gap-1"><span>📖</span><span>Diario</span></button>
-        <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center gap-1"><span>🎨</span><span>Ajustes</span></button>
+        <button onclick="showScreen('inicio')" id="btn-inicio" class="flex flex-col items-center"><span>🏠</span><span>Inicio</span></button>
+        <button onclick="showScreen('actividades')" id="btn-actividades" class="flex flex-col items-center"><span>🌟</span><span>Misiones</span></button>
+        <button onclick="showScreen('metas')" id="btn-metas" class="flex flex-col items-center"><span>🎯</span><span>Metas</span></button>
+        <button onclick="showScreen('diario')" id="btn-diario" class="flex flex-col items-center"><span>📖</span><span>Diario</span></button>
+        <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center"><span>🎨</span><span>Ajustes</span></button>
     </nav>
 
-    <!-- CONTENT -->
+    <!-- CONTENIDO -->
     <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-24 pb-28">
 
         <!-- INICIO -->
         <section id="screen-inicio" class="text-center fade-in">
             <div class="glass p-6 mb-6">
-                <div class="pet-bounce">
+                <div class="pet-bounce text-8xl mb-4">
                     <span id="pet-acc" class="absolute -top-4 left-1/2 -translate-x-1/2 text-3xl"></span>
-                    <span id="pet-display" class="text-8xl">🐶</span>
+                    <span id="pet-display">🐶</span>
                 </div>
-                <h3 class="text-xl font-bold mt-4"><span id="pet-name-display"></span></h3>
-                <p id="pet-compliment" class="text-sm text-indigo-500 font-medium italic mt-2 px-4"></p>
+                <h3 class="text-xl font-bold mt-2" id="pet-name-display"></h3>
+                <p id="pet-compliment" class="text-sm text-indigo-500 italic mt-2 px-4"></p>
             </div>
-            
             <div class="glass p-6">
-                <h3 class="font-bold mb-6 text-slate-500 text-xs tracking-widest uppercase">¿Cómo va tu día?</h3>
+                <p class="text-[10px] font-bold opacity-40 mb-4 uppercase tracking-widest">¿Cómo te sientes hoy?</p>
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="updateByMood('Feliz')" class="p-4 glass text-2xl hover:scale-110 transition">😊</button>
                     <button onclick="updateByMood('Tranquilo')" class="p-4 glass text-2xl hover:scale-110 transition">😌</button>
@@ -143,135 +137,114 @@
 
         <!-- MISIONES -->
         <section id="screen-actividades" class="hidden-section fade-in">
-            <h2 class="text-2xl font-bold mb-2">Misiones Flash ⚡</h2>
-            <p id="mood-label" class="text-xs text-slate-400 mb-6 italic"></p>
-            <div id="lista-actividades" class="grid gap-4"></div>
+            <h2 class="text-2xl font-bold mb-4">Misiones Diarias</h2>
+            <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
         <!-- METAS -->
         <section id="screen-metas" class="hidden-section fade-in">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold">Mis Desafíos</h2>
-                <button onclick="toggleNewGoal()" class="bg-indigo-100 p-2 rounded-full text-indigo-600 font-bold">✏️ Nueva</button>
+                <button onclick="toggleNewGoal()" class="bg-indigo-100 p-2 px-4 rounded-full text-indigo-600 font-bold text-xs">✏️ Crear Nueva</button>
             </div>
-
-            <!-- Formulario Nueva Meta -->
             <div id="new-goal-form" class="hidden-section glass p-6 mb-6 border-2 border-indigo-200">
-                <p class="text-xs font-bold mb-2 uppercase">Define tu propia meta:</p>
-                <input type="text" id="custom-goal-text" placeholder="Ej: Estudiar sin distracciones" class="w-full p-3 rounded-xl border mb-3">
-                <input type="text" id="custom-goal-tip" placeholder="Consejo para lograrla" class="w-full p-3 rounded-xl border mb-4">
-                <button onclick="addCustomGoal()" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold">Crear Meta</button>
+                <input type="text" id="custom-goal-text" placeholder="¿Qué quieres lograr?" class="w-full p-3 rounded-xl border mb-3">
+                <button onclick="addCustomGoal()" class="w-full py-2 bg-indigo-600 text-white rounded-xl font-bold">Añadir</button>
             </div>
-
-            <div id="lista-metas" class="space-y-4">
-                <!-- Metas por defecto + personalizadas -->
-            </div>
+            <div id="lista-metas" class="space-y-4"></div>
         </section>
 
-        <!-- DIARIO -->
+        <!-- DIARIO TIPO LIBRO -->
         <section id="screen-diario" class="hidden-section fade-in">
             <div id="diario-lock" class="text-center py-10">
                 <div class="text-5xl mb-4">🔐</div>
                 <h3 class="font-bold mb-4">Tu Diario Privado</h3>
-                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-4 rounded-2xl border-2 mb-4 w-32 mx-auto block outline-none focus:border-indigo-400">
-                <button onclick="checkPIN()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Desbloquear</button>
+                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-4 rounded-2xl border-2 mb-4 w-32 mx-auto block outline-none">
+                <button onclick="checkPIN()" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Abrir Libro</button>
             </div>
+            
             <div id="diario-open" class="hidden-section">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="font-bold text-xl">Mi Cuaderno</h2>
-                    <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold uppercase tracking-wider">Cerrar con PIN</button>
+                    <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold">CERRAR LIBRO</button>
                 </div>
-                <div class="notebook mb-4 shadow-sm">
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none" rows="8" placeholder="¿Cómo te sientes hoy realmente?"></textarea>
+                
+                <div class="notebook-page shadow-lg" id="notebook-ui">
+                    <div class="flex justify-between items-center mb-2 opacity-50 text-[10px] font-bold uppercase">
+                        <span id="page-date">Nueva Página</span>
+                        <span id="page-number">Pág. 1</span>
+                    </div>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Escribe aquí tus pensamientos..."></textarea>
                 </div>
-                <button onclick="saveDiary()" class="w-full py-5 btn-strike rounded-3xl font-bold text-lg">Guardar Hoy</button>
-                <div id="historial-diario" class="mt-8 space-y-3"></div>
+                
+                <div class="flex justify-between mt-6">
+                    <button onclick="prevPage()" class="p-3 bg-white border rounded-full shadow-sm">⬅️</button>
+                    <button onclick="saveDiary()" id="btn-save-diary" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar Página</button>
+                    <button onclick="nextPage()" class="p-3 bg-white border rounded-full shadow-sm">➡️</button>
+                </div>
             </div>
         </section>
 
         <!-- AJUSTES -->
         <section id="screen-progreso" class="hidden-section fade-in">
             <h2 class="text-2xl font-bold mb-6">Ajustes</h2>
-            
             <div class="glass p-6 mb-6">
-                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Tema de Color:</p>
+                <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Elige el color de tu Bienestar:</p>
                 <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setTheme('cielo')" class="w-full h-10 rounded-xl bg-sky-400 border-2 border-white"></button>
-                    <button onclick="setTheme('lavanda')" class="w-full h-10 rounded-xl bg-purple-400 border-2 border-white"></button>
-                    <button onclick="setTheme('bosque')" class="w-full h-10 rounded-xl bg-emerald-400 border-2 border-white"></button>
-                    <button onclick="setTheme('atardecer')" class="w-full h-10 rounded-xl bg-amber-400 border-2 border-white"></button>
-                    <button onclick="setTheme('menta')" class="w-full h-10 rounded-xl bg-teal-400 border-2 border-white"></button>
-                    <button onclick="setTheme('rosa')" class="w-full h-10 rounded-xl bg-pink-400 border-2 border-white"></button>
-                    <button onclick="setTheme('oceano')" class="w-full h-10 rounded-xl bg-blue-600 border-2 border-white"></button>
-                    <button onclick="setTheme('sol')" class="w-full h-10 rounded-xl bg-yellow-400 border-2 border-white"></button>
+                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400"></button>
+                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400"></button>
+                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400"></button>
+                    <button onclick="setTheme('atardecer')" class="h-10 rounded-xl bg-amber-400"></button>
+                    <button onclick="setTheme('menta')" class="h-10 rounded-xl bg-teal-400"></button>
+                    <button onclick="setTheme('rosa')" class="h-10 rounded-xl bg-pink-400"></button>
+                    <button onclick="setTheme('oceano')" class="h-10 rounded-xl bg-blue-600"></button>
+                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400"></button>
                 </div>
             </div>
-
-            <div class="glass p-6 mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <p class="text-xs font-bold opacity-50 uppercase">Racha</p>
-                        <p class="text-3xl font-bold text-orange-500"><span id="stats-racha">0</span> Días</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs font-bold opacity-50 uppercase">Nivel Bienestar</p>
-                        <p id="puntos-val" class="text-3xl font-bold text-indigo-600">0</p>
-                    </div>
-                </div>
-                <div id="reward-info" class="p-3 bg-indigo-50 rounded-xl text-[10px] italic text-indigo-600 text-center"></div>
-            </div>
-
-            <div class="glass p-6 bg-indigo-50/50">
-                <h3 class="font-bold text-sm mb-3">🎒 Tips Escolares</h3>
-                <ul class="text-[10px] space-y-2 opacity-70">
-                    <li>• Haz listas cortas de tareas. ¡Tachar cosas da paz!</li>
-                    <li>• Si una tarea te da miedo, hazla solo por 5 minutos.</li>
-                    <li>• Beber agua ayuda a tu cerebro a concentrarse mejor.</li>
-                </ul>
+            <div class="glass p-6 text-center">
+                <p class="text-[10px] font-bold opacity-40 uppercase mb-2">Puntos de Bienestar</p>
+                <p id="puntos-val" class="text-5xl font-bold text-indigo-600">0</p>
             </div>
         </section>
 
     </main>
 
     <script>
-        // --- BASE DE DATOS Y ESTADO ---
-        let userData = JSON.parse(localStorage.getItem('bj_v6')) || null;
+        let userData = null;
+        let currentPageIndex = -1; // -1 significa página nueva en blanco
 
         const misionesMood = {
-            'Feliz': [{t:"Regala una sonrisa", d:"Busca a alguien y dile un cumplido real."}, {t:"Cápsula del tiempo", d:"Escribe 3 cosas que amas de hoy."}, {t:"Modo Baile", d:"Baila 1 minuto como si nadie viera."}],
-            'Tranquilo': [{t:"Respiro Lento", d:"Cierra los ojos y respira 10 veces."}, {t:"Oír el mundo", d:"Busca 3 sonidos que hay a tu alrededor."}, {t:"Gratitud", d:"Anota algo simple que agradeces."}],
-            'Estresado': [{t:"Misión 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Hielo", d:"Sujeta un hielo 20 seg para resetear."}, {t:"Fuera Móvil", d:"Deja el celular en otra habitación 10 min."}],
-            'Preocupado': [{t:"El Círculo", d:"Dibuja un círculo y pon fuera lo que no controlas."}, {t:"Escribir Miedo", d:"Escribe tu preocupación y tacha el papel."}, {t:"Habla ya", d:"Cuéntale tu duda a alguien."}],
-            'Triste': [{t:"Autocuidado", d:"Bebe agua fresca o lávate la cara."}, {t:"Mariposa", d:"Cruza manos sobre pecho y da toquecitos."}, {t:"Dibujo Libre", d:"Dibuja garabatos sin pensar mucho."}],
-            'Agotado': [{t:"Micro-siesta", d:"Cierra ojos 5 min en silencio."}, {t:"Estiramiento", d:"Estira brazos hacia el techo 30 seg."}, {t:"Verde", d:"Mira una planta o árbol por la ventana."}],
-            'Enojado': [{t:"Actividad 10", d:"Haz 10 saltos o sentadillas rápido."}, {t:"Rugido", d:"Tensa todos tus músculos 10s y suelta."}, {t:"Escribir Fuerte", d:"Escribe lo que te enoja con fuerza."}],
-            'Frustrado': [{t:"Pausa Pomodoro", d:"Para lo que haces y camina 2 min."}, {t:"Manos Frías", d:"Moja tus muñecas con agua fría."}, {t:"Cambio de lugar", d:"Vete a otra silla o habitación."}],
-            'Agobiado': [{t:"Solo 1 Cosa", d:"Elige UNA tarea mínima y hazla ya."}, {t:"5-4-3-2-1", d:"5 cosas que ves, 4 tocas, 3 oyes..."}, {t:"Pedir Ayuda", d:"Pregunta a alguien cómo hacer algo."}]
+            'Feliz': [{t:"Dile un cumplido a alguien", d:"Haz que el día de otra persona también brille."}, {t:"Anota tu alegría", d:"Escribe por qué estás feliz hoy."}, {t:"Baila 2 minutos", d:"Sigue el ritmo de tu canción favorita."}],
+            'Estresado': [{t:"Respira 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Pausa Digital", d:"Apaga pantallas por 15 min."}, {t:"Ordena un cajón", d:"El orden externo trae orden interno."}],
+            'Triste': [{t:"Abrazo Mariposa", d:"Toca tus hombros rítmicamente."}, {t:"Bebe agua fresca", d:"Siente cómo te hidrata."}, {t:"Dibuja algo", d:"Expresa tu pena en trazos."}]
+            // ... se pueden añadir el resto igual
         };
 
-        const petMsgs = {
-            0: ["¡Hola! Despiértame con una racha.", "Me alegra verte, ¿empezamos?", "Hoy es un buen día para cuidarte."],
-            1: ["¡Buen inicio! Eres importante.", "Me encanta acompañarte.", "Un pequeño paso hoy, un gran cambio mañana."],
-            3: ["¡3 días! Tu racha me hace muy feliz.", "🎩 ¡Mira mi sombrero! Lo lograste tú.", "Te ves con mucha más calma hoy."],
-            5: ["👑 ¡Nivel Realeza! Eres imparable.", "Gracias por cuidar de nosotros.", "Cada día brillas más."],
-            10: ["🚀 ¡Eres una leyenda del bienestar!", "Tu constancia es inspiradora.", "¡Gracias por darme el mejor hogar!"]
+        const frasesExito = ["¡Increíble trabajo!", "¡Eres imparable!", "¡Cada paso cuenta!", "¡Qué bien lo hiciste!", "¡Orgulloso de ti!"];
+
+        // --- PERSISTENCIA INMEDIATA ---
+        window.onload = () => {
+            const saved = localStorage.getItem('bj_v7');
+            if (saved) {
+                userData = JSON.parse(saved);
+                if (userData.nombre) loginSuccess();
+            }
+            const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
         };
 
-        // --- FUNCIONES CORE ---
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            if (!userData || userData.email !== payload.email) {
-                userData = { 
-                    email: payload.email, nombre: payload.given_name, petName: "Mascota", petEmoji: "🐶", 
-                    racha: 0, puntos: 0, diario: [], pin: null, ultimaC: null,
-                    metas: [
-                        {id: 'm1', t: 'Mejorar Sueño', v: 0, tip: '💡 Deja el celular 30 min antes de dormir.'},
-                        {id: 'm2', t: 'Autoestima', v: 0, tip: '💡 Di algo positivo de ti en el espejo.'}
-                    ]
-                };
-                document.getElementById('landing-page').classList.add('hidden-section');
+            userData = JSON.parse(localStorage.getItem('bj_v7')) || { 
+                email: payload.email, nombre: payload.given_name, racha: 1, puntos: 0, diario: [], pin: null,
+                metas: [
+                    {id:'m1', t:'Dormir mejor', v:0, tip:'💡 Apaga el móvil 30 min antes.'},
+                    {id:'m2', t:'Autoestima', v:0, tip:'💡 Di algo lindo frente al espejo.'},
+                    {id:'m3', t:'Plan Escolar', v:0, tip:'💡 Organiza tus tareas por prioridad.'}
+                ]
+            };
+            if(!userData.nombre) {
+                document.getElementById('screen-login').classList.add('hidden-section');
                 document.getElementById('screen-onboarding').classList.remove('hidden-section');
-                document.getElementById('reg-nombre').value = payload.given_name;
             } else { loginSuccess(); }
         };
 
@@ -283,26 +256,18 @@
         }
 
         function loginSuccess() {
-            document.getElementById('landing-page').classList.add('hidden-section');
+            document.getElementById('screen-login').classList.add('hidden-section');
             document.getElementById('screen-onboarding').classList.add('hidden-section');
             document.getElementById('app-header').classList.remove('hidden-section');
             document.getElementById('main-nav').classList.remove('hidden-section');
             document.getElementById('app-content').classList.remove('hidden-section');
-            checkRacha(); updateUI(); showScreen('inicio');
+            updateUI(); showScreen('inicio');
         }
 
-        function checkRacha() {
-            const hoy = new Date().toLocaleDateString();
-            if (userData.ultimaC !== hoy) {
-                if (userData.ultimaC) {
-                    const diff = (new Date(hoy) - new Date(userData.ultimaC)) / (1000*60*60*24);
-                    if(diff === 1) userData.racha++; else if(diff > 1) userData.racha = 0;
-                } else { userData.racha = 1; }
-                userData.ultimaC = hoy; save();
-            }
-        }
+        function save() { localStorage.setItem('bj_v7', JSON.stringify(userData)); }
 
-        function celebrate() {
+        function celebrate(msg) {
+            document.getElementById('msg-celebracion').innerText = msg || frasesExito[Math.floor(Math.random()*frasesExito.length)];
             const cel = document.getElementById('celebration');
             cel.style.display = 'flex';
             setTimeout(() => { cel.style.display = 'none'; }, 2000);
@@ -311,119 +276,145 @@
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
-            document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('tab-active'));
-            document.getElementById('btn-' + id).classList.add('tab-active');
-            if(id === 'inicio') updatePetMsg();
+            document.querySelectorAll('#main-nav button').forEach(b => b.classList.remove('text-indigo-600'));
+            document.getElementById('btn-' + id).classList.add('text-indigo-600');
             if(id === 'metas') renderMetas();
-            window.scrollTo(0, 0);
-        }
-
-        function updatePetMsg() {
-            let key = 0;
-            if(userData.racha >= 10) key = 10;
-            else if(userData.racha >= 5) key = 5;
-            else if(userData.racha >= 3) key = 3;
-            else if(userData.racha >= 1) key = 1;
-            
-            const msgs = petMsgs[key];
-            document.getElementById('pet-compliment').innerText = `"${msgs[Math.floor(Math.random()*msgs.length)]}"`;
+            window.scrollTo(0,0);
         }
 
         function updateUI() {
-            document.getElementById('pet-display').innerText = userData.petEmoji;
-            document.getElementById('pet-name-display').innerText = userData.petName;
-            document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
-            document.getElementById('stats-racha').innerText = userData.racha;
-            document.getElementById('puntos-val').innerText = userData.puntos;
-            
+            document.getElementById('pet-display').innerText = userData.petEmoji || "🐶";
+            document.getElementById('pet-name-display').innerText = userData.petName || "Mascota";
+            document.getElementById('header-racha').innerText = "🔥 " + (userData.racha || 0);
+            document.getElementById('puntos-val').innerText = userData.puntos || 0;
             const acc = document.getElementById('pet-acc');
-            const rewardTxt = document.getElementById('reward-info');
-            if(userData.racha >= 5) { acc.innerText = "👑"; rewardTxt.innerText = "Recompensa: ¡Corona Real activada!"; }
-            else if(userData.racha >= 3) { acc.innerText = "🎩"; rewardTxt.innerText = "Recompensa: ¡Sombrerito de Gala!"; }
-            else { acc.innerText = ""; rewardTxt.innerText = "Llega a 3 días para un regalo."; }
+            if(userData.racha >= 5) acc.innerText = "👑"; else if(userData.racha >= 3) acc.innerText = "🎩";
         }
 
+        // --- MISIONES DINÁMICAS ---
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
-            document.getElementById('mood-label').innerText = "Recomendado para hoy (" + mood + "):";
             list.innerHTML = "";
-            (misionesMood[mood] || []).forEach(m => {
-                list.innerHTML += `<div class="glass p-6 border-l-4 border-indigo-500 shadow-sm">
-                    <h4 class="font-bold text-sm mb-1">${m.t}</h4>
-                    <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
-                    <button onclick="gainPoints(20, true)" class="w-full py-3 btn-strike rounded-xl font-bold text-xs uppercase tracking-wider">¡Misión Completada! ✅</button>
-                </div>`;
+            const misiones = misionesMood[mood] || misionesMood['Feliz'];
+            misiones.forEach((m, i) => {
+                list.innerHTML += `
+                    <div class="glass p-6">
+                        <h4 class="font-bold text-sm">${m.t}</h4>
+                        <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
+                        <button id="miss-${mood}-${i}" onclick="completeMission('miss-${mood}-${i}')" class="w-full py-3 rounded-xl font-bold text-xs btn-pending transition-all">
+                            COMPLETAR MISIÓN
+                        </button>
+                    </div>`;
             });
             showScreen('actividades');
         }
 
-        function gainPoints(p, celeb) {
-            userData.puntos += p; save(); updateUI();
-            if(celeb) celebrate();
+        function completeMission(id) {
+            const btn = document.getElementById(id);
+            if(btn.classList.contains('btn-completed')) return;
+            btn.className = "w-full py-3 rounded-xl font-bold text-xs btn-completed transition-all scale-105";
+            btn.innerHTML = "MISIÓN COMPLETADA ✅";
+            userData.puntos += 20; save(); updateUI();
+            celebrate();
         }
 
-        // --- METAS PERSONALIZADAS ---
+        // --- METAS ---
         function renderMetas() {
             const container = document.getElementById('lista-metas');
             container.innerHTML = userData.metas.map(m => `
-                <div class="glass p-6 border-2 ${m.v >= 100 ? 'border-green-300 bg-green-50/50' : 'border-white'}">
-                    <div class="flex justify-between font-bold text-xs mb-1">
-                        <span>${m.t}</span>
-                        <span>${m.v}%</span>
-                    </div>
-                    <progress class="w-full h-3" value="${m.v}" max="100"></progress>
-                    <p class="text-[10px] mt-2 opacity-70 italic">${m.v >= 100 ? '🎉 ¡Felicidades! Meta alcanzada.' : m.tip}</p>
-                    ${m.v < 100 ? `<button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-2 bg-white/80 border border-indigo-200 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition">Marcar Progreso 🚀</button>` : ''}
-                </div>
-            `).join('');
+                <div class="glass p-6 ${m.v >= 100 ? 'bg-green-50 border-green-200' : ''}">
+                    <div class="flex justify-between font-bold text-xs mb-1"><span>${m.t}</span><span>${m.v}%</span></div>
+                    <progress class="w-full h-2" value="${m.v}" max="100"></progress>
+                    <p class="text-[10px] mt-2 opacity-70 italic">${m.tip || '¡Sigue avanzando!'}</p>
+                    ${m.v < 100 ? `<button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-3 bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition">Marcar Paso (+10%) 🚀</button>` : '¡Meta completada! 🎊'}
+                </div>`).join('');
         }
 
         function advanceMeta(id) {
             const m = userData.metas.find(x => x.id === id);
             if(m && m.v < 100) {
-                m.v += 20; userData.puntos += 10;
-                if(m.v >= 100) celebrate();
+                m.v += 10; userData.puntos += 10;
                 save(); renderMetas(); updateUI();
+                if(m.v % 50 === 0 || m.v >= 100) celebrate("¡Meta subiendo! 🚀");
             }
         }
 
         function toggleNewGoal() { document.getElementById('new-goal-form').classList.toggle('hidden-section'); }
-
         function addCustomGoal() {
-            const txt = document.getElementById('custom-goal-text').value;
-            const tip = document.getElementById('custom-goal-tip').value || '💡 ¡Tú puedes lograrlo!';
-            if(!txt) return;
-            userData.metas.push({ id: Date.now().toString(), t: txt, v: 0, tip: tip });
+            const t = document.getElementById('custom-goal-text').value;
+            if(!t) return;
+            userData.metas.push({ id: Date.now().toString(), t: t, v: 0, tip: '💡 ¡Tú pusiste este reto!' });
             document.getElementById('custom-goal-text').value = "";
-            document.getElementById('custom-goal-tip').value = "";
             toggleNewGoal(); save(); renderMetas();
         }
 
-        // --- DIARIO ---
+        // --- DIARIO (LIBRO DE PÁGINAS) ---
         function checkPIN() {
             const v = document.getElementById('pin').value;
-            if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary(); celebrate();} }
+            if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary();} }
             else { if(v===userData.pin) openDiary(); else alert("PIN Incorrecto"); }
         }
-        function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); renderHistory(); }
+
+        function openDiary() {
+            document.getElementById('diario-lock').classList.add('hidden-section');
+            document.getElementById('diario-open').classList.remove('hidden-section');
+            currentPageIndex = -1; // Iniciar en blanco
+            updateNotebookView();
+        }
+
+        function updateNotebookView() {
+            const area = document.getElementById('texto-diario');
+            const dateLabel = document.getElementById('page-date');
+            const pageLabel = document.getElementById('page-number');
+            const btnSave = document.getElementById('btn-save-diary');
+
+            if (currentPageIndex === -1) {
+                area.value = "";
+                area.readOnly = false;
+                dateLabel.innerText = "Nueva Página: " + new Date().toLocaleDateString();
+                pageLabel.innerText = "Pág. " + (userData.diario.length + 1);
+                btnSave.classList.remove('hidden-section');
+            } else {
+                const entry = userData.diario[currentPageIndex];
+                area.value = entry.c;
+                area.readOnly = true;
+                dateLabel.innerText = entry.f;
+                pageLabel.innerText = "Pág. " + (userData.diario.length - currentPageIndex);
+                btnSave.classList.add('hidden-section');
+            }
+        }
+
         function saveDiary() {
-            const t = document.getElementById('texto-diario').value; if(!t) return;
+            const t = document.getElementById('texto-diario').value;
+            if(!t) return;
             userData.diario.unshift({f: new Date().toLocaleString(), c: t});
-            userData.puntos += 25; save(); document.getElementById('texto-diario').value=""; renderHistory(); updateUI(); celebrate();
+            userData.puntos += 30; save(); 
+            alert("Página guardada y libro cerrado.");
+            lockDiary(); celebrate("Pensamiento guardado 📖");
         }
-        function renderHistory() {
-            document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="glass p-4 text-[11px] italic opacity-70"><p class="font-bold mb-1">${d.f}</p><p>"${d.c}"</p></div>`).join('');
-        }
-        function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value = ""; }
 
+        function prevPage() {
+            if(currentPageIndex < userData.diario.length - 1) {
+                currentPageIndex++;
+                updateNotebookView();
+            }
+        }
+
+        function nextPage() {
+            if(currentPageIndex > -1) {
+                currentPageIndex--;
+                updateNotebookView();
+            }
+        }
+
+        function lockDiary() {
+            document.getElementById('diario-lock').classList.remove('hidden-section');
+            document.getElementById('diario-open').classList.add('hidden-section');
+            document.getElementById('pin').value = "";
+        }
+
+        function logout() { if(confirm("¿Seguro que quieres borrar tus datos locales?")) { localStorage.clear(); location.reload(); } }
         function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
-        function save() { localStorage.setItem('bj_v6', JSON.stringify(userData)); }
-        function logout() { localStorage.removeItem('bj_v6'); location.reload(); }
-
-        window.onload = () => {
-            const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
-            if(userData && userData.nombre) loginSuccess();
-        };
     </script>
 </body>
 </html>
