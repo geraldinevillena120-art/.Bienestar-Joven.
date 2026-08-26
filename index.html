@@ -40,8 +40,17 @@
             border-radius: 8px;
         }
 
-        .pet-bounce { animation: bounce 2s infinite ease-in-out; display: inline-block; position: relative; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        /* MASCOTA MÁS ANIMADA */
+        .pet-bounce { 
+            animation: bounceLively 2.5s infinite ease-in-out; 
+            display: inline-block; 
+            position: relative; 
+            transform-origin: bottom center;
+        }
+        @keyframes bounceLively {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-20px) scale(1.05) rotate(5deg); }
+        }
 
         #celebration {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -78,23 +87,17 @@
         <div class="glass p-8 space-y-5">
             <div>
                 <label class="text-[10px] font-bold opacity-50 uppercase">Tu Nombre</label>
-                <input type="text" id="reg-nombre" placeholder="Ej: Geraldine" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
+                <input type="text" id="reg-nombre" placeholder="Ej: Geraldine" class="w-full p-4 rounded-2xl border outline-none">
             </div>
             <div>
                 <label class="text-[10px] font-bold opacity-50 uppercase">Nombre para tu Mascota</label>
                 <input type="text" id="reg-pet-name" placeholder="Ej: Copito" class="w-full p-4 rounded-2xl border outline-none">
             </div>
             <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="text-[10px] font-bold opacity-50 uppercase">Edad (12-17)</label>
-                    <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold opacity-50 uppercase">Elige Mascota</label>
-                    <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
-                        <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
-                    </select>
-                </div>
+                <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
+                <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
+                    <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
+                </select>
             </div>
             <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Comenzar Aventura 🚀</button>
         </div>
@@ -198,11 +201,10 @@
             </div>
         </section>
 
-        <!-- AJUSTES Y SUGERENCIAS -->
+        <!-- AJUSTES -->
         <section id="screen-progreso" class="hidden-section fade-in">
             <h2 class="text-2xl font-bold mb-6">Ajustes y Progreso</h2>
             
-            <!-- RACHA Y RECOMPENSAS -->
             <div class="glass p-6 mb-6">
                 <div class="flex justify-between items-center">
                     <div>
@@ -224,7 +226,6 @@
                 </div>
             </div>
 
-            <!-- COLORES -->
             <div class="glass p-6 mb-6">
                 <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Elige tu Color:</p>
                 <div class="grid grid-cols-4 gap-3">
@@ -239,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- SUGERENCIAS -->
             <div class="glass p-6 bg-indigo-50">
                 <h3 class="font-bold text-sm mb-4 text-indigo-600 uppercase">🎒 Sugerencias para tu día</h3>
                 <div class="space-y-4 text-[11px] leading-relaxed">
@@ -263,7 +263,7 @@
             "¡Eres una persona increíble!", "Tu bienestar es lo más importante.", 
             "¡Me encanta pasar tiempo contigo!", "Hoy es un gran día para brillar.", 
             "Eres valiente por cuidar tus emociones.", "¡Cada paso que das cuenta!",
-            "¡Qué alegría verte de nuevo!", "Tu sonrisa ilumina mi día virtual."
+            "¡Qué alegría verte de nuevo!", "Tu racha me hace muy feliz."
         ];
 
         const misionesMood = {
@@ -278,33 +278,53 @@
             'Agobiado': [{t:"Solo 1 Cosa", d:"Haz la tarea más pequeña ahora mismo."}, {t:"Pedir ayuda", d:"Pregunta a alguien cómo empezar."}, {t:"Respira hondo", d:"Haz 3 respiraciones profundas."}]
         };
 
-        // --- PERSISTENCIA CORREGIDA ---
         window.onload = () => {
             const saved = localStorage.getItem('bj_final_v1');
             if (saved) {
                 userData = JSON.parse(saved);
                 if (userData.registrado) {
+                    checkRacha(); // Ejecutar lógica de racha al cargar
                     loginSuccess();
                 }
             }
             const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
         };
 
+        // --- LÓGICA DE RACHA CORREGIDA ---
+        function checkRacha() {
+            const hoyStr = new Date().toLocaleDateString();
+            const ultimaC = userData.ultimaC;
+
+            if (ultimaC !== hoyStr) {
+                const fHoy = new Date();
+                const fUltima = new Date(ultimaC);
+                
+                // Calculamos diferencia en días reales
+                const diffTime = Math.abs(fHoy - fUltima);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 1) {
+                    userData.racha++; // Incrementa si es el día siguiente
+                } else if (diffDays > 1) {
+                    userData.racha = 1; // Resetea a 1 si pasó más de un día
+                }
+                
+                userData.ultimaC = hoyStr;
+                save();
+                updateUI();
+            }
+        }
+
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            
-            // Si ya existe el usuario, no sobrescribir sus datos de racha/mascota
             const saved = localStorage.getItem('bj_final_v1');
             if (saved) {
                 userData = JSON.parse(saved);
                 if(userData.registrado) { loginSuccess(); return; }
             }
-
-            // Si es nuevo o no ha terminado el registro
             userData = {
-                email: payload.email,
-                registrado: false,
-                puntos: 0, racha: 1, diario: [], pin: null, ultimaC: new Date().toLocaleDateString(),
+                email: payload.email, registrado: false, puntos: 0, racha: 1, diario: [], pin: null, 
+                ultimaC: new Date().toLocaleDateString(),
                 metas: [
                     {id:'m1', t:'Dormir mejor', v:0, tip:'💡 Apaga el móvil 30 min antes.'},
                     {id:'m2', t:'Autoestima', v:0, tip:'💡 Di algo lindo frente al espejo.'},
@@ -359,9 +379,10 @@
         }
 
         function updateUI() {
-            document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
+            document.getElementById('header-racha').innerText = "🔥 " + (userData.racha || 0);
             document.getElementById('stats-racha').innerText = userData.racha;
             document.getElementById('puntos-val').innerText = userData.puntos;
+            updateMascota();
         }
 
         function updateByMood(mood) {
@@ -407,8 +428,7 @@
             if(m && m.v < 100) {
                 m.v += 10; userData.puntos += 10;
                 save(); renderMetas(); updateUI();
-                if(m.v >= 100) celebrate("¡Meta alcanzada! ¡Felicidades! 🏆");
-                else celebrate("¡Sigue así, vas por buen camino!");
+                celebrate(m.v >= 100 ? "¡Meta alcanzada! 🏆" : "¡Sigue así!");
             }
         }
 
@@ -421,7 +441,6 @@
             toggleNewGoal(); save(); renderMetas();
         }
 
-        // --- DIARIO ---
         function checkPIN() {
             const v = document.getElementById('pin').value;
             if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary();} }
@@ -452,7 +471,7 @@
             if(!t) return;
             userData.diario.unshift({f: new Date().toLocaleString(), c: t});
             userData.puntos += 30; save(); 
-            lockDiary(); celebrate("Pensamiento guardado bajo llave 📖");
+            lockDiary(); celebrate("Pensamiento guardado 📖");
         }
         function prevPage() { if(currentPageIndex < userData.diario.length - 1) { currentPageIndex++; updateNotebookView(); } }
         function nextPage() { if(currentPageIndex > -1) { currentPageIndex--; updateNotebookView(); } }
