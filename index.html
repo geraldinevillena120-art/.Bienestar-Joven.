@@ -1,71 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienestar Joven | v2.0</title>
+    <title>Bienestar Joven | v3.0</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Indie+Flower&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --p-main: #6366F1;
-            --p-light: #EEF2FF;
-            --p-dark: #4338CA;
-            --p-soft: #E0E7FF;
-        }
+        :root { --p-main: #6366F1; --p-soft: #EEF2FF; --p-dark: #4338CA; }
+        /* TEMAS COMPLETOS */
+        body.theme-cielo { --p-main: #0ea5e9; --p-soft: #f0f9ff; --p-dark: #0369a1; }
+        body.theme-lavanda { --p-main: #8b5cf6; --p-soft: #f5f3ff; --p-dark: #6d28d9; }
+        body.theme-bosque { --p-main: #10b981; --p-soft: #f0fdf4; --p-dark: #047857; }
+        body.theme-atardecer { --p-main: #f59e0b; --p-soft: #fffbeb; --p-dark: #b45309; }
+        body.theme-rosa { --p-main: #f472b6; --p-soft: #fdf2f8; --p-dark: #be185d; }
+        body.theme-menta { --p-main: #2dd4bf; --p-soft: #f0fdfa; --p-dark: #0f766e; }
+        body.theme-oceano { --p-main: #3b82f6; --p-soft: #eff6ff; --p-dark: #1d4ed8; }
+        body.theme-sol { --p-main: #eab308; --p-soft: #fefce8; --p-dark: #a16207; }
 
-        /* TEMAS DINÁMICOS */
-        body.theme-cielo { --p-main: #0ea5e9; --p-light: #f0f9ff; --p-dark: #0369a1; --p-soft: #e0f2fe; }
-        body.theme-lavanda { --p-main: #8b5cf6; --p-light: #f5f3ff; --p-dark: #6d28d9; --p-soft: #ede9fe; }
-        body.theme-bosque { --p-main: #10b981; --p-light: #f0fdf4; --p-dark: #047857; --p-soft: #dcfce7; }
-        body.theme-atardecer { --p-main: #f59e0b; --p-light: #fffbeb; --p-dark: #b45309; --p-soft: #fef3c7; }
-        body.theme-rosa { --p-main: #f472b6; --p-light: #fdf2f8; --p-dark: #be185d; --p-soft: #fce7f3; }
-        body.theme-menta { --p-main: #2dd4bf; --p-light: #f0fdfa; --p-dark: #0f766e; --p-soft: #ccfbf1; }
-        body.theme-oceano { --p-main: #3b82f6; --p-light: #eff6ff; --p-dark: #1d4ed8; --p-soft: #dbeafe; }
-        body.theme-sol { --p-main: #eab308; --p-light: #fefce8; --p-dark: #a16207; --p-soft: #fef9c3; }
-
-        body { font-family: 'Outfit', sans-serif; background-color: var(--p-light); color: #334155; transition: 0.5s; overflow-x: hidden; }
-        .card-custom { background: white; border: 2px solid var(--p-soft); border-radius: 1.5rem; transition: 0.3s; }
-        .card-custom:hover { border-color: var(--p-main); transform: translateY(-2px); }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid var(--p-soft); border-radius: 1.5rem; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--p-soft); color: #334155; transition: 0.5s; }
+        .card-mood { background: white; border: 2px solid var(--p-main); border-radius: 1.5rem; transition: 0.3s; }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 1px solid white; border-radius: 1.5rem; }
         .hidden-section { display: none !important; }
         
-        .btn-main { background-color: var(--p-main); color: white; border-radius: 1rem; transition: 0.3s; font-weight: bold; }
-        .btn-main:hover { background-color: var(--p-dark); transform: scale(1.02); }
-
-        .notebook-page {
-            background: #fff; background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 100% 2.2rem; line-height: 2.2rem;
-            padding: 1.5rem 1rem 1.5rem 3rem; border-left: 5px solid #f87171;
-            font-family: 'Indie Flower', cursive; min-height: 300px;
-        }
-
-        #canvas-dibujo { border: 2px dashed var(--p-main); background: white; cursor: crosshair; touch-action: none; }
+        /* ANIMACIONES */
+        .pet-bounce { animation: bouncePet 2.5s infinite ease-in-out; display: inline-block; position: relative; }
+        @keyframes bouncePet { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-15px) rotate(5deg); } }
         
-        progress::-webkit-progress-value { background-color: var(--p-main); border-radius: 10px; }
-        progress::-webkit-progress-bar { background-color: var(--p-soft); border-radius: 10px; }
+        .modal-bounce { animation: modalIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes modalIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .notebook-page { background: #fff; background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 2.2rem; line-height: 2.2rem; padding: 1.5rem 1rem 1.5rem 3rem; border-left: 5px solid #f87171; font-family: 'Indie Flower', cursive; border-radius: 8px; }
+        canvas { touch-action: none; background: white; border: 2px solid var(--p-main); border-radius: 1rem; }
     </style>
 </head>
 <body class="theme-cielo">
 
-    <!-- MODAL MINI-TEST MISIONES -->
-    <div id="mission-test" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/40 p-6">
-        <div class="glass p-8 max-w-sm w-full text-center animate-bounce">
-            <h3 class="text-xl font-bold mb-4">¿Cómo te sentiste? ✨</h3>
-            <p class="text-sm mb-6 opacity-70">¿Esta misión te ayudó a calmarte o mejoró algo en ti?</p>
+    <!-- TEST DE MISIONES (Corregido) -->
+    <div id="mission-test" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/50 p-6">
+        <div class="glass p-8 max-w-sm w-full text-center modal-bounce">
+            <h3 class="text-xl font-bold mb-2">¡Misión Lograda! 🌟</h3>
+            <p class="text-sm mb-6 opacity-70">¿Cómo te sientes después de esto? ¿Te ayudó a calmarte?</p>
             <div class="grid grid-cols-2 gap-3 mb-6">
-                <button onclick="closeMissionTest('Sí, mucho')" class="p-3 border rounded-xl hover:bg-green-50">😌 Me calmó</button>
-                <button onclick="closeMissionTest('Un poco')" class="p-3 border rounded-xl hover:bg-blue-50">👍 Mejoré algo</button>
+                <button onclick="closeMissionTest('Calmado')" class="p-3 border-2 border-indigo-100 rounded-xl hover:bg-indigo-50 transition">😌 Mejor</button>
+                <button onclick="closeMissionTest('Igual')" class="p-3 border-2 border-indigo-100 rounded-xl hover:bg-indigo-50 transition">😐 Igual</button>
             </div>
-            <button onclick="closeMissionTest('Cerrar')" class="text-xs font-bold opacity-40 uppercase underline">Omitir</button>
+            <button onclick="closeMissionTest('Cerrar')" class="text-xs font-bold opacity-30 uppercase">Finalizar</button>
         </div>
     </div>
 
-    <!-- PANTALLA LOGIN -->
+    <!-- LOGIN -->
     <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
         <div class="glass p-10 w-full max-w-sm flex flex-col items-center shadow-xl">
@@ -86,42 +73,42 @@
                     <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
                 </select>
             </div>
-            <button onclick="finishRegistration()" class="w-full py-4 btn-main shadow-lg">Comenzar</button>
+            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold">Comenzar</button>
         </div>
     </section>
 
-    <!-- APP HEADER -->
+    <!-- HEADER -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold" style="color: var(--p-main)">Bienestar Joven</h2>
-        <div class="flex items-center gap-2">
-            <span id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 0</span>
-        </div>
+        <div id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 0</div>
     </header>
 
-    <!-- NAVEGACIÓN -->
-    <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white border-t p-3 z-50 flex justify-around items-center text-[10px] font-bold uppercase">
+    <!-- NAV -->
+    <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white border-t p-3 z-50 flex justify-around items-center text-[9px] font-bold uppercase">
         <button onclick="showScreen('inicio')" id="btn-inicio" class="flex flex-col items-center"><span>🏠</span><span>Inicio</span></button>
         <button onclick="showScreen('actividades')" id="btn-actividades" class="flex flex-col items-center"><span>🌟</span><span>Misiones</span></button>
         <button onclick="showScreen('herramientas')" id="btn-herramientas" class="flex flex-col items-center"><span>🛠️</span><span>Cole</span></button>
+        <button onclick="showScreen('rutina')" id="btn-rutina" class="flex flex-col items-center"><span>📅</span><span>Rutina</span></button>
         <button onclick="showScreen('diario')" id="btn-diario" class="flex flex-col items-center"><span>📖</span><span>Diario</span></button>
         <button onclick="showScreen('progreso')" id="btn-progreso" class="flex flex-col items-center"><span>🎨</span><span>Ajustes</span></button>
     </nav>
 
+    <!-- CONTENIDO -->
     <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-24 pb-28">
 
-        <!-- INICIO -->
+        <!-- INICIO (9 Emociones) -->
         <section id="screen-inicio" class="text-center">
-            <div class="glass p-8 mb-6 border-2" style="border-color: var(--p-soft)">
-                <div id="pet-container" class="text-8xl mb-4 relative inline-block">
+            <div class="glass p-8 mb-6 border-2" style="border-color: var(--p-main)">
+                <div class="pet-bounce text-8xl mb-4">
                     <span id="pet-acc" class="absolute -top-4 left-1/2 -translate-x-1/2 text-4xl"></span>
                     <span id="pet-display">🐶</span>
                 </div>
                 <h3 class="text-2xl font-bold" id="pet-name-display">Mascota</h3>
-                <p id="pet-compliment" class="text-sm italic mt-2 opacity-70" style="color: var(--p-dark)"></p>
+                <p id="pet-compliment" class="text-sm italic mt-2 opacity-70 px-4" style="color: var(--p-dark)"></p>
             </div>
             
             <div class="glass p-6">
-                <p class="text-[10px] font-bold opacity-40 uppercase mb-6">¿Cómo te sientes en este momento?</p>
+                <p class="text-[10px] font-bold opacity-40 uppercase mb-6 tracking-widest">¿Cómo estás hoy?</p>
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="updateByMood('Feliz')" class="p-4 glass text-2xl hover:scale-110 transition">😊</button>
                     <button onclick="updateByMood('Estresado')" class="p-4 glass text-2xl hover:scale-110 transition">🤯</button>
@@ -129,159 +116,161 @@
                     <button onclick="updateByMood('Enojado')" class="p-4 glass text-2xl hover:scale-110 transition">😠</button>
                     <button onclick="updateByMood('Agobiado')" class="p-4 glass text-2xl hover:scale-110 transition">😰</button>
                     <button onclick="updateByMood('Agotado')" class="p-4 glass text-2xl hover:scale-110 transition">🔋</button>
+                    <button onclick="updateByMood('Frustrado')" class="p-4 glass text-2xl hover:scale-110 transition">😖</button>
+                    <button onclick="updateByMood('Preocupado')" class="p-4 glass text-2xl hover:scale-110 transition">😟</button>
+                    <button onclick="updateByMood('Tranquilo')" class="p-4 glass text-2xl hover:scale-110 transition">😌</button>
                 </div>
             </div>
         </section>
 
-        <!-- MISIONES -->
+        <!-- MISIONES (3 Diarias) -->
         <section id="screen-actividades" class="hidden-section">
-            <h2 class="text-2xl font-bold mb-4">Misiones Diarias</h2>
+            <h2 class="text-2xl font-bold mb-4">Tus 3 Misiones</h2>
             <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
-        <!-- HERRAMIENTAS ESCOLARES & SOCIALES (IDEAS NUEVAS) -->
+        <!-- COLE (Herramientas + Lienzo con Colores) -->
         <section id="screen-herramientas" class="hidden-section">
-            <h2 class="text-2xl font-bold mb-6">Herramientas de Supervivencia</h2>
+            <h2 class="text-2xl font-bold mb-6">Herramientas Cole</h2>
             
-            <!-- REPASO PASO A PASO -->
-            <div class="card-custom p-6 mb-4">
-                <h3 class="font-bold text-indigo-600 mb-2">📚 Desmenuzador de Tareas</h3>
-                <p class="text-xs opacity-60 mb-4">Divide ese trabajo pesado en pasos fáciles.</p>
-                <input type="text" id="task-input" placeholder="Nombre de la tarea pesada..." class="w-full p-2 text-sm border rounded-lg mb-3">
-                <button onclick="breakTask()" class="text-xs font-bold text-indigo-600 underline">Dividir ahora</button>
-                <div id="task-result" class="mt-4 space-y-2 text-[11px]"></div>
+            <div class="glass p-6 mb-4 border-l-4 border-indigo-500">
+                <h3 class="font-bold text-sm mb-2">📚 Desmenuzador de Tareas</h3>
+                <input type="text" id="task-input" placeholder="Nombre del trabajo pesado..." class="w-full p-2 text-sm border rounded-lg mb-2">
+                <button onclick="breakTask()" class="text-xs font-bold text-indigo-600 underline">Dividir pasos</button>
+                <div id="task-result" class="mt-3 space-y-1 text-xs italic"></div>
             </div>
 
-            <!-- ESCUDO SOCIAL -->
-            <div class="card-custom p-6 mb-4">
-                <h3 class="font-bold text-rose-600 mb-2">🛡️ Entrenamiento Social</h3>
-                <p class="text-xs opacity-60 mb-3">¿Alguien se metió en tu vida o te faltó el respeto?</p>
-                <select id="social-context" class="w-full p-2 text-sm border rounded-lg mb-3">
-                    <option value="chisme">Si inventan un chisme...</option>
-                    <option value="insulto">Si me dicen algo pesado...</option>
-                    <option value="presion">Si me obligan a hacer algo...</option>
+            <div class="glass p-6 mb-4 border-l-4 border-rose-500">
+                <h3 class="font-bold text-sm mb-2">🛡️ Escudo Social</h3>
+                <select id="social-select" class="w-full p-2 text-sm border rounded-lg" onchange="updateSocial()">
+                    <option value="">¿Qué pasó?</option>
+                    <option value="chisme">Inventaron un chisme</option>
+                    <option value="respeto">Me faltaron el respeto</option>
                 </select>
-                <div id="social-reply" class="bg-rose-50 p-3 rounded-lg text-xs italic text-rose-800">Selecciona para ver qué responder con firmeza.</div>
+                <p id="social-ans" class="mt-3 text-xs opacity-70"></p>
             </div>
 
-            <!-- LIENZO EMOCIONAL -->
-            <div class="card-custom p-6">
-                <h3 class="font-bold text-teal-600 mb-2">🎨 Lienzo de Liberación</h3>
-                <p class="text-xs opacity-60 mb-4">Dibuja tu emoción y luego "rómpela" para soltar.</p>
-                <canvas id="canvas-dibujo" width="300" height="200" class="w-full rounded-xl"></canvas>
-                <div class="flex justify-between mt-3">
-                    <button onclick="clearCanvas()" class="text-[10px] font-bold bg-red-100 text-red-600 px-4 py-2 rounded-full">💥 ROMPER Y LIMPIAR</button>
-                    <button onclick="finishCanvas()" class="text-[10px] font-bold bg-teal-100 text-teal-600 px-4 py-2 rounded-full">✅ COMPLETAR</button>
+            <div class="glass p-6">
+                <h3 class="font-bold text-sm mb-3">🎨 Lienzo de Liberación</h3>
+                <canvas id="main-canvas" width="300" height="200" class="w-full mb-3"></canvas>
+                <div class="flex flex-wrap gap-2 mb-4 justify-center">
+                    <button onclick="changeColor('#000000')" class="w-6 h-6 rounded-full bg-black border border-white"></button>
+                    <button onclick="changeColor('#FF0000')" class="w-6 h-6 rounded-full bg-red-500 border border-white"></button>
+                    <button onclick="changeColor('#00FF00')" class="w-6 h-6 rounded-full bg-green-500 border border-white"></button>
+                    <button onclick="changeColor('#0000FF')" class="w-6 h-6 rounded-full bg-blue-500 border border-white"></button>
+                    <button onclick="setEraser()" class="px-2 py-1 text-[10px] border rounded bg-white">Eraser</button>
+                    <button onclick="clearCanvas()" class="px-2 py-1 text-[10px] border rounded bg-red-500 text-white">Limpiar 💥</button>
                 </div>
             </div>
         </section>
 
-        <!-- DIARIO -->
+        <!-- RUTINA DIARIA -->
+        <section id="screen-rutina" class="hidden-section">
+            <h2 class="text-2xl font-bold mb-6">Mi Rutina Ideal</h2>
+            <div id="routine-list" class="glass p-6 space-y-4">
+                <div class="flex items-center gap-3 border-b pb-2">
+                    <input type="checkbox" class="w-5 h-5"> <span>Dormir antes de las 10 PM</span>
+                </div>
+                <div class="flex items-center gap-3 border-b pb-2">
+                    <input type="checkbox" class="w-5 h-5"> <span>Organizar mi mochila</span>
+                </div>
+                <div class="flex items-center gap-3 border-b pb-2">
+                    <input type="checkbox" class="w-5 h-5"> <span>Tomar 2L de agua</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" class="w-5 h-5"> <span>Repasar la clase de hoy</span>
+                </div>
+            </div>
+            <p class="mt-4 text-[10px] opacity-50 italic">"Una rutina organizada reduce el estrés escolar."</p>
+        </section>
+
+        <!-- DIARIO (Historial + Cuaderno) -->
         <section id="screen-diario" class="hidden-section">
             <div id="diario-lock" class="text-center py-10">
                 <div class="text-6xl mb-6">🔒</div>
                 <input type="password" id="pin" maxlength="4" placeholder="PIN" class="text-center p-4 rounded-2xl border-2 mb-4 w-32 block mx-auto">
-                <button onclick="checkPIN()" class="px-8 py-3 btn-main">Abrir Libro</button>
+                <button onclick="checkPIN()" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Entrar</button>
             </div>
+            
             <div id="diario-open" class="hidden-section">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="font-bold text-xl">Mi Cuaderno</h2>
                     <button onclick="lockDiary()" class="text-[10px] bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold">CERRAR</button>
                 </div>
-                <div class="notebook-page shadow-xl mb-4" id="notebook-ui">
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Hoy quiero decir que..."></textarea>
+                <div class="notebook-page shadow-xl mb-4">
+                    <p id="diary-date" class="text-[10px] opacity-40 mb-2"></p>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Hoy quiero soltar que..."></textarea>
                 </div>
-                <div class="flex justify-between">
-                    <button onclick="prevPage()" class="p-3 bg-white border rounded-full">⬅️</button>
-                    <button onclick="saveDiary()" class="px-8 py-3 btn-main">Guardar</button>
-                    <button onclick="nextPage()" class="p-3 bg-white border rounded-full">➡️</button>
-                </div>
+                <button onclick="saveDiary()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg mb-8">Guardar Página</button>
+                <div id="historial-diario" class="space-y-3"></div>
             </div>
         </section>
 
-        <!-- AJUSTES -->
+        <!-- AJUSTES (Racha, Recompensas, Colores) -->
         <section id="screen-progreso" class="hidden-section">
-            <h2 class="text-2xl font-bold mb-6">Mis Desafíos & Ajustes</h2>
+            <h2 class="text-2xl font-bold mb-6">Ajustes</h2>
             
-            <!-- DESAFÍOS PERSISTENTES -->
-            <div class="glass p-6 mb-6">
-                <div class="flex justify-between mb-4">
-                    <p class="font-bold text-sm">Metas Personales</p>
-                    <button onclick="toggleNewGoal()" class="text-xs text-indigo-600 font-bold">+ Crear</button>
+            <div class="glass p-6 mb-6 flex justify-between items-center">
+                <div>
+                    <p class="text-xs font-bold opacity-40 uppercase">Racha actual</p>
+                    <p class="text-4xl font-bold text-orange-500" id="stats-racha">0 Días</p>
                 </div>
-                <div id="new-goal-form" class="hidden mb-4 p-4 border rounded-xl">
-                    <input type="text" id="custom-goal-text" placeholder="¿Nueva meta?" class="w-full p-2 text-sm border rounded mb-2">
-                    <button onclick="addCustomGoal()" class="w-full py-2 btn-main text-xs">Añadir</button>
+                <div class="text-right">
+                    <p class="text-xs font-bold opacity-40 uppercase">Objetivo</p>
+                    <p id="next-reward" class="text-[10px] italic">¡Llega a 3 días!</p>
                 </div>
-                <div id="lista-metas" class="space-y-4"></div>
             </div>
 
-            <!-- COLORES -->
             <div class="glass p-6 mb-6">
                 <p class="text-[10px] font-bold opacity-50 mb-4 uppercase">Color de la App:</p>
                 <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white"></button>
-                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white"></button>
-                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white"></button>
-                    <button onclick="setTheme('atardecer')" class="h-10 rounded-xl bg-amber-400 border-2 border-white"></button>
-                    <button onclick="setTheme('rosa')" class="h-10 rounded-xl bg-pink-400 border-2 border-white"></button>
-                    <button onclick="setTheme('menta')" class="h-10 rounded-xl bg-teal-400 border-2 border-white"></button>
-                    <button onclick="setTheme('oceano')" class="h-10 rounded-xl bg-blue-600 border-2 border-white"></button>
-                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white"></button>
+                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('atardecer')" class="h-10 rounded-xl bg-amber-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('rosa')" class="h-10 rounded-xl bg-pink-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('menta')" class="h-10 rounded-xl bg-teal-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('oceano')" class="h-10 rounded-xl bg-blue-600 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white shadow-sm"></button>
                 </div>
             </div>
 
-            <button onclick="logout()" class="w-full text-xs opacity-30 underline italic">Borrar todos mis datos</button>
+            <button onclick="logout()" class="w-full text-xs opacity-20 italic underline">Cerrar sesión y borrar datos locales</button>
         </section>
+
     </main>
 
     <script>
         let userData = null;
-        let currentPageIndex = -1;
+        let brushColor = "#000";
+        let isDrawing = false;
 
-        const misionesMood = {
-            'Feliz': [{t:"Regala una sonrisa", d:"Dile un cumplido real a alguien del salón."}, {t:"Gratitud", d:"Escribe 3 cosas buenas de hoy."}],
-            'Estresado': [{t:"Misión 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Pausa Digital", d:"Apaga el cel 15 minutos."}],
-            'Triste': [{t:"Abrazo Mariposa", d:"Cruza manos y toca tus hombros rítmicamente."}, {t:"Dibujo Libre", d:"Dibuja tus penas y bórralas."}]
+        const compliments = ["¡Eres valiente!", "Me encanta tu racha.", "Tu bienestar importa.", "¡Hoy brillas!", "Sigue cuidándote."];
+
+        const misionesData = {
+            'Feliz': [{t:"Regala una sonrisa", d:"Dile algo lindo a alguien."}, {t:"Gratitud", d:"Anota 3 cosas buenas hoy."}, {t:"Baile", d:"Baila 1 min tu canción fav."}],
+            'Estresado': [{t:"4-7-8", d:"Respira contando 4-7-8."}, {t:"Pausa", d:"Aléjate del cel 15 min."}, {t:"Orden", d:"Limpia tu escritorio."}],
+            'Triste': [{t:"Abrazo Mariposa", d:"Toca tus hombros rítmicamente."}, {t:"Agua", d:"Lávate la cara con agua fría."}, {t:"Dibujo", d:"Dibuja tus penas y bórralas."}],
+            'Enojado': [{t:"Saltos", d:"Haz 10 saltos muy rápidos."}, {t:"Papel", d:"Racha un papel con fuerza."}, {t:"Frío", d:"Sujeta un hielo 30 seg."}],
+            'Agobiado': [{t:"Mínimo", d:"Haz solo LA cosa más pequeña hoy."}, {t:"Ayuda", d:"Pide ayuda con una tarea."}, {t:"5-4-3-2-1", d:"Busca 5 cosas que ves..."}]
         };
 
-        const socialScripts = {
-            'chisme': 'Dile: "Eso que dices no es verdad y no me interesa participar en chismes. Por favor, respeta mi espacio".',
-            'insulto': 'Dile de forma calmada: "No permito que me hables así. Cuando estés tranquilo, podemos hablar con respeto".',
-            'presion': 'Dile con firmeza: "No me siento cómodo haciendo eso, así que mi respuesta es no. Gracias por entender".'
-        };
-
-        // --- LÓGICA DE INICIO Y PERSISTENCIA ---
         window.onload = () => {
-            const saved = localStorage.getItem('bj_v10');
+            const saved = localStorage.getItem('bj_v_final');
             if (saved) {
                 userData = JSON.parse(saved);
-                if (userData.registrado) {
-                    checkRacha();
-                    loginSuccess();
-                }
+                if (userData.registrado) { checkRacha(); loginSuccess(); }
             }
             initCanvas();
-            document.getElementById('social-context').onchange = (e) => {
-                document.getElementById('social-reply').innerText = socialScripts[e.target.value];
-            };
+            const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
         };
 
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            const saved = localStorage.getItem('bj_v10');
-            if (saved) {
-                userData = JSON.parse(saved);
-                if(userData.registrado) { loginSuccess(); return; }
-            }
-            userData = {
-                email: payload.email, registrado: false, puntos: 0, racha: 1, diario: [], pin: null, 
-                ultimaC: new Date().toLocaleDateString(),
-                metas: [
-                    {id:'m1', t:'Mejorar Sueño', v:0, tip:'💡 Apaga el móvil 30 min antes.'},
-                    {id:'m2', t:'Confianza en clases', v:0, tip:'💡 No tengas miedo de preguntar al profe.'}
-                ]
-            };
+            const saved = localStorage.getItem('bj_v_final');
+            if(saved) { userData = JSON.parse(saved); if(userData.registrado) { loginSuccess(); return; } }
+            
+            userData = { email: payload.email, registrado: false, puntos: 0, racha: 1, diario: [], pin: null, ultimaC: new Date().toLocaleDateString() };
             document.getElementById('screen-login').classList.add('hidden-section');
             document.getElementById('screen-onboarding').classList.remove('hidden-section');
             document.getElementById('reg-nombre').value = payload.given_name;
@@ -296,8 +285,7 @@
         }
 
         function loginSuccess() {
-            document.getElementById('screen-login').classList.add('hidden-section');
-            document.getElementById('screen-onboarding').classList.add('hidden-section');
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('app-header').classList.remove('hidden-section');
             document.getElementById('main-nav').classList.remove('hidden-section');
             document.getElementById('app-content').classList.remove('hidden-section');
@@ -315,136 +303,85 @@
             }
         }
 
-        function save() { localStorage.setItem('bj_v10', JSON.stringify(userData)); }
-
-        // --- NAVEGACIÓN ---
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
             document.querySelectorAll('#main-nav button').forEach(b => b.style.color = '#94a3b8');
             document.getElementById('btn-' + id).style.color = 'var(--p-main)';
-            if(id === 'progreso') renderMetas();
+            if(id === 'inicio') updateInicio();
             window.scrollTo(0,0);
         }
 
-        function updateUI() {
+        function updateInicio() {
             document.getElementById('pet-name-display').innerText = userData.petName;
             document.getElementById('pet-display').innerText = userData.petEmoji;
+            document.getElementById('pet-compliment').innerText = `"${compliments[Math.floor(Math.random()*compliments.length)]}"`;
             document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
-            document.getElementById('puntos-val').innerText = userData.puntos || 0;
-            
             const acc = document.getElementById('pet-acc');
-            if(userData.racha >= 10) acc.innerText = "💎";
-            else if(userData.racha >= 5) acc.innerText = "👑";
-            else if(userData.racha >= 3) acc.innerText = "🎩";
-            
-            const comps = ["¡Eres genial!", "Tu racha me alegra.", "¡Hoy brillas!", "Tu bienestar importa."];
-            document.getElementById('pet-compliment').innerText = `"${comps[Math.floor(Math.random()*comps.length)]}"`;
+            if(userData.racha >= 10) acc.innerText = "💎"; else if(userData.racha >= 5) acc.innerText = "👑"; else if(userData.racha >= 3) acc.innerText = "🎩";
         }
 
-        // --- MISIONES & TEST ---
+        function updateUI() {
+            document.getElementById('stats-racha').innerText = userData.racha + " Días";
+            document.getElementById('next-reward').innerText = userData.racha >= 3 ? "¡Premios activos!" : "Llega a 3 días";
+        }
+
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
             list.innerHTML = "";
-            const ms = misionesMood[mood] || misionesMood['Feliz'];
+            const ms = misionesData[mood] || misionesData['Feliz'];
             ms.forEach((m, i) => {
-                list.innerHTML += `
-                    <div class="card-custom p-6 fade-in shadow-sm">
-                        <h4 class="font-bold text-sm mb-1">${m.t}</h4>
-                        <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
-                        <button id="m-${i}" onclick="completeMission('m-${i}')" class="w-full py-3 rounded-xl font-bold text-[10px] btn-pending">
-                            COMPLETAR MISIÓN
-                        </button>
-                    </div>`;
+                list.innerHTML += `<div class="glass p-6 border-2 border-white shadow-sm">
+                    <h4 class="font-bold text-sm">${m.t}</h4>
+                    <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
+                    <button onclick="completeMission(this)" class="w-full py-2 bg-slate-100 text-slate-500 rounded-xl font-bold text-xs">PENDIENTE</button>
+                </div>`;
             });
             showScreen('actividades');
         }
 
-        function completeMission(id) {
-            const btn = document.getElementById(id);
-            if(btn.classList.contains('btn-completed')) return;
-            btn.className = "w-full py-3 rounded-xl font-bold text-[10px] btn-completed scale-105 transition-all";
-            btn.innerHTML = "¡LOGRADO! ✅";
+        function completeMission(btn) {
+            btn.innerText = "¡LOGRADO! ✅";
+            btn.className = "w-full py-2 bg-indigo-600 text-white rounded-xl font-bold text-xs";
             document.getElementById('mission-test').classList.remove('hidden');
         }
 
-        function closeMissionTest(mood) {
-            document.getElementById('mission-test').classList.add('hidden');
-            userData.puntos += 20; save(); updateUI();
-            alert("¡Misión guardada! Tu bienestar subió.");
-        }
+        function closeMissionTest() { document.getElementById('mission-test').classList.add('hidden'); }
 
-        // --- HERRAMIENTAS NUEVAS ---
-        function breakTask() {
-            const task = document.getElementById('task-input').value;
-            if(!task) return;
-            const steps = ["Entender qué me piden", "Buscar información básica", "Hacer un borrador rápido", "Revisar y terminar"];
-            document.getElementById('task-result').innerHTML = steps.map(s => `<div class="p-2 border-l-2 border-indigo-400 bg-white">✅ ${s}</div>`).join('');
-        }
-
+        // --- LIENZO ---
         function initCanvas() {
-            const c = document.getElementById('canvas-dibujo');
+            const c = document.getElementById('main-canvas');
             const ctx = c.getContext('2d');
-            let drawing = false;
-            c.onmousedown = () => drawing = true;
-            c.onmouseup = () => drawing = false;
-            c.onmousemove = (e) => {
-                if(!drawing) return;
-                ctx.fillStyle = "var(--p-main)";
-                ctx.beginPath(); ctx.arc(e.offsetX, e.offsetY, 3, 0, Math.PI*2); ctx.fill();
-            };
+            c.onmousedown = (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); };
+            c.onmousemove = (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle = brushColor; ctx.lineWidth = brushColor=="#fff"?15:3; ctx.stroke(); } };
+            window.onmouseup = () => isDrawing = false;
         }
-        function clearCanvas() { 
-            const c = document.getElementById('canvas-dibujo');
-            c.getContext('2d').clearRect(0,0,c.width,c.height);
-            alert("¡Dibujo roto! Emociones liberadas 💥");
-        }
-        function finishCanvas() { userData.puntos += 10; save(); updateUI(); alert("¡Creatividad completada! +10 pts"); }
-
-        // --- METAS ---
-        function renderMetas() {
-            const container = document.getElementById('lista-metas');
-            container.innerHTML = userData.metas.map(m => `
-                <div class="card-custom p-6">
-                    <div class="flex justify-between font-bold text-xs mb-1"><span>${m.t}</span><span>${m.v}%</span></div>
-                    <progress class="w-full h-2" value="${m.v}" max="100"></progress>
-                    <button onclick="advanceMeta('${m.id}')" class="mt-4 w-full py-2 text-[10px] btn-main">Marcar Paso (+10%)</button>
-                </div>`).join('');
-        }
-        function advanceMeta(id) {
-            const m = userData.metas.find(x => x.id === id);
-            if(m && m.v < 100) { m.v += 10; userData.puntos += 5; save(); renderMetas(); updateUI(); }
-        }
-        function toggleNewGoal() { document.getElementById('new-goal-form').classList.toggle('hidden'); }
-        function addCustomGoal() {
-            const t = document.getElementById('custom-goal-text').value;
-            if(!t) return;
-            userData.metas.push({ id: Date.now().toString(), t: t, v: 0, tip: '💡 Meta propia.' });
-            save(); renderMetas(); toggleNewGoal();
-        }
+        function changeColor(col) { brushColor = col; }
+        function setEraser() { brushColor = "#fff"; }
+        function clearCanvas() { const c = document.getElementById('main-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
 
         // --- DIARIO ---
-        function checkPIN() {
-            const v = document.getElementById('pin').value;
-            if(!userData.pin) { if(v.length===4){userData.pin=v; save(); openDiary();} }
-            else { if(v===userData.pin) openDiary(); else alert("PIN Incorrecto"); }
+        function checkPIN() { const v = document.getElementById('pin').value; if(!userData.pin){if(v.length==4){userData.pin=v;save();openDiary();}}else{if(v==userData.pin)openDiary();else alert("Incorrecto");} }
+        function openDiary() { 
+            document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section');
+            document.getElementById('diary-date').innerText = new Date().toLocaleDateString();
+            renderHistory();
         }
-        function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); currentPageIndex = -1; updateNotebookView(); }
-        function saveDiary() {
+        function saveDiary() { 
             const t = document.getElementById('texto-diario').value; if(!t) return;
-            userData.diario.unshift({f: new Date().toLocaleString(), c: t});
-            userData.puntos += 30; save(); lockDiary(); alert("Cerrado bajo llave 🔐");
+            userData.diario.unshift({f: new Date().toLocaleString(), c: t}); 
+            save(); document.getElementById('texto-diario').value=""; lockDiary();
         }
-        function updateNotebookView() {
-            const area = document.getElementById('texto-diario');
-            if (currentPageIndex === -1) { area.value = ""; area.readOnly = false; }
-            else { const e = userData.diario[currentPageIndex]; area.value = e.c; area.readOnly = true; }
+        function renderHistory() { document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="glass p-3 text-xs italic opacity-60"><p class="font-bold">${d.f}</p><p>"${d.c}"</p></div>`).join(''); }
+        function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value=""; }
+
+        function breakTask() {
+            const v = document.getElementById('task-input').value; if(!v) return;
+            document.getElementById('task-result').innerHTML = "1. Leer indicaciones<br>2. Buscar info<br>3. Hacer borrador<br>4. Revisar final";
         }
-        function prevPage() { if(currentPageIndex < userData.diario.length - 1) { currentPageIndex++; updateNotebookView(); } }
-        function nextPage() { if(currentPageIndex > -1) { currentPageIndex--; updateNotebookView(); } }
-        function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value = ""; }
 
         function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
+        function save() { localStorage.setItem('bj_v_final', JSON.stringify(userData)); }
         function logout() { if(confirm("¿Borrar todo?")) { localStorage.clear(); location.reload(); } }
     </script>
 </body>
