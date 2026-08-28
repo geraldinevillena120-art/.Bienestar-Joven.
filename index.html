@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienestar Joven | Presentación Final</title>
+    <title>Bienestar Joven | v5.0</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +11,7 @@
     
     <style>
         :root { --p-main: #6366F1; --p-soft: #EEF2FF; --p-dark: #4338CA; }
-        /* TEMAS DINÁMICOS COMPLETOS */
+        /* TEMAS DINÁMICOS */
         body.theme-cielo { --p-main: #0ea5e9; --p-soft: #f0f9ff; --p-dark: #0369a1; }
         body.theme-lavanda { --p-main: #8b5cf6; --p-soft: #f5f3ff; --p-dark: #6d28d9; }
         body.theme-bosque { --p-main: #10b981; --p-soft: #f0fdf4; --p-dark: #047857; }
@@ -21,7 +21,7 @@
         body.theme-oceano { --p-main: #3b82f6; --p-soft: #eff6ff; --p-dark: #1d4ed8; }
         body.theme-sol { --p-main: #eab308; --p-soft: #fefce8; --p-dark: #a16207; }
 
-        body { font-family: 'Outfit', sans-serif; background-color: var(--p-soft); color: #334155; transition: 0.5s; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--p-soft); color: #334155; transition: 0.5s; overflow-x: hidden; }
         .glass-card { background: white; border: 2px solid var(--p-main); border-radius: 1.5rem; transition: 0.3s; padding: 1.5rem; }
         .hidden-section { display: none !important; }
         
@@ -34,7 +34,7 @@
         .notebook-page { background: #fff; background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 2.2rem; line-height: 2.2rem; padding: 1.5rem 1rem 1.5rem 3.5rem; border-left: 5px solid #f87171; font-family: 'Indie Flower', cursive; border-radius: 10px; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); }
         
         canvas { background: white; border: 2px solid var(--p-main); border-radius: 1rem; touch-action: none; width: 100%; height: 250px; }
-        .color-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .color-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
         
         /* TIMELINE RACHA */
         .timeline { position: relative; padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
@@ -46,23 +46,23 @@
 </head>
 <body class="theme-cielo">
 
-    <!-- MODAL TEST MISIONES -->
+    <!-- MODAL TEST EXTENSO (5 PREGUNTAS) -->
     <div id="modal-test" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/40 p-6 backdrop-blur-sm">
-        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2rem] shadow-2xl modal-show">
-            <h3 class="text-2xl font-bold mb-2" style="color: var(--p-main)">¡Misión Cumplida! ✨</h3>
-            <p class="text-sm mb-6 opacity-60">¿Cómo te sientes después de completar esta actividad?</p>
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <button onclick="finishTest('Mejor')" class="p-4 border-2 rounded-2xl hover:bg-indigo-50 font-bold transition">😌 Mejor</button>
-                <button onclick="finishTest('Igual')" class="p-4 border-2 rounded-2xl hover:bg-indigo-50 font-bold transition">😐 Igual</button>
+        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2.5rem] shadow-2xl modal-show relative overflow-hidden">
+            <!-- Barra de progreso del test -->
+            <div class="absolute top-0 left-0 h-2 bg-indigo-200 w-full">
+                <div id="test-progress" class="h-full bg-indigo-600 transition-all duration-300" style="width: 20%"></div>
             </div>
-            <button onclick="finishTest('Omitir')" class="text-xs font-bold opacity-30 uppercase tracking-widest">Finalizar</button>
+
+            <div id="q-container">
+                <!-- Las preguntas se cargan aquí por JS -->
+            </div>
         </div>
     </div>
 
     <!-- PANTALLA LOGIN -->
     <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
-        <p class="text-slate-500 mb-10">Tu espacio seguro para adolescentes.</p>
         <div class="bg-white/80 p-10 w-full max-w-sm flex flex-col items-center rounded-[2.5rem] shadow-xl border border-white">
             <div id="g_id_onload" data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
@@ -71,21 +71,21 @@
 
     <!-- PANTALLA REGISTRO -->
     <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-600">Configura tu perfil</h2>
+        <h2 class="text-3xl font-bold mb-6 text-indigo-600">Tu Perfil</h2>
         <div class="bg-white p-8 space-y-5 rounded-[2rem] shadow-lg">
-            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none focus:ring-2 focus:ring-indigo-300">
-            <input type="text" id="reg-pet-name" placeholder="Nombre para tu mascota" class="w-full p-4 rounded-2xl border outline-none">
+            <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none">
+            <input type="text" id="reg-pet-name" placeholder="Nombre Mascota" class="w-full p-4 rounded-2xl border outline-none">
             <div class="grid grid-cols-2 gap-4">
                 <input type="number" id="reg-edad" placeholder="Edad" class="w-full p-4 rounded-2xl border">
-                <select id="reg-pet" class="w-full p-4 rounded-2xl border text-2xl">
+                <select id="reg-pet" class="w-full p-4 rounded-2xl border text-xl">
                     <option value="🐶">Perro</option><option value="🐱">Gato</option><option value="🐼">Panda</option><option value="🐰">Conejo</option>
                 </select>
             </div>
-            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Entrar</button>
+            <button onclick="finishRegistration()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold">Comenzar</button>
         </div>
     </section>
 
-    <!-- NAVEGACIÓN APP -->
+    <!-- HEADER -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold" style="color: var(--p-main)">Bienestar Joven</h2>
         <div id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 1</div>
@@ -113,7 +113,6 @@
                 <p id="pet-compliment" class="text-sm italic mt-2 opacity-70 px-4" style="color: var(--p-dark)"></p>
             </div>
             <div class="bg-white p-6 rounded-[2rem] shadow-sm">
-                <h3 class="text-[10px] font-bold opacity-40 uppercase mb-6 tracking-widest">¿Cómo estás hoy?</h3>
                 <div class="grid grid-cols-3 gap-4">
                     <button onclick="updateByMood('Feliz')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition border border-transparent hover:border-indigo-300">😊</button>
                     <button onclick="updateByMood('Tranquilo')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition border border-transparent hover:border-indigo-300">😌</button>
@@ -130,8 +129,7 @@
 
         <!-- MISIONES -->
         <section id="screen-actividades" class="hidden-section">
-            <h2 class="text-3xl font-bold mb-2">Tus Misiones</h2>
-            <p id="mood-label" class="text-sm opacity-50 mb-6 italic"></p>
+            <h2 class="text-3xl font-bold mb-4">Tus Misiones</h2>
             <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
@@ -140,7 +138,7 @@
             <h2 class="text-3xl font-bold mb-6">Cole Tools</h2>
             <div class="glass-card mb-4 border-l-8 border-indigo-400">
                 <h3 class="font-bold text-sm mb-2">📚 Desmenuzador de Tareas</h3>
-                <input type="text" id="task-input" placeholder="Nombre de la tarea pesada..." class="w-full p-3 text-sm border rounded-xl mb-2 outline-none">
+                <input type="text" id="task-input" placeholder="Nombre de la tarea..." class="w-full p-3 text-sm border rounded-xl mb-2 outline-none">
                 <button onclick="breakTask()" class="text-xs font-bold text-indigo-600 underline">Dividir ahora</button>
                 <div id="task-result" class="mt-4 space-y-2 text-xs italic"></div>
             </div>
@@ -148,12 +146,12 @@
             <div class="glass-card mb-4 border-l-8 border-rose-400">
                 <h3 class="font-bold text-sm mb-2">🛡️ Escudo Social</h3>
                 <select id="social-select" class="w-full p-3 text-sm border rounded-xl mb-2" onchange="updateSocial()">
-                    <option value="">¿Qué pasó en el salón?</option>
-                    <option value="chisme">Inventaron un chisme</option>
-                    <option value="insulto">Me dijeron algo pesado</option>
-                    <option value="presion">Me obligan a hacer algo</option>
+                    <option value="">¿Qué pasó?</option>
+                    <option value="chisme">Chisme</option>
+                    <option value="insulto">Insulto</option>
+                    <option value="presion">Presión</option>
                 </select>
-                <p id="social-ans" class="mt-3 text-xs opacity-70 italic font-medium text-rose-700"></p>
+                <p id="social-ans" class="mt-3 text-xs opacity-70 italic text-rose-700"></p>
             </div>
 
             <div class="glass-card">
@@ -161,11 +159,8 @@
                 <canvas id="main-canvas" width="300" height="250"></canvas>
                 <div class="flex flex-wrap gap-2 mt-4 justify-center">
                     <button onclick="changeColor('#ff0000')" class="color-btn bg-red-500"></button>
-                    <button onclick="changeColor('#ff7f00')" class="color-btn bg-orange-500"></button>
                     <button onclick="changeColor('#ffff00')" class="color-btn bg-yellow-400"></button>
-                    <button onclick="changeColor('#00ff00')" class="color-btn bg-green-500"></button>
                     <button onclick="changeColor('#0000ff')" class="color-btn bg-blue-600"></button>
-                    <button onclick="changeColor('#8b00ff')" class="color-btn bg-purple-600"></button>
                     <button onclick="changeColor('#000000')" class="color-btn bg-black"></button>
                     <button onclick="setEraser()" class="px-4 py-1 text-[10px] font-bold border rounded-full bg-white">BORRADOR</button>
                     <button onclick="clearCanvas()" class="px-4 py-1 text-[10px] font-bold border rounded-full bg-red-500 text-white">LIMPIAR 💥</button>
@@ -178,21 +173,18 @@
             <h2 class="text-3xl font-bold mb-6">Mi Día ✨</h2>
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm space-y-4">
                 <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span class="flex items-center gap-3">🛏️ <span class="font-bold">Dormir temprano</span></span>
+                    <span>🛏️ <span class="font-bold">Dormir temprano</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
                 <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span class="flex items-center gap-3">🎒 <span class="font-bold">Organizar mochila</span></span>
+                    <span>🎒 <span class="font-bold">Organizar mochila</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
                 <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span class="flex items-center gap-3">💧 <span class="font-bold">Beber agua</span></span>
+                    <span>💧 <span class="font-bold">Beber agua</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
-                <div class="mt-6">
-                    <p class="text-[10px] font-bold opacity-40 uppercase mb-2">Progreso:</p>
-                    <progress id="routine-bar" class="w-full h-4" value="0" max="100"></progress>
-                </div>
+                <progress id="routine-bar" class="w-full h-4" value="0" max="100"></progress>
             </div>
         </section>
 
@@ -206,45 +198,37 @@
             <div id="diario-open" class="hidden-section">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-2xl">Mi Diario</h2>
-                    <button onclick="lockDiary()" class="text-xs bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold">CERRAR</button>
+                    <button onclick="lockDiary()" class="text-xs bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold uppercase">Cerrar</button>
                 </div>
                 <div class="notebook-page shadow-xl mb-6">
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="¿Qué tienes en mente hoy?"></textarea>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Hoy quiero decir..."></textarea>
                 </div>
                 <button onclick="saveDiary()" class="w-full py-5 bg-indigo-600 text-white rounded-3xl font-bold shadow-xl">Guardar Página</button>
                 <div id="historial-diario" class="mt-10 space-y-4"></div>
             </div>
         </section>
 
-        <!-- AJUSTES Y RACHA -->
+        <!-- AJUSTES -->
         <section id="screen-progreso" class="hidden-section">
             <h2 class="text-3xl font-bold mb-6">Mi Progreso</h2>
             <div class="bg-white p-8 rounded-[2rem] shadow-sm mb-6">
-                <p class="text-xs font-bold opacity-40 uppercase mb-6">Línea de Recompensas:</p>
                 <div class="timeline">
                     <div class="time-step active" id="ts-1">1 <span>Día</span></div>
                     <div class="time-step" id="ts-3">3 <span>🎩</span></div>
                     <div class="time-step" id="ts-5">5 <span>👑</span></div>
                     <div class="time-step" id="ts-10">10 <span>💎</span></div>
                 </div>
-                <p id="racha-info" class="mt-10 text-center font-bold text-orange-500">Llevas 1 día de racha 🔥</p>
+                <p id="racha-info" class="mt-10 text-center font-bold text-orange-500 italic">🔥 1 Día de racha</p>
             </div>
-
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 text-center">
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm text-center">
                 <p class="text-[10px] font-bold opacity-40 uppercase mb-4">Color del Bienestar:</p>
                 <div class="grid grid-cols-4 gap-3">
                     <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white shadow-sm"></button>
                     <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white shadow-sm"></button>
                     <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white shadow-sm"></button>
-                    <button onclick="setTheme('atardecer')" class="h-10 rounded-xl bg-amber-400 border-2 border-white shadow-sm"></button>
-                    <button onclick="setTheme('rosa')" class="h-10 rounded-xl bg-pink-400 border-2 border-white shadow-sm"></button>
-                    <button onclick="setTheme('menta')" class="h-10 rounded-xl bg-teal-400 border-2 border-white shadow-sm"></button>
                     <button onclick="setTheme('oceano')" class="h-10 rounded-xl bg-blue-600 border-2 border-white shadow-sm"></button>
-                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white shadow-sm"></button>
                 </div>
             </div>
-            
-            <button onclick="logout()" class="w-full opacity-20 text-[10px] italic underline">Cerrar Sesión (Borrar Datos)</button>
         </section>
 
     </main>
@@ -254,6 +238,15 @@
         let brushColor = "#000000";
         let isDrawing = false;
         let currentMissionBtn = null;
+        let testStep = 0;
+
+        const questionsTest = [
+            { q: "¿Qué tan fácil fue realizar la misión?", a: ["Muy fácil", "Me costó un poco"] },
+            { q: "¿Sientes que esta actividad te ayudó a desconectar?", a: ["Sí, totalmente", "No mucho"] },
+            { q: "¿Cómo calificarías tu nivel de calma ahora?", a: ["Alta 😌", "Media 😐"] },
+            { q: "¿Repetirías esta actividad mañana?", a: ["¡Sí!", "Quizás otra"] },
+            { q: "¿Te gustaría ver más misiones como esta?", a: ["Sí", "Prefiero variar"] }
+        ];
 
         const misionesData = {
             'Feliz': [{t:"Comparte una sonrisa", d:"Dile algo lindo a un compañero."}, {t:"Cápsula del tiempo", d:"Anota 3 cosas que amas de hoy."}, {t:"Baile libre", d:"Baila tu canción fav 1 min."}],
@@ -261,27 +254,18 @@
             'Estresado': [{t:"Misión 4-7-8", d:"Inhala 4s, mantén 7s, exhala 8s."}, {t:"Frío al estrés", d:"Moja tus muñecas con agua fría."}, {t:"Desconexión", d:"Apaga el cel por 15 min."}],
             'Triste': [{t:"Abrazo Mariposa", d:"Toca tus hombros rítmicamente."}, {t:"Agua para el alma", d:"Bebe un vaso de agua despacio."}, {t:"Garabatos", d:"Dibuja círculos de colores."}],
             'Enojado': [{t:"Salto de furia", d:"Haz 10 saltos rápidos."}, {t:"Escribir y romper", d:"Anota tu enojo y rompe el papel."}, {t:"Hielo", d:"Sujeta un hielo 20 segundos."}],
-            'Preocupado': [{t:"El Círculo", d:"Pon fuera del círculo lo que no controlas."}, {t:"Escribir duda", d:"Anota tu miedo y táchalo fuerte."}, {t:"Habla ya", d:"Cuéntale tu duda a alguien."}],
-            'Agobiado': [{t:"Solo 1 Cosa", d:"Haz la tarea más pequeña ya."}, {t:"5-4-3-2-1", d:"Busca 5 cosas que ves, 4 tocas..."}, {t:"Ayuda", d:"Pide ayuda para empezar algo."}],
+            'Preocupado': [{t:"El Círculo", d:"Pon fuera del círculo lo que no controlas."}, {t:"Escribir duda", d:"Anota tu miedo y táchala fuerte."}, {t:"Habla ya", d:"Cuéntale tu duda a alguien."}],
+            'Agobiado': [{t:"Solo 1 Cosa", d:"Haz la tarea más pequeña ya."}, {t:"5-4-3-2-1", d:"Busca 5 cosas que ves, 4 que tocas..."}, {t:"Ayuda", d:"Pide ayuda para empezar algo."}],
             'Agotado': [{t:"Pausa de ojos", d:"Cierra los ojos 5 min sin cel."}, {t:"Estiramiento", d:"Estira brazos hacia el techo."}, {t:"Verde", d:"Mira una planta por 2 minutos."}],
             'Frustrado': [{t:"Caminar 2 min", d:"Cambia de lugar un momento."}, {t:"Manos frías", d:"Lávate la cara con agua fresca."}, {t:"Pomodoro", d:"Trabaja solo 5 min y descansa."}]
         };
 
-        const socialScripts = {
-            'chisme': 'Dile: "Eso no es verdad y no me interesa participar en chismes. Por favor respeta mi espacio".',
-            'insulto': 'Dile: "No permito que me hables así. Cuando estés tranquilo hablamos con respeto".',
-            'presion': 'Dile: "No me siento cómodo haciendo eso, así que mi respuesta es no. Gracias".'
-        };
-
-        // --- INICIO ---
+        // --- PERSISTENCIA ---
         window.onload = () => {
-            const saved = localStorage.getItem('bj_final_v10');
+            const saved = localStorage.getItem('bj_stable_v10');
             if (saved) {
                 userData = JSON.parse(saved);
-                if (userData.registrado) {
-                    checkRacha();
-                    loginSuccess();
-                }
+                if (userData.registrado) { checkRacha(); loginSuccess(); }
             }
             initCanvas();
             const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
@@ -289,7 +273,7 @@
 
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            const saved = localStorage.getItem('bj_final_v10');
+            const saved = localStorage.getItem('bj_stable_v10');
             if(saved) {
                 userData = JSON.parse(saved);
                 if(userData.registrado) { loginSuccess(); return; }
@@ -316,17 +300,61 @@
             updateUI(); showScreen('inicio');
         }
 
+        // --- TEST PASO A PASO ---
+        function completeMission(btn) {
+            currentMissionBtn = btn;
+            testStep = 0;
+            document.getElementById('modal-test').classList.remove('hidden');
+            loadTestQuestion();
+        }
+
+        function loadTestQuestion() {
+            const cont = document.getElementById('q-container');
+            const data = questionsTest[testStep];
+            const prog = ((testStep + 1) / questionsTest.length) * 100;
+            document.getElementById('test-progress').style.width = prog + "%";
+
+            cont.innerHTML = `
+                <h4 class="text-lg font-bold mb-6 text-indigo-700">${data.q}</h4>
+                <div class="space-y-3">
+                    ${data.a.map(resp => `
+                        <button onclick="nextTestStep()" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 rounded-2xl font-bold transition-all border-2 border-indigo-100">
+                            ${resp}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function nextTestStep() {
+            testStep++;
+            if (testStep < questionsTest.length) {
+                loadTestQuestion();
+            } else {
+                finishTest();
+            }
+        }
+
+        function finishTest() {
+            document.getElementById('modal-test').classList.add('hidden');
+            if(currentMissionBtn) {
+                currentMissionBtn.innerText = "¡LOGRADO! ✅";
+                currentMissionBtn.className = "w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px] scale-105";
+                userData.puntos += 50; save(); updateUI();
+                alert("¡Felicidades! Ganaste 50 puntos por completar el test de bienestar.");
+            }
+        }
+
+        // --- FUNCIONES RESTANTES (NO TOCAR) ---
         function checkRacha() {
             const hoy = new Date().toLocaleDateString();
             if (userData.ultimaC !== hoy) {
-                const fHoy = new Date();
-                const fUltima = new Date(userData.ultimaC);
-                const diff = Math.floor((fHoy - fUltima) / (1000*60*60*24));
+                const fHoy = new Date(); const fUlt = new Date(userData.ultimaC);
+                const diff = Math.floor((fHoy - fUlt) / (1000*60*60*24));
                 if(diff === 1) userData.racha++; else if(diff > 1) userData.racha = 1;
                 userData.ultimaC = hoy; save();
             }
         }
-
         function showScreen(id) {
             document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById('screen-' + id).classList.remove('hidden-section');
@@ -334,104 +362,50 @@
             document.getElementById('btn-' + id).style.color = 'var(--p-main)';
             window.scrollTo(0,0);
         }
-
         function updateUI() {
             document.getElementById('pet-display').innerText = userData.petEmoji;
             document.getElementById('pet-name-display').innerText = userData.petName;
             document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
-            document.getElementById('racha-info').innerText = "Llevas " + userData.racha + " días de racha 🔥";
-            
-            // Recompensas visuales
-            const acc = document.getElementById('pet-acc');
-            acc.innerText = "";
+            document.getElementById('racha-info').innerText = "🔥 " + userData.racha + " Días de racha";
+            const acc = document.getElementById('pet-acc'); acc.innerText = "";
             if(userData.racha >= 10) { acc.innerText = "💎"; document.getElementById('ts-10').classList.add('active'); }
             if(userData.racha >= 5) { acc.innerText = "👑"; document.getElementById('ts-5').classList.add('active'); }
             if(userData.racha >= 3) { acc.innerText = "🎩"; document.getElementById('ts-3').classList.add('active'); }
             document.getElementById('ts-1').classList.add('active');
-
-            const comps = ["¡Eres genial!", "Tu bienestar importa.", "¡Hoy brillas!", "Sigue cuidándote."];
+            const comps = ["¡Eres genial!", "Me encanta tu esfuerzo.", "¡Hoy brillas!"];
             document.getElementById('pet-compliment').innerText = `"${comps[Math.floor(Math.random()*comps.length)]}"`;
         }
-
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
-            list.innerHTML = "";
-            document.getElementById('mood-label').innerText = "Basado en tu humor: " + mood;
-            const ms = misionesData[mood];
-            ms.forEach((m, i) => {
-                list.innerHTML += `<div class="bg-white p-6 border-2 border-indigo-100 rounded-3xl shadow-sm">
+            list.innerHTML = ""; document.getElementById('mood-label').innerText = "Personalizado: " + mood;
+            misionesData[mood].forEach((m, i) => {
+                list.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-indigo-50">
                     <h4 class="font-bold text-sm mb-1">${m.t}</h4>
                     <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
-                    <button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px] transition-all">PENDIENTE</button>
+                    <button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px]">PENDIENTE</button>
                 </div>`;
             });
             showScreen('actividades');
         }
-
-        function completeMission(btn) {
-            currentMissionBtn = btn;
-            document.getElementById('modal-test').classList.remove('hidden');
-        }
-
-        function finishTest(val) {
-            document.getElementById('modal-test').classList.add('hidden');
-            if(currentMissionBtn) {
-                currentMissionBtn.innerText = "MISIÓN COMPLETADA ✅";
-                currentMissionBtn.className = "w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px] scale-105";
-                userData.puntos += 20; save(); updateUI();
-            }
-        }
-
-        // --- LIENZO ---
         function initCanvas() {
-            const c = document.getElementById('main-canvas');
-            const ctx = c.getContext('2d');
+            const c = document.getElementById('main-canvas'); const ctx = c.getContext('2d');
             c.onmousedown = (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); };
-            c.onmousemove = (e) => { if(isDrawing) { 
-                ctx.lineTo(e.offsetX, e.offsetY); 
-                ctx.strokeStyle = brushColor; 
-                ctx.lineWidth = brushColor === "#ffffff" ? 20 : 4; 
-                ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); 
-            } };
+            c.onmousemove = (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle = brushColor; ctx.lineWidth = brushColor === "#ffffff" ? 20 : 4; ctx.lineCap = 'round'; ctx.stroke(); } };
             window.onmouseup = () => isDrawing = false;
         }
         function changeColor(col) { brushColor = col; }
         function setEraser() { brushColor = "#ffffff"; }
         function clearCanvas() { const c = document.getElementById('main-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
-
-        function breakTask() {
-            const v = document.getElementById('task-input').value; if(!v) return;
-            const st = ["1. Leer indicaciones","2. Buscar información","3. Hacer borrador","4. Revisión final"];
-            document.getElementById('task-result').innerHTML = st.map(s => `<div class="p-2 border-l-2 border-indigo-400 bg-white rounded-r-lg">✅ ${s}</div>`).join('');
-        }
-
-        function updateSocial() {
-            const v = document.getElementById('social-select').value;
-            document.getElementById('social-ans').innerText = socialScripts[v] || "";
-        }
-
-        function updateRoutine() {
-            const checks = document.querySelectorAll('.routine-check:checked').length;
-            document.getElementById('routine-bar').value = (checks/3)*100;
-        }
-
+        function breakTask() { const v = document.getElementById('task-input').value; if(!v) return; const st = ["1. Entender","2. Buscar","3. Borrador","4. Revisar"]; document.getElementById('task-result').innerHTML = st.map(s => `<div>✅ ${s}</div>`).join(''); }
+        function updateSocial() { const v = document.getElementById('social-select').value; const s = {chisme: 'Ignora y respeta.', insulto: 'Pon límites.', presion: 'Dí no.'}; document.getElementById('social-ans').innerText = s[v] || ""; }
+        function updateRoutine() { const checks = document.querySelectorAll('.routine-check:checked').length; document.getElementById('routine-bar').value = (checks/3)*100; }
         function checkPIN() { const v = document.getElementById('pin').value; if(!userData.pin){if(v.length==4){userData.pin=v;save();openDiary();}}else{if(v==userData.pin)openDiary();else alert("Incorrecto");} }
-        function openDiary() { 
-            document.getElementById('diario-lock').classList.add('hidden-section'); 
-            document.getElementById('diario-open').classList.remove('hidden-section');
-            renderHistory();
-        }
-        function saveDiary() { 
-            const t = document.getElementById('texto-diario').value; if(!t) return;
-            userData.diario.unshift({f: new Date().toLocaleString(), c: t}); 
-            save(); document.getElementById('texto-diario').value=""; renderHistory(); alert("¡Guardado!");
-        }
-        function renderHistory() { document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="bg-white/50 p-4 text-xs italic rounded-xl border border-indigo-100"><p class="font-bold opacity-30">${d.f}</p><p>"${d.c}"</p></div>`).join(''); }
+        function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); renderHistory(); }
+        function saveDiary() { const t = document.getElementById('texto-diario').value; if(!t) return; userData.diario.unshift({f: new Date().toLocaleString(), c: t}); save(); document.getElementById('texto-diario').value=""; renderHistory(); alert("¡Guardado!"); }
+        function renderHistory() { document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="bg-white/50 p-4 text-xs italic rounded-xl border border-indigo-50"><p class="font-bold opacity-30">${d.f}</p><p>"${d.c}"</p></div>`).join(''); }
         function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value=""; }
-
-        function save() { localStorage.setItem('bj_final_v10', JSON.stringify(userData)); }
+        function save() { localStorage.setItem('bj_stable_v10', JSON.stringify(userData)); }
         function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
-        function logout() { if(confirm("¿Borrar todo?")) { localStorage.clear(); location.reload(); } }
     </script>
 </body>
 </html>
