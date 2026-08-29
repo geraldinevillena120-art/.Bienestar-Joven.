@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienestar Joven | Presentación Final</title>
+    <title>Bienestar Joven | v6.5</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,7 +11,6 @@
     
     <style>
         :root { --p-main: #6366F1; --p-soft: #EEF2FF; --p-dark: #4338CA; }
-        /* TEMAS DINÁMICOS */
         body.theme-cielo { --p-main: #0ea5e9; --p-soft: #f0f9ff; --p-dark: #0369a1; }
         body.theme-lavanda { --p-main: #8b5cf6; --p-soft: #f5f3ff; --p-dark: #6d28d9; }
         body.theme-bosque { --p-main: #10b981; --p-soft: #f0fdf4; --p-dark: #047857; }
@@ -29,7 +28,7 @@
         }
         @keyframes bounceLively {
             0%, 100% { transform: translateY(0) scale(1, 1); }
-            50% { transform: translateY(-30px) scale(0.9, 1.1); }
+            50% { transform: translateY(-25px) scale(0.9, 1.1); }
         }
         
         .modal-show { animation: modalShow 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; }
@@ -46,7 +45,7 @@
         .time-step { width: 35px; height: 35px; border-radius: 50%; background: white; border: 3px solid #e2e8f0; z-index: 2; display: flex; items-center; justify-content: center; font-size: 12px; font-weight: bold; position: relative; }
         .time-step.active { border-color: var(--p-main); background: var(--p-soft); }
         .time-step span { position: absolute; top: -25px; white-space: nowrap; font-size: 10px; }
-
+        
         .log-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 15px; background: #f8fafc; border-left: 4px solid var(--p-main); margin-bottom: 8px; }
     </style>
 </head>
@@ -62,7 +61,7 @@
         </div>
     </div>
 
-    <!-- PANTALLA LOGIN -->
+    <!-- LOGIN -->
     <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
         <h1 class="text-5xl font-bold text-indigo-600 mb-4 animate-pulse">Bienestar Joven</h1>
         <div class="bg-white/80 p-10 w-full max-w-sm flex flex-col items-center rounded-[2.5rem] shadow-xl border border-white">
@@ -87,7 +86,7 @@
         </div>
     </section>
 
-    <!-- UI -->
+    <!-- HEADER -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold" style="color: var(--p-main)">Bienestar Joven</h2>
         <div id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 1</div>
@@ -104,7 +103,7 @@
 
     <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-24 pb-28">
 
-        <!-- INICIO (9 CARITAS) -->
+        <!-- INICIO (9 CARITAS INTERACTIVAS RECUPERADAS) -->
         <section id="screen-inicio" class="text-center">
             <div class="bg-white p-8 mb-6 border-2 rounded-[2.5rem] shadow-sm" style="border-color: var(--p-main)">
                 <div class="pet-bounce text-8xl mb-4">
@@ -115,7 +114,7 @@
                 <p id="pet-compliment" class="text-sm italic mt-2 opacity-70 px-4" style="color: var(--p-dark)"></p>
             </div>
             <div class="bg-white p-6 rounded-[2rem] shadow-sm">
-                <h3 class="text-[10px] font-bold opacity-40 uppercase mb-6">¿Cómo estás hoy?</h3>
+                <h3 class="text-[10px] font-bold opacity-40 uppercase mb-6 tracking-widest">¿Cómo estás hoy?</h3>
                 <div class="grid grid-cols-3 gap-4">
                     <button onclick="updateByMood('Feliz')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition border border-transparent hover:border-indigo-300">😊</button>
                     <button onclick="updateByMood('Tranquilo')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition border border-transparent hover:border-indigo-300">😌</button>
@@ -136,7 +135,7 @@
             <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
-        <!-- COLE -->
+        <!-- COLE (LIENZO ARCOÍRIS RECUPERADO) -->
         <section id="screen-herramientas" class="hidden-section">
             <h2 class="text-3xl font-bold mb-6">Cole Tools</h2>
             <div class="glass-card mb-4 border-l-8 border-indigo-400">
@@ -174,15 +173,15 @@
         <section id="screen-rutina" class="hidden-section">
             <h2 class="text-3xl font-bold mb-6">Mi Día ✨</h2>
             <div class="bg-white p-8 rounded-[2.5rem] shadow-sm space-y-4">
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
+                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-sm">
                     <span>🛏️ <span class="font-bold">Dormir temprano</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
+                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-sm">
                     <span>🎒 <span class="font-bold">Organizar mochila</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
+                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-sm">
                     <span>💧 <span class="font-bold">Beber agua</span></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
@@ -196,12 +195,7 @@
                 <div class="text-7xl mb-6">🔒</div>
                 <input type="password" id="pin" maxlength="4" placeholder="PIN" class="w-32 p-4 text-center text-2xl border-2 rounded-2xl mb-6 block mx-auto outline-none">
                 <button onclick="checkPIN()" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Abrir</button>
-                <button onclick="toggleRecovery()" class="text-[10px] mt-8 opacity-40 underline block mx-auto tracking-widest font-bold uppercase">¿Olvidaste tu PIN?</button>
-                <div id="recovery-box" class="hidden-section mt-8 p-6 bg-indigo-50 rounded-[2rem] border-2 border-indigo-100">
-                    <p class="text-[10px] mb-4 opacity-60 italic">Escribe el correo de tu cuenta Google vinculada:</p>
-                    <input type="email" id="recovery-email" placeholder="correo@gmail.com" class="w-full p-3 text-sm border rounded-xl mb-4">
-                    <button onclick="verifyRecovery()" class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold text-[10px]">VERIFICAR</button>
-                </div>
+                <button onclick="toggleRecovery()" class="text-[10px] mt-8 opacity-40 underline block mx-auto font-bold uppercase">¿Olvidaste tu PIN?</button>
             </div>
             <div id="diario-open" class="hidden-section">
                 <div class="flex justify-between items-center mb-4">
@@ -209,18 +203,18 @@
                     <button onclick="lockDiary()" class="text-xs bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold uppercase">Cerrar</button>
                 </div>
                 <div class="notebook-page shadow-xl mb-6">
-                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Hoy quiero contar que..."></textarea>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="¿Qué tienes en mente hoy?"></textarea>
                 </div>
                 <div class="flex justify-between items-center px-2">
                     <button onclick="prevPage()" class="p-3 bg-white border rounded-full">⬅️</button>
-                    <button onclick="saveDiary()" id="btn-save-diary" class="px-8 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar Página</button>
+                    <button onclick="saveDiary()" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar</button>
                     <button onclick="nextPage()" class="p-3 bg-white border rounded-full">➡️</button>
                 </div>
                 <div id="historial-diario" class="mt-10 space-y-4"></div>
             </div>
         </section>
 
-        <!-- AJUSTES -->
+        <!-- AJUSTES (HISTORIAL AÑADIDO ABAJO) -->
         <section id="screen-progreso" class="hidden-section">
             <h2 class="text-3xl font-bold mb-6">Mi Progreso</h2>
             <div class="bg-white p-8 rounded-[2rem] shadow-sm mb-6 text-center">
@@ -233,21 +227,21 @@
                 <p id="racha-info" class="mt-10 font-bold text-orange-500 italic">🔥 1 Día de racha</p>
             </div>
 
-            <!-- SECCIÓN HISTORIAL -->
-            <div class="bg-white p-6 rounded-[2rem] shadow-sm mt-6">
-                <h3 class="text-[10px] font-bold opacity-40 uppercase mb-4 text-center tracking-widest">Mi Historial Reciente</h3>
+            <!-- HISTORIAL RECIENTE -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-6">
+                <h3 class="text-[10px] font-bold opacity-40 uppercase mb-4 text-center tracking-widest">Actividad Reciente</h3>
                 <div id="log-actividades" class="space-y-2 max-h-48 overflow-y-auto pr-2">
                     <p class="text-[10px] text-center opacity-30 italic">Sin actividad registrada hoy.</p>
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm text-center mt-6">
-                <p class="text-[10px] font-bold opacity-40 uppercase mb-4">Color:</p>
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm text-center">
+                <p class="text-[10px] font-bold opacity-40 uppercase mb-4">Tema de Color:</p>
                 <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white"></button>
-                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white"></button>
-                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white"></button>
-                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white"></button>
+                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white shadow-sm"></button>
+                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white shadow-sm"></button>
                 </div>
             </div>
             <button onclick="logout()" class="w-full mt-10 opacity-20 text-[10px] italic underline">Cerrar Sesión (Borrar Datos)</button>
@@ -265,14 +259,6 @@
 
         const compliments = ["¡Eres genial!", "Tu bienestar importa.", "¡Hoy brillas!", "Sigue cuidándote.", "¡Qué alegría verte!", "Eres valiente por estar aquí."];
 
-        const questionsTest = [
-            { q: "¿Fue fácil realizar la misión?", a: ["Muy fácil", "Algo difícil"] },
-            { q: "¿Te ayudó a desconectar?", a: ["Sí, bastante", "Un poco"] },
-            { q: "¿Cómo está tu calma?", a: ["Alta 😌", "Media 😐"] },
-            { q: "¿Lo harías de nuevo?", a: ["¡Claro!", "Tal vez"] },
-            { q: "¿Te gustó esta actividad?", a: ["Me encantó", "Estuvo bien"] }
-        ];
-
         const misionesData = {
             'Feliz': [{t:"Comparte una sonrisa", d:"Dile algo lindo a un compañero."}, {t:"Cápsula del tiempo", d:"Anota 3 cosas que amas de hoy."}, {t:"Baile libre", d:"Baila tu canción fav 1 min."}],
             'Tranquilo': [{t:"Oír el mundo", d:"Busca 3 sonidos a tu alrededor."}, {t:"Respiro Lento", d:"Haz 5 respiraciones profundas."}, {t:"Lectura Zen", d:"Lee 2 páginas de un libro."}],
@@ -285,8 +271,16 @@
             'Frustrado': [{t:"Caminar 2 min", d:"Cambia de lugar un momento."}, {t:"Manos frías", d:"Lávate la cara con agua fresca."}, {t:"Pomodoro", d:"Trabaja solo 5 min y descansa."}]
         };
 
+        const questionsTest = [
+            { q: "¿Fue fácil realizar la misión?", a: ["Muy fácil", "Algo difícil"] },
+            { q: "¿Te ayudó a desconectar?", a: ["Sí, bastante", "Un poco"] },
+            { q: "¿Cómo está tu calma?", a: ["Alta 😌", "Media 😐"] },
+            { q: "¿Lo harías de nuevo?", a: ["¡Claro!", "Tal vez"] },
+            { q: "¿Te gustó esta actividad?", a: ["Me encantó", "Estuvo bien"] }
+        ];
+
         window.onload = () => {
-            const saved = localStorage.getItem('bj_stable_final_v13');
+            const saved = localStorage.getItem('bj_stable_v20');
             if (saved) {
                 userData = JSON.parse(saved);
                 if (userData.registrado) { checkRacha(); loginSuccess(); }
@@ -297,40 +291,13 @@
 
         window.handleCredentialResponse = function(response) {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            const saved = localStorage.getItem('bj_stable_final_v13');
-            if(saved) {
-                userData = JSON.parse(saved);
-                if(userData.registrado) { loginSuccess(); return; }
-            }
+            const saved = localStorage.getItem('bj_stable_v20');
+            if(saved) { userData = JSON.parse(saved); if(userData.registrado) { loginSuccess(); return; } }
             userData = { email: payload.email, registrado: false, racha: 1, puntos: 0, diario: [], pin: null, historial: [], ultimaC: new Date().toISOString().split('T')[0] };
             document.getElementById('screen-login').classList.add('hidden-section');
             document.getElementById('screen-onboarding').classList.remove('hidden-section');
             document.getElementById('reg-nombre').value = payload.given_name;
         };
-
-        function registrarActividad(tipo, detalle) {
-            if (!userData.historial) userData.historial = [];
-            const nuevaAccion = {
-                fecha: new Date().toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                tipo: tipo, detalle: detalle
-            };
-            userData.historial.unshift(nuevaAccion);
-            if (userData.historial.length > 15) userData.historial.pop();
-            save();
-        }
-
-        function renderHistorial() {
-            const container = document.getElementById('log-actividades');
-            if (!userData.historial || userData.historial.length === 0) return;
-            container.innerHTML = userData.historial.map(log => `
-                <div class="log-item shadow-sm">
-                    <div class="text-lg">${log.tipo === 'Misión' ? '🌟' : log.tipo === 'Diario' ? '📖' : '🛠️'}</div>
-                    <div>
-                        <p class="text-[10px] font-bold" style="color: var(--p-main)">${log.tipo}: ${log.detalle}</p>
-                        <p class="text-[8px] opacity-40 font-bold uppercase">${log.fecha}</p>
-                    </div>
-                </div>`).join('');
-        }
 
         function finishRegistration() {
             userData.nombre = document.getElementById('reg-nombre').value;
@@ -357,10 +324,23 @@
             document.getElementById('header-racha').innerText = "🔥 " + userData.racha;
             document.getElementById('racha-info').innerText = "🔥 " + userData.racha + " Días de racha";
             const acc = document.getElementById('pet-acc'); acc.innerText = "";
-            if(userData.racha >= 10) { acc.innerText = "💎"; document.getElementById('ts-10').classList.add('active'); }
-            if(userData.racha >= 5) { acc.innerText = "👑"; document.getElementById('ts-5').classList.add('active'); }
-            if(userData.racha >= 3) { acc.innerText = "🎩"; document.getElementById('ts-3').classList.add('active'); }
-            document.getElementById('ts-1').classList.add('active');
+            if(userData.racha >= 10) acc.innerText = "💎";
+            else if(userData.racha >= 5) acc.innerText = "👑";
+            else if(userData.racha >= 3) acc.innerText = "🎩";
+        }
+
+        function registrarActividad(tipo, detalle) {
+            if (!userData.historial) userData.historial = [];
+            const nuevaAccion = { fecha: new Date().toLocaleString(), tipo: tipo, detalle: detalle };
+            userData.historial.unshift(nuevaAccion);
+            if (userData.historial.length > 10) userData.historial.pop();
+            save();
+        }
+
+        function renderHistorial() {
+            const container = document.getElementById('log-actividades');
+            if (!userData.historial || userData.historial.length === 0) return;
+            container.innerHTML = userData.historial.map(log => `<div class="log-item shadow-sm"><div class="text-sm">${log.tipo === 'Misión' ? '🌟' : '📖'}</div><div><p class="text-[9px] font-bold">${log.tipo}: ${log.detalle}</p><p class="text-[7px] opacity-40 uppercase">${log.fecha}</p></div></div>`).join('');
         }
 
         function checkRacha() {
@@ -369,8 +349,7 @@
                 const fUltima = new Date(userData.ultimaC + "T00:00:00");
                 const fHoy = new Date(hoyStr + "T00:00:00");
                 const diff = Math.round((fHoy - fUltima) / (1000 * 60 * 60 * 24));
-                if (diff === 1) { userData.racha++; }
-                else if (diff > 1) { userData.racha = 1; }
+                if (diff === 1) userData.racha++; else if (diff > 1) userData.racha = 1;
                 userData.ultimaC = hoyStr; save();
             }
         }
@@ -386,38 +365,26 @@
 
         function updateByMood(mood) {
             const list = document.getElementById('lista-actividades');
-            list.innerHTML = ""; document.getElementById('mood-label').innerText = "Misiones para tu humor: " + mood;
+            list.innerHTML = "";
             misionesData[mood].forEach((m, i) => {
-                list.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-indigo-50">
-                    <h4 class="font-bold text-sm mb-1">${m.t}</h4>
-                    <p class="text-[11px] opacity-60 mb-4">${m.d}</p>
-                    <button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px]">PENDIENTE</button>
-                </div>`;
+                list.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-indigo-50"><h4 class="font-bold text-sm mb-1">${m.t}</h4><p class="text-[11px] opacity-60 mb-4">${m.d}</p><button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px]">PENDIENTE</button></div>`;
             });
             showScreen('actividades');
         }
 
         function completeMission(btn) { currentMissionBtn = btn; testStep = 0; document.getElementById('modal-test').classList.remove('hidden'); loadTestQuestion(); }
-        
         function loadTestQuestion() {
-            const cont = document.getElementById('q-container');
-            const data = questionsTest[testStep];
-            const prog = ((testStep + 1) / questionsTest.length) * 100;
-            document.getElementById('test-progress').style.width = prog + "%";
-            cont.innerHTML = `<h4 class="text-lg font-bold mb-6 text-indigo-700">${data.q}</h4>
-                <div class="space-y-3">${data.a.map(resp => `<button onclick="nextTestStep()" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 rounded-2xl font-bold border-2 border-indigo-100">${resp}</button>`).join('')}</div>`;
+            const cont = document.getElementById('q-container'); const data = questionsTest[testStep];
+            document.getElementById('test-progress').style.width = ((testStep+1)/questionsTest.length)*100 + "%";
+            cont.innerHTML = `<h4 class="text-lg font-bold mb-6 text-indigo-700">${data.q}</h4><div class="space-y-3">${data.a.map(resp => `<button onclick="nextTestStep()" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 rounded-2xl font-bold border-2 border-indigo-100">${resp}</button>`).join('')}</div>`;
         }
-
         function nextTestStep() {
             testStep++; if (testStep < questionsTest.length) loadTestQuestion();
             else { 
                 document.getElementById('modal-test').classList.add('hidden'); 
-                if(currentMissionBtn){
-                    currentMissionBtn.innerText="MISIÓN COMPLETADA ✅"; 
-                    currentMissionBtn.className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px] scale-105"; 
-                    userData.puntos+=50; 
-                    registrarActividad("Misión", "Completaste una actividad diaria");
-                    save(); updateUI();
+                if(currentMissionBtn){ 
+                    currentMissionBtn.innerText="COMPLETADA ✅"; currentMissionBtn.className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px]"; 
+                    registrarActividad("Misión", "Completaste una actividad"); save(); updateUI();
                 } 
             }
         }
@@ -425,37 +392,17 @@
         function initCanvas() {
             const c = document.getElementById('main-canvas'); const ctx = c.getContext('2d');
             c.onmousedown = (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); };
-            c.onmousemove = (e) => { if(isDrawing) { 
-                ctx.lineTo(e.offsetX, e.offsetY); 
-                ctx.strokeStyle = brushColor; 
-                ctx.lineWidth = brushColor === "#ffffff" ? 25 : 4; 
-                ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); 
-            } };
+            c.onmousemove = (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle = brushColor; ctx.lineWidth = brushColor === "#ffffff" ? 25 : 4; ctx.lineCap = 'round'; ctx.stroke(); } };
             window.onmouseup = () => isDrawing = false;
         }
         function changeColor(col) { brushColor = col; }
         function setEraser() { brushColor = "#ffffff"; }
         function clearCanvas() { const c = document.getElementById('main-canvas'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
-        
-        function breakTask() { 
-            const v = document.getElementById('task-input').value; if(!v) return; 
-            const st = ["1. Entender","2. Buscar","3. Borrador","4. Revisar"]; 
-            document.getElementById('task-result').innerHTML = st.map(s => `<div>✅ ${s}</div>`).join(''); 
-            registrarActividad("Cole", "Dividiste una tarea pesada");
-        }
-        
-        function updateSocial() { const v = document.getElementById('social-select').value; const s = {chisme: 'Ignora y respeta.', insulto: 'Pon límites.', presion: 'Dí no.'}; document.getElementById('social-ans').innerText = s[v] || ""; }
+        function breakTask() { const v = document.getElementById('task-input').value; if(!v) return; const st = ["1. Entender","2. Buscar","3. Borrador","4. Revisar"]; document.getElementById('task-result').innerHTML = st.map(s => `<div>✅ ${s}</div>`).join(''); }
         function updateRoutine() { const checks = document.querySelectorAll('.routine-check:checked').length; document.getElementById('routine-bar').value = (checks/3)*100; }
         function checkPIN() { const v = document.getElementById('pin').value; if(!userData.pin){if(v.length==4){userData.pin=v;save();openDiary();}}else{if(v==userData.pin)openDiary();else alert("Incorrecto");} }
         function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); currentPageIndex = -1; updateNotebookView(); }
-        
-        function saveDiary() { 
-            const t = document.getElementById('texto-diario').value; if(!t) return; 
-            userData.diario.unshift({f: new Date().toLocaleString(), c: t}); 
-            registrarActividad("Diario", "Escribiste un nuevo pensamiento");
-            save(); document.getElementById('texto-diario').value=""; renderHistory(); lockDiary(); 
-        }
-        
+        function saveDiary() { const t = document.getElementById('texto-diario').value; if(!t) return; userData.diario.unshift({f: new Date().toLocaleString(), c: t}); registrarActividad("Diario", "Nuevo pensamiento guardado"); save(); document.getElementById('texto-diario').value=""; renderHistory(); lockDiary(); }
         function updateNotebookView() {
             const area = document.getElementById('texto-diario'); if (currentPageIndex === -1) { area.value = ""; area.readOnly = false; }
             else { const e = userData.diario[currentPageIndex]; area.value = e.c; area.readOnly = true; }
@@ -464,10 +411,9 @@
         function nextPage() { if(currentPageIndex > -1) { currentPageIndex--; updateNotebookView(); } }
         function lockDiary() { document.getElementById('diario-lock').classList.remove('hidden-section'); document.getElementById('diario-open').classList.add('hidden-section'); document.getElementById('pin').value=""; }
         function renderHistory() { document.getElementById('historial-diario').innerHTML = userData.diario.map(d => `<div class="bg-white/50 p-4 text-xs italic rounded-xl border border-indigo-50"><p class="font-bold opacity-30">${d.f}</p><p>"${d.c}"</p></div>`).join(''); }
-        function toggleRecovery() { document.getElementById('recovery-box').classList.toggle('hidden-section'); }
-        function verifyRecovery() { const email = document.getElementById('recovery-email').value.trim().toLowerCase(); if (email === userData.email.toLowerCase()) { const n = prompt("Correcto. Nuevo PIN (4 números):"); if(n && n.length===4){ userData.pin=n; save(); alert("PIN actualizado."); toggleRecovery(); } } else alert("Correo incorrecto."); }
+        function toggleRecovery() { alert("Verificación de correo disponible en próxima versión."); }
 
-        function save() { localStorage.setItem('bj_stable_final_v13', JSON.stringify(userData)); }
+        function save() { localStorage.setItem('bj_stable_v20', JSON.stringify(userData)); }
         function setTheme(t) { document.body.className = 'theme-' + t; localStorage.setItem('bj_theme', t); }
         function logout() { if(confirm("¿Borrar todo?")) { localStorage.clear(); location.reload(); } }
     </script>
