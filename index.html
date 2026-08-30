@@ -3,87 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienestar Joven | v7.0</title>
+    <title>Bienestar Joven | v7.5</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Indie+Flower&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p-main: #6366F1; --p-soft: #EEF2FF; --p-dark: #4338CA; }
-        body.theme-cielo { --p-main: #0ea5e9; --p-soft: #f0f9ff; --p-dark: #0369a1; }
-        body.theme-lavanda { --p-main: #8b5cf6; --p-soft: #f5f3ff; --p-dark: #6d28d9; }
-        body.theme-bosque { --p-main: #10b981; --p-soft: #f0fdf4; --p-dark: #047857; }
-        body.theme-atardecer { --p-main: #f59e0b; --p-soft: #fffbeb; --p-dark: #b45309; }
-        body.theme-rosa { --p-main: #f472b6; --p-soft: #fdf2f8; --p-dark: #be185d; }
-        body.theme-sol { --p-main: #eab308; --p-soft: #fefce8; --p-dark: #a16207; }
+        :root { --p-main: #6366F1; --p-soft: #EEF2FF; }
+        body.theme-lavanda { --p-main: #8b5cf6; --p-soft: #f5f3ff; }
+        body.theme-cielo { --p-main: #0ea5e9; --p-soft: #f0f9ff; }
+        body.theme-bosque { --p-main: #10b981; --p-soft: #f0fdf4; }
+        body.theme-sol { --p-main: #eab308; --p-soft: #fefce8; }
+        body.theme-rosa { --p-main: #f472b6; --p-soft: #fdf2f8; }
+        body.theme-peach { --p-main: #fb923c; --p-soft: #fff7ed; }
 
         body { font-family: 'Outfit', sans-serif; background-color: var(--p-soft); color: #334155; transition: 0.5s; overflow-x: hidden; }
-        .glass-card { background: white; border: 2px solid var(--p-main); border-radius: 1.5rem; transition: 0.3s; padding: 1.5rem; }
+        .glass-card { background: white; border: 2px solid var(--p-main); border-radius: 1.5rem; transition: 0.3s; padding: 1.2rem; }
         .hidden-section { display: none !important; }
         
         .pet-bounce { animation: bounceLively 2s infinite ease-in-out; display: inline-block; position: relative; transform-origin: bottom center; }
-        @keyframes bounceLively { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-30px) scale(0.9, 1.1); } }
+        @keyframes bounceLively { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-25px) scale(0.9, 1.1); } }
         
-        .modal-show { animation: modalShow 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards; }
-        @keyframes modalShow { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
         .notebook-page { background: #fff; background-image: linear-gradient(#e5e7eb 1px, transparent 1px); background-size: 100% 2.2rem; line-height: 2.2rem; padding: 1.5rem 1rem 1.5rem 3.5rem; border-left: 5px solid #f87171; font-family: 'Indie Flower', cursive; border-radius: 10px; box-shadow: 5px 5px 15px rgba(0,0,0,0.05); }
         
         canvas { background: white; border: 2px solid var(--p-main); border-radius: 1rem; touch-action: none; width: 100%; height: 250px; }
-        .color-dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid white; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .color-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         
-        .timeline { position: relative; padding: 20px 0; display: flex; justify-content: space-between; align-items: center; }
-        .timeline::before { content: ''; position: absolute; height: 4px; background: #e2e8f0; width: 100%; top: 50%; transform: translateY(-50%); z-index: 1; }
-        .time-step { width: 35px; height: 35px; border-radius: 50%; background: white; border: 3px solid #e2e8f0; z-index: 2; display: flex; items-center; justify-content: center; font-size: 12px; font-weight: bold; position: relative; }
-        .time-step.active { border-color: var(--p-main); background: var(--p-soft); }
-        .time-step span { position: absolute; top: -25px; white-space: nowrap; font-size: 10px; }
-        .log-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 12px; background: #f8fafc; border-left: 4px solid var(--p-main); margin-bottom: 5px; }
-
-        .sos-btn { position: fixed; right: 20px; top: 80px; z-index: 40; background: #f43f5e; color: white; padding: 10px 15px; border-radius: 50px; font-weight: 800; font-size: 12px; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4); border: 2px solid white; animation: pulseSos 2s infinite; }
-        @keyframes pulseSos { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .sos-btn { position: fixed; right: 20px; top: 85px; z-index: 100; background: #f43f5e; color: white; padding: 10px 18px; border-radius: 50px; font-weight: 800; font-size: 11px; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4); border: 2px solid white; animation: pulseSos 2s infinite; }
+        @keyframes pulseSos { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .log-item { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 12px; background: #f8fafc; border-left: 4px solid var(--p-main); margin-bottom: 5px; font-size: 10px; }
     </style>
 </head>
 <body class="theme-cielo">
 
-    <!-- BOTÓN SOS -->
+    <!-- BOTÓN SOS (Solo en Inicio) -->
     <button id="sos-trigger" class="hidden-section sos-btn" onclick="startSOS()">🚨 S.O.S. EXAMEN</button>
 
-    <!-- MODAL SOS CON RECOMENDACIONES -->
+    <!-- MODAL SOS -->
     <div id="modal-sos" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/60 p-6 backdrop-blur-md">
-        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2.5rem] shadow-2xl modal-show">
+        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2.5rem] shadow-2xl">
             <h2 class="text-2xl font-bold mb-4 text-rose-600">Kit de Supervivencia 🛡️</h2>
-            <div id="sos-content" class="text-left space-y-3 mb-6">
-                <p class="text-xs bg-indigo-50 p-2 rounded-lg">💧 1. Toma un sorbo de agua fresca ahora.</p>
-                <p class="text-xs bg-indigo-50 p-2 rounded-lg">✋ 2. Aprieta tus manos fuerte y suéltalas.</p>
-                <p class="text-xs bg-indigo-50 p-2 rounded-lg">✨ 3. Repite: "He estudiado y daré lo mejor".</p>
-                <p class="text-xs bg-indigo-50 p-2 rounded-lg">🧘 4. Respira con el contador de abajo:</p>
+            <div class="text-left space-y-3 mb-6 text-xs">
+                <p class="bg-indigo-50 p-2 rounded-lg">💧 Toma un poco de agua ahora.</p>
+                <p class="bg-indigo-50 p-2 rounded-lg">✋ Aprieta tus manos y suéltalas 3 veces.</p>
+                <p class="bg-indigo-50 p-2 rounded-lg">✨ Repite: "Mi valor no es una nota".</p>
+                <p class="bg-indigo-50 p-2 rounded-lg">🧘 Respira con el contador:</p>
             </div>
             <div id="sos-timer" class="text-5xl font-black text-indigo-600 mb-6">60</div>
-            <button onclick="closeSOS()" class="w-full py-3 bg-slate-100 rounded-2xl font-bold text-xs">YA ESTOY MEJOR</button>
+            <button onclick="closeSOS()" class="w-full py-3 bg-slate-100 rounded-2xl font-bold text-xs uppercase">Cerrar</button>
         </div>
     </div>
 
-    <!-- MODAL TEST (5 PREGUNTAS) -->
+    <!-- MODAL TEST -->
     <div id="modal-test" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/40 p-6 backdrop-blur-sm">
-        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2.5rem] shadow-2xl modal-show relative overflow-hidden">
+        <div class="bg-white p-8 max-w-sm w-full text-center rounded-[2.5rem] shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 left-0 h-2 bg-indigo-200 w-full"><div id="test-progress" class="h-full bg-indigo-600" style="width: 20%"></div></div>
             <div id="q-container"></div>
         </div>
     </div>
 
-    <!-- LOGIN -->
+    <!-- PANTALLA LOGIN -->
     <section id="screen-login" class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
-        <h1 class="text-5xl font-bold text-indigo-600 mb-4 animate-pulse">Bienestar Joven</h1>
-        <div class="bg-white/80 p-10 w-full max-w-sm flex flex-col items-center rounded-[2.5rem] shadow-xl border border-white">
+        <h1 class="text-5xl font-bold text-indigo-600 mb-4">Bienestar Joven</h1>
+        <div class="bg-white/80 p-10 w-full max-w-sm rounded-[2.5rem] shadow-xl border border-white flex flex-col items-center">
             <div id="g_id_onload" data-client_id="243954968566-k2vto5058tm7pib4pq5c874n2oj0nerg.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
             <div class="g_id_signin" data-type="standard"></div>
         </div>
     </section>
 
     <!-- ONBOARDING -->
-    <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10">
-        <h2 class="text-3xl font-bold mb-6 text-indigo-600">Configuración ✨</h2>
+    <section id="screen-onboarding" class="hidden-section max-w-md mx-auto p-6 pt-10 text-center">
+        <h2 class="text-3xl font-bold mb-6 text-indigo-600">Hola ✨</h2>
         <div class="bg-white p-8 space-y-5 rounded-[2rem] shadow-lg">
             <input type="text" id="reg-nombre" placeholder="Tu Nombre" class="w-full p-4 rounded-2xl border outline-none">
             <input type="text" id="reg-pet-name" placeholder="Nombre Mascota" class="w-full p-4 rounded-2xl border outline-none">
@@ -97,24 +88,24 @@
         </div>
     </section>
 
-    <!-- HEADER -->
+    <!-- HEADER / NAV -->
     <header id="app-header" class="hidden-section fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b p-4 z-50 flex justify-between items-center">
         <h2 class="font-bold" style="color: var(--p-main)">Bienestar Joven</h2>
         <div id="header-racha" class="text-xs font-bold bg-orange-100 text-orange-600 px-3 py-1 rounded-full">🔥 1</div>
     </header>
 
     <nav id="main-nav" class="hidden-section fixed bottom-0 left-0 w-full bg-white border-t p-3 z-50 flex justify-around items-center text-[9px] font-bold uppercase">
-        <button onclick="showScreen('inicio')" id="btn-inicio"><span>🏠</span><br>Inicio</button>
-        <button onclick="showScreen('actividades')" id="btn-actividades"><span>🌟</span><br>Misiones</button>
-        <button onclick="showScreen('herramientas')" id="btn-herramientas"><span>🛠️</span><br>Cole</button>
-        <button onclick="showScreen('rutina')" id="btn-rutina"><span>📅</span><br>Rutina</button>
-        <button onclick="showScreen('diario')" id="btn-diario"><span>📖</span><br>Diario</button>
-        <button onclick="showScreen('progreso')" id="btn-progreso"><span>🎨</span><br>Ajustes</button>
+        <button onclick="showScreen('inicio')" id="btn-inicio">🏠<br>Inicio</button>
+        <button onclick="showScreen('actividades')" id="btn-actividades">🌟<br>Misiones</button>
+        <button onclick="showScreen('herramientas')" id="btn-herramientas">🛠️<br>Cole</button>
+        <button onclick="showScreen('rutina')" id="btn-rutina">📅<br>Rutina</button>
+        <button onclick="showScreen('diario')" id="btn-diario">📖<br>Diario</button>
+        <button onclick="showScreen('progreso')" id="btn-progreso">🎨<br>Ajustes</button>
     </nav>
 
     <main id="app-content" class="hidden-section max-w-xl mx-auto p-6 pt-24 pb-28">
 
-        <!-- INICIO (9 CARITAS FUNCIONALES) -->
+        <!-- INICIO (9 CARITAS) -->
         <section id="screen-inicio" class="text-center">
             <div class="bg-white p-8 mb-6 border-2 rounded-[2.5rem] shadow-sm" style="border-color: var(--p-main)">
                 <div class="pet-bounce text-8xl mb-4">
@@ -122,37 +113,46 @@
                     <span id="pet-display">🐶</span>
                 </div>
                 <h3 class="text-2xl font-bold" id="pet-name-display">Mascota</h3>
-                <p id="pet-compliment" class="text-sm italic mt-2 opacity-70 px-4" style="color: var(--p-dark)"></p>
+                <p id="pet-compliment" class="text-sm italic mt-2 opacity-70 px-4"></p>
             </div>
-            <div class="bg-white p-6 rounded-[2rem] shadow-sm">
-                <div class="grid grid-cols-3 gap-4">
-                    <button onclick="updateByMood('Feliz')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😊</button>
-                    <button onclick="updateByMood('Tranquilo')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😌</button>
-                    <button onclick="updateByMood('Estresado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">🤯</button>
-                    <button onclick="updateByMood('Preocupado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😟</button>
-                    <button onclick="updateByMood('Triste')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😢</button>
-                    <button onclick="updateByMood('Enojado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😠</button>
-                    <button onclick="updateByMood('Agobiado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😰</button>
-                    <button onclick="updateByMood('Agotado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">🔋</button>
-                    <button onclick="updateByMood('Frustrado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl hover:scale-110 transition">😖</button>
-                </div>
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm grid grid-cols-3 gap-3">
+                <button onclick="updateByMood('Feliz')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😊</button>
+                <button onclick="updateByMood('Tranquilo')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😌</button>
+                <button onclick="updateByMood('Estresado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">🤯</button>
+                <button onclick="updateByMood('Preocupado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😟</button>
+                <button onclick="updateByMood('Triste')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😢</button>
+                <button onclick="updateByMood('Enojado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😠</button>
+                <button onclick="updateByMood('Agobiado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😰</button>
+                <button onclick="updateByMood('Agotado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">🔋</button>
+                <button onclick="updateByMood('Frustrado')" class="p-4 bg-indigo-50 rounded-2xl text-2xl border hover:border-indigo-400">😖</button>
             </div>
         </section>
 
         <!-- MISIONES -->
         <section id="screen-actividades" class="hidden-section">
-            <h2 class="text-3xl font-bold mb-4">Tus Misiones</h2>
+            <h2 class="text-2xl font-bold mb-4">Tus Misiones</h2>
             <div id="lista-actividades" class="space-y-4"></div>
         </section>
 
-        <!-- COLE (LIENZO 12 COLORES) -->
+        <!-- COLE (HERRAMIENTAS + LIENZO CELULAR) -->
         <section id="screen-herramientas" class="hidden-section">
-            <h2 class="text-3xl font-bold mb-6">Cole Tools</h2>
+            <h2 class="text-2xl font-bold mb-6">Cole Tools</h2>
             <div class="glass-card mb-4 border-l-8 border-indigo-400">
-                <h3 class="font-bold text-sm mb-2">📚 Desmenuzador de Tareas</h3>
+                <h3 class="font-bold text-sm mb-2 uppercase opacity-40 text-[10px]">Desmenuzador de Tareas</h3>
                 <input type="text" id="task-input" placeholder="Nombre de la tarea..." class="w-full p-3 text-sm border rounded-xl mb-2">
-                <button onclick="breakTask()" class="text-xs font-bold text-indigo-600 underline">Dividir pasos</button>
-                <div id="task-result" class="mt-4 space-y-2 text-xs"></div>
+                <button onclick="breakTask()" class="text-xs font-bold text-indigo-600 underline">Dividir ahora</button>
+                <div id="task-result" class="mt-4 space-y-2 text-xs italic"></div>
+            </div>
+
+            <div class="glass-card mb-4 border-l-8 border-rose-400">
+                <h3 class="font-bold text-sm mb-2 uppercase opacity-40 text-[10px]">Escudo Social</h3>
+                <select id="social-select" class="w-full p-3 text-sm border rounded-xl mb-2" onchange="updateSocial()">
+                    <option value="">¿Qué pasó?</option>
+                    <option value="chisme">Inventaron un chisme</option>
+                    <option value="insulto">Me dijeron algo pesado</option>
+                    <option value="presion">Me obligan a hacer algo</option>
+                </select>
+                <p id="social-ans" class="mt-2 text-xs font-medium text-rose-700"></p>
             </div>
 
             <div class="glass-card">
@@ -166,72 +166,90 @@
                     <button onclick="changeColor('#0000ff')" class="color-dot bg-blue-600"></button>
                     <button onclick="changeColor('#00ffff')" class="color-dot bg-sky-400"></button>
                     <button onclick="changeColor('#8b00ff')" class="color-dot bg-purple-600"></button>
-                    <button onclick="changeColor('#ffc0cb')" class="color-dot bg-pink-300"></button>
+                    <button onclick="changeColor('#f472b6')" class="color-dot bg-pink-400"></button>
                     <button onclick="changeColor('#ffdbac')" class="color-dot bg-[#ffdbac]"></button>
                     <button onclick="changeColor('#8b4513')" class="color-dot bg-[#8b4513]"></button>
                     <button onclick="changeColor('#000000')" class="color-dot bg-black"></button>
-                    <button onclick="changeColor('#ffffff')" class="color-dot bg-white border"></button>
+                    <button onclick="setEraser()" class="color-dot bg-white border border-slate-300">🧽</button>
                 </div>
-                <div class="flex gap-2 mt-4">
-                    <button onclick="setEraser()" class="flex-1 py-2 bg-slate-100 text-[10px] font-bold rounded-xl border">BORRADOR</button>
-                    <button onclick="clearCanvas()" class="flex-1 py-2 bg-red-500 text-white text-[10px] font-bold rounded-xl">LIMPIAR 💥</button>
-                </div>
+                <button onclick="clearCanvas()" class="w-full mt-4 py-2 bg-red-500 text-white text-[10px] font-bold rounded-xl uppercase">Limpiar Lienzo</button>
             </div>
         </section>
 
         <!-- RUTINA -->
         <section id="screen-rutina" class="hidden-section">
-            <h2 class="text-3xl font-bold mb-6">Mi Día ✨</h2>
-            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm space-y-4">
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span>🛏️ <span class="font-bold">Dormir temprano</span></span>
+            <h2 class="text-2xl font-bold mb-6">Mi Día ✨</h2>
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm space-y-4">
+                <div class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl">
+                    <span>🛏️ <b>Dormir temprano</b></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span>🎒 <span class="font-bold">Organizar mochila</span></span>
+                <div class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl">
+                    <span>🎒 <b>Organizar mochila</b></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-indigo-50 rounded-2xl">
-                    <span>💧 <span class="font-bold">Beber agua</span></span>
+                <div class="flex items-center justify-between p-3 bg-indigo-50 rounded-xl">
+                    <span>💧 <b>Beber agua</b></span>
                     <input type="checkbox" onchange="updateRoutine()" class="w-6 h-6 routine-check">
                 </div>
                 <progress id="routine-bar" class="w-full h-4" value="0" max="100"></progress>
             </div>
         </section>
 
-        <!-- DIARIO -->
+        <!-- DIARIO (RECUPERACIÓN + FECHAS) -->
         <section id="screen-diario" class="hidden-section">
             <div id="diario-lock" class="text-center py-20">
                 <div class="text-7xl mb-6">🔒</div>
-                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="w-32 p-4 text-center border-2 rounded-2xl mb-6 block mx-auto outline-none">
-                <button onclick="checkPIN()" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Abrir</button>
+                <input type="password" id="pin" maxlength="4" placeholder="PIN" class="w-32 p-4 text-center text-2xl border-2 rounded-2xl mb-6 outline-none">
+                <button onclick="checkPIN()" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg">Abrir</button>
+                <button onclick="toggleRecovery()" class="text-[10px] mt-8 opacity-40 underline font-bold uppercase tracking-widest block mx-auto">¿Olvidaste tu PIN?</button>
+                <div id="recovery-box" class="hidden-section mt-8 p-6 bg-indigo-50 rounded-2xl border-2 border-indigo-100">
+                    <p class="text-[10px] mb-4 opacity-60">Escribe el correo de tu cuenta Google vinculado:</p>
+                    <input type="email" id="recovery-email" placeholder="correo@gmail.com" class="w-full p-3 text-sm border rounded-xl mb-4">
+                    <button onclick="verifyRecovery()" class="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold text-[10px] uppercase">Verificar</button>
+                </div>
             </div>
             <div id="diario-open" class="hidden-section">
-                <div class="flex justify-between items-center mb-4">
+                <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-2xl">Mi Diario</h2>
                     <button onclick="lockDiary()" class="text-xs bg-red-100 text-red-600 px-4 py-2 rounded-full font-bold uppercase">Cerrar</button>
                 </div>
-                <div class="notebook-page shadow-xl mb-6"><textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="¿Qué tienes en mente hoy?"></textarea></div>
-                <div class="flex justify-between items-center">
-                    <button onclick="prevPage()" class="p-3 bg-white border rounded-full shadow-sm">⬅️</button>
-                    <button onclick="saveDiary()" class="px-10 py-3 bg-indigo-600 text-white rounded-full font-bold shadow-lg">Guardar</button>
-                    <button onclick="nextPage()" class="p-3 bg-white border rounded-full shadow-sm">➡️</button>
+                <div class="notebook-page shadow-xl mb-6">
+                    <div id="page-date-display" class="text-[10px] font-bold opacity-30 uppercase mb-2"></div>
+                    <textarea id="texto-diario" class="w-full bg-transparent border-none outline-none resize-none h-64" placeholder="Hoy quiero decir que..."></textarea>
+                </div>
+                <div class="flex justify-between gap-4">
+                    <button onclick="prevPage()" class="flex-1 py-3 bg-white border rounded-xl">⬅️</button>
+                    <button onclick="saveDiary()" class="flex-[3] py-3 bg-indigo-600 text-white rounded-xl font-bold">GUARDAR</button>
+                    <button onclick="nextPage()" class="flex-1 py-3 bg-white border rounded-xl">➡️</button>
                 </div>
                 <div id="historial-diario" class="mt-10 space-y-4"></div>
             </div>
         </section>
 
-        <!-- AJUSTES -->
+        <!-- AJUSTES (COLORES + HISTORIAL) -->
         <section id="screen-progreso" class="hidden-section">
-            <h2 class="text-3xl font-bold mb-6">Mi Progreso</h2>
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm mb-6 text-center">
+            <h2 class="text-3xl font-bold mb-6">Ajustes</h2>
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-6 text-center">
                 <div class="timeline">
                     <div class="time-step active" id="ts-1">1 <span>Día</span></div>
                     <div class="time-step" id="ts-3">3 <span>🎩</span></div>
                     <div class="time-step" id="ts-5">5 <span>👑</span></div>
                     <div class="time-step" id="ts-10">10 <span>💎</span></div>
                 </div>
-                <p id="racha-info" class="mt-10 font-bold text-orange-500 italic">🔥 1 Día de racha</p>
+                <p id="racha-info" class="mt-8 font-bold text-orange-500 italic">🔥 1 Día de racha</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-6">
+                <p class="text-[10px] font-bold opacity-40 uppercase mb-4 text-center">Temas de Color:</p>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400"></button>
+                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400"></button>
+                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400"></button>
+                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400"></button>
+                    <button onclick="setTheme('rosa')" class="h-10 rounded-xl bg-pink-400"></button>
+                    <button onclick="setTheme('peach')" class="h-10 rounded-xl bg-orange-400"></button>
+                </div>
             </div>
 
             <div class="bg-white p-6 rounded-[2rem] shadow-sm mb-6 text-center">
@@ -239,49 +257,41 @@
                 <div id="log-actividades" class="space-y-2 max-h-48 overflow-y-auto pr-2"></div>
             </div>
 
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm text-center">
-                <p class="text-[10px] font-bold opacity-40 uppercase mb-4">Temas:</p>
-                <div class="grid grid-cols-4 gap-3">
-                    <button onclick="setTheme('cielo')" class="h-10 rounded-xl bg-sky-400 border-2 border-white"></button>
-                    <button onclick="setTheme('lavanda')" class="h-10 rounded-xl bg-purple-400 border-2 border-white"></button>
-                    <button onclick="setTheme('bosque')" class="h-10 rounded-xl bg-emerald-400 border-2 border-white"></button>
-                    <button onclick="setTheme('sol')" class="h-10 rounded-xl bg-yellow-400 border-2 border-white"></button>
-                </div>
-            </div>
-            <button onclick="logout()" class="w-full mt-10 opacity-20 text-[10px] italic underline">Cerrar Sesión</button>
+            <button onclick="logout()" class="w-full opacity-20 text-[10px] italic underline font-bold uppercase">Borrar Datos</button>
         </section>
 
     </main>
 
     <script>
-        let userData = null; let brushColor = "#000000"; let isDrawing = false; let currentMissionBtn = null; let testStep = 0; let currentPageIndex = -1; let sosInterval;
+        let userData = null; let brushColor = "#000"; let isDrawing = false; let currentMissionBtn = null; let testStep = 0; let currentPageIndex = -1; let sosInterval;
         const compliments = ["¡Eres genial!", "Tu bienestar importa.", "¡Hoy brillas!", "Sigue cuidándote.", "¡Qué alegría verte!", "Eres valiente por estar aquí."];
         const questionsTest = [{q:"¿Fue fácil?",a:["Muy fácil","Algo difícil"]},{q:"¿Te desconectó?",a:["Sí","No mucho"]},{q:"¿Nivel de calma?",a:["Alta 😌","Media 😐"]},{q:"¿Lo harías mañana?",a:["¡Sí!","Quizás"]},{q:"¿Te gustó?",a:["Mucho","Bien"]}];
-        const misionesData = {'Feliz':[{t:"Sonrisa",d:"Dile algo lindo a un compañero."},{t:"Gratitud",d:"Anota 3 cosas buenas de hoy."},{t:"Baile",d:"Baila 1 min."}],'Tranquilo':[{t:"Escucha",d:"Busca 3 sonidos."},{t:"Respiro",d:"5 respiraciones profundas."},{t:"Lectura",d:"Lee 2 páginas."}],'Estresado':[{t:"4-7-8",d:"Inhala 4s, mantén 7s, exhala 8s."},{t:"Frío",d:"Moja muñecas con agua fría."},{t:"Pausa",d:"Deja el cel 15 min."}],'Triste':[{t:"Abrazo",d:"Toca hombros rítmicamente."},{t:"Agua",d:"Bebe agua despacio."},{t:"Dibuja",d:"Garabatos de colores."}],'Enojado':[{t:"Salto",d:"10 saltos rápidos."},{t:"Romper",d:"Anota enojo y rompe el papel."},{t:"Hielo",d:"Sujeta hielo 20 seg."}],'Preocupado':[{t:"Círculo",d:"Pon fuera lo que no controlas."},{t:"Escribir",d:"Anota miedo y táchala."},{t:"Habla",d:"Cuéntale tu duda a alguien."}],'Agobiado':[{t:"1 Cosa",d:"Haz la tarea más pequeña ya."},{t:"5-4-3-2-1",d:"Busca 5 cosas que ves."},{t:"Ayuda",d:"Pide ayuda para empezar."}],'Agotado':[{t:"Pausa",d:"Cierra ojos 5 min."},{t:"Estira",d:"Estira brazos arriba."},{t:"Verde",d:"Mira planta 2 min."}],'Frustrado':[{t:"Camina",d:"Cambia de lugar."},{t:"Lávate",d:"Lávate cara con agua fresca."},{t:"5 Min",d:"Trabaja 5 min y descansa."}]};
+        const misionesData = {'Feliz':[{t:"Sonrisa",d:"Dile algo lindo a alguien."},{t:"Gratitud",d:"Anota 3 cosas buenas."},{t:"Baile",d:"Baila 1 min."}],'Tranquilo':[{t:"Escucha",d:"Busca 3 sonidos."},{t:"Respiro",d:"5 respiraciones profundas."},{t:"Lectura",d:"Lee 2 páginas."}],'Estresado':[{t:"4-7-8",d:"Inhala 4, mantén 7, exhala 8."},{t:"Frío",d:"Moja muñecas con agua fría."},{t:"Pausa",d:"Deja el cel 15 min."}],'Triste':[{t:"Abrazo",d:"Toca hombros rítmicamente."},{t:"Agua",d:"Bebe agua despacio."},{t:"Dibuja",d:"Garabatos de colores."}],'Enojado':[{t:"Salto",d:"10 saltos rápidos."},{t:"Romper",d:"Escribe tu enojo y rompe el papel."},{t:"Hielo",d:"Sujeta hielo 20 seg."}],'Preocupado':[{t:"Círculo",d:"Pon fuera lo que no controlas."},{t:"Escribir",d:"Anota miedo y táchalo."},{t:"Habla",d:"Cuéntale tu duda a alguien."}],'Agobiado':[{t:"1 Cosa",d:"Haz la tarea más pequeña ya."},{t:"5-4-3-2-1",d:"Busca 5 cosas que ves."},{t:"Ayuda",d:"Pide ayuda para empezar."}],'Agotado':[{t:"Pausa",d:"Cierra ojos 5 min."},{t:"Estira",d:"Estira brazos arriba."},{t:"Verde",d:"Mira planta 2 min."}],'Frustrado':[{t:"Camina",d:"Cambia de lugar."},{t:"Lávate",d:"Lávate cara con agua fresca."},{t:"5 Min",d:"Trabaja 5 min y descansa."}]};
 
         window.onload = () => {
-            const saved = localStorage.getItem('bj_stable_final_v13');
+            const saved = localStorage.getItem('bj_v15_stable');
             if (saved) { userData = JSON.parse(saved); if (userData.registrado) { checkRacha(); loginSuccess(); } }
             initCanvas(); const t = localStorage.getItem('bj_theme'); if(t) setTheme(t);
         };
+
         window.handleCredentialResponse = (response) => {
             const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-            const saved = localStorage.getItem('bj_stable_final_v13'); if(saved) { userData = JSON.parse(saved); if(userData.registrado) { loginSuccess(); return; } }
+            const saved = localStorage.getItem('bj_v15_stable'); if(saved) { userData = JSON.parse(saved); if(userData.registrado) { loginSuccess(); return; } }
             userData = { email: payload.email, registrado: false, racha: 1, puntos: 0, diario: [], pin: null, historial: [], ultimaC: new Date().toISOString().split('T')[0] };
             document.getElementById('screen-login').classList.add('hidden-section'); document.getElementById('screen-onboarding').classList.remove('hidden-section'); document.getElementById('reg-nombre').value = payload.given_name;
         };
+
         function finishRegistration() { userData.nombre=document.getElementById('reg-nombre').value; userData.petName=document.getElementById('reg-pet-name').value; userData.petEmoji=document.getElementById('reg-pet').value; userData.registrado=true; save(); loginSuccess(); }
-        function loginSuccess() { document.querySelectorAll('section').forEach(s=>s.classList.add('hidden-section')); document.getElementById('app-header').classList.remove('hidden-section'); document.getElementById('main-nav').classList.remove('hidden-section'); document.getElementById('app-content').classList.remove('hidden-section'); document.getElementById('sos-trigger').classList.remove('hidden-section'); updateUI(); showScreen('inicio'); }
+        function loginSuccess() { document.querySelectorAll('section').forEach(s=>s.classList.add('hidden-section')); document.getElementById('app-header').classList.remove('hidden-section'); document.getElementById('main-nav').classList.remove('hidden-section'); document.getElementById('app-content').classList.remove('hidden-section'); updateUI(); showScreen('inicio'); }
+        
         function updateUI() {
             document.getElementById('pet-display').innerText = userData.petEmoji; document.getElementById('pet-name-display').innerText = userData.petName;
             document.getElementById('pet-compliment').innerText = "¡Hola " + userData.nombre + "! " + compliments[Math.floor(Math.random()*compliments.length)];
             document.getElementById('header-racha').innerText = "🔥 " + userData.racha; document.getElementById('racha-info').innerText = "🔥 " + userData.racha + " Días de racha";
             const acc = document.getElementById('pet-acc'); acc.innerText = "";
-            if(userData.racha>=10) { acc.innerText="💎"; document.getElementById('ts-10').classList.add('active'); }
-            if(userData.racha>=5) { acc.innerText="👑"; document.getElementById('ts-5').classList.add('active'); }
-            if(userData.racha>=3) { acc.innerText="🎩"; document.getElementById('ts-3').classList.add('active'); }
-            document.getElementById('ts-1').classList.add('active');
+            if(userData.racha>=10) acc.innerText="💎"; if(userData.racha>=5) acc.innerText="👑"; if(userData.racha>=3) acc.innerText="🎩";
         }
+
         function checkRacha() {
             const hoyStr = new Date().toISOString().split('T')[0];
             if (userData.ultimaC !== hoyStr) {
@@ -291,31 +301,59 @@
                 userData.ultimaC = hoyStr; save();
             }
         }
-        function showScreen(id) { document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden-section')); document.getElementById('screen-'+id).classList.remove('hidden-section'); document.querySelectorAll('#main-nav button').forEach(b=>b.style.color='#94a3b8'); document.getElementById('btn-'+id).style.color='var(--p-main)'; if(id==='progreso') renderHistorial(); window.scrollTo(0,0); }
-        function updateByMood(mood) {
-            const list = document.getElementById('lista-actividades'); list.innerHTML = ""; document.getElementById('mood-label').innerText = "Misiones para: " + mood;
-            misionesData[mood].forEach((m,i)=>{ list.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-indigo-50"><h4 class="font-bold text-sm mb-1">${m.t}</h4><p class="text-[11px] opacity-60 mb-4">${m.d}</p><button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px]">PENDIENTE</button></div>`; }); showScreen('actividades');
+
+        function showScreen(id) {
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById('screen-' + id).classList.remove('hidden-section');
+            document.querySelectorAll('#main-nav button').forEach(b => b.style.color = '#94a3b8');
+            document.getElementById('btn-' + id).style.color = 'var(--p-main)';
+            document.getElementById('sos-trigger').className = (id === 'inicio') ? 'sos-btn' : 'hidden-section';
+            if(id === 'progreso') renderHistorial();
+            if(id === 'diario') updateNotebookView();
+            window.scrollTo(0,0);
         }
-        function completeMission(btn) { currentMissionBtn=btn; testStep=0; document.getElementById('modal-test').classList.remove('hidden'); loadTestQuestion(); }
+
+        function updateByMood(mood) {
+            const list = document.getElementById('lista-actividades'); list.innerHTML = "";
+            (misionesData[mood] || misionesData['Feliz']).forEach((m, i) => {
+                list.innerHTML += `<div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-indigo-50"><h4 class="font-bold text-sm mb-1">${m.t}</h4><p class="text-[11px] opacity-60 mb-4">${m.d}</p><button onclick="completeMission(this)" class="w-full py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-[10px]">PENDIENTE</button></div>`;
+            });
+            showScreen('actividades');
+        }
+
+        function completeMission(btn) { currentMissionBtn = btn; testStep = 0; document.getElementById('modal-test').classList.remove('hidden'); loadTestQuestion(); }
         function loadTestQuestion() { const cont=document.getElementById('q-container'); const d=questionsTest[testStep]; document.getElementById('test-progress').style.width=((testStep+1)/5)*100+"%"; cont.innerHTML=`<h4 class="text-lg font-bold mb-6 text-indigo-700">${d.q}</h4><div class="space-y-3">${d.a.map(r=>`<button onclick="nextTestStep()" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 rounded-2xl font-bold border-2 border-indigo-100">${r}</button>`).join('')}</div>`; }
-        function nextTestStep() { testStep++; if(testStep<5) loadTestQuestion(); else { document.getElementById('modal-test').classList.add('hidden'); if(currentMissionBtn){currentMissionBtn.innerText="COMPLETADA ✅"; currentMissionBtn.className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px] scale-105"; registrarActividad("Misión", "Actividad lograda"); userData.puntos+=50; save(); updateUI();} } }
+        function nextTestStep() { testStep++; if(testStep<5) loadTestQuestion(); else { document.getElementById('modal-test').classList.add('hidden'); if(currentMissionBtn){currentMissionBtn.innerText="MISIÓN COMPLETADA ✅"; currentMissionBtn.className="w-full py-3 bg-indigo-600 text-white rounded-2xl font-bold text-[10px]"; registrarActividad("Misión", "Actividad lograda"); userData.puntos+=50; save(); updateUI();} } }
+
         function registrarActividad(t,d) { if(!userData.historial)userData.historial=[]; userData.historial.unshift({fecha:new Date().toLocaleString(),tipo:t,detalle:d}); if(userData.historial.length>10)userData.historial.pop(); save(); }
         function renderHistorial() { const c=document.getElementById('log-actividades'); if(!userData.historial||userData.historial.length===0)return; c.innerHTML=userData.historial.map(l=>`<div class="log-item shadow-sm"><div class="text-sm">${l.tipo==='Misión'?'🌟':'📖'}</div><div><p class="text-[9px] font-bold">${l.tipo}: ${l.detalle}</p><p class="text-[7px] opacity-40 uppercase">${l.fecha}</p></div></div>`).join(''); }
-        function initCanvas() { const c=document.getElementById('main-canvas'); const ctx=c.getContext('2d'); c.onmousedown=(e)=>{isDrawing=true;ctx.beginPath();ctx.moveTo(e.offsetX,e.offsetY);}; c.onmousemove=(e)=>{if(isDrawing){ctx.lineTo(e.offsetX,e.offsetY);ctx.strokeStyle=brushColor;ctx.lineWidth=brushColor==="#ffffff"?25:4;ctx.lineCap='round';ctx.stroke();}}; window.onmouseup=()=>isDrawing=false; }
+
+        function initCanvas() {
+            const c = document.getElementById('main-canvas'); const ctx = c.getContext('2d');
+            const getPos = (e) => { const r = c.getBoundingClientRect(); return { x: (e.clientX || e.touches[0].clientX) - r.left, y: (e.clientY || e.touches[0].clientY) - r.top }; };
+            const start = (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+            const move = (e) => { if(!isDrawing) return; e.preventDefault(); const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.strokeStyle = brushColor; ctx.lineWidth = brushColor==="#ffffff"?25:4; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke(); };
+            c.addEventListener('mousedown', start); c.addEventListener('mousemove', move); window.addEventListener('mouseup', () => isDrawing = false);
+            c.addEventListener('touchstart', start); c.addEventListener('touchmove', move); c.addEventListener('touchend', () => isDrawing = false);
+        }
         function changeColor(c){brushColor=c;} function setEraser(){brushColor="#ffffff";} function clearCanvas(){const c=document.getElementById('main-canvas');c.getContext('2d').clearRect(0,0,c.width,c.height);}
+
         function startSOS() { document.getElementById('modal-sos').classList.remove('hidden-section'); let s=60; sosInterval=setInterval(()=>{s--;document.getElementById('sos-timer').innerText=s;if(s<=0){clearInterval(sosInterval);closeSOS();}},1000); }
         function closeSOS(){clearInterval(sosInterval);document.getElementById('modal-sos').classList.add('hidden-section');registrarActividad("S.O.S","Kit pre-examen");}
-        function breakTask() { const v = document.getElementById('task-input').value; if(!v) return; const st = ["1. Entender","2. Buscar","3. Borrador","4. Revisar"]; document.getElementById('task-result').innerHTML = st.map(s => `<div>✅ ${s}</div>`).join(''); registrarActividad("Cole","Dividiste tarea");}
-        function updateRoutine() { const c=document.querySelectorAll('.routine-check:checked').length; document.getElementById('routine-bar').value=(c/3)*100; if(c===3)registrarActividad("Rutina","¡Rutina completa!");}
+        function breakTask() { const v = document.getElementById('task-input').value; if(!v) return; const st = ["1. Leer indicaciones","2. Buscar información","3. Hacer borrador","4. Revisar final"]; document.getElementById('task-result').innerHTML = st.map(s => `<div>✅ ${s}</div>`).join(''); }
+        function updateSocial(){const v=document.getElementById('social-select').value;const s={chisme:'Ignora y respeta.',insulto:'Pon límites.',presion:'Dí no.'};document.getElementById('social-ans').innerText=s[v]||"";}
+        function updateRoutine(){const c=document.querySelectorAll('.routine-check:checked').length;document.getElementById('routine-bar').value=(c/3)*100;}
         function checkPIN(){const v=document.getElementById('pin').value;if(!userData.pin){if(v.length==4){userData.pin=v;save();openDiary();}}else{if(v==userData.pin)openDiary();else alert("Incorrecto");}}
-        function openDiary(){document.getElementById('diario-lock').classList.add('hidden-section');document.getElementById('diario-open').classList.remove('hidden-section');currentPageIndex=-1;updateNotebookView();}
-        function saveDiary(){const t=document.getElementById('texto-diario').value;if(!t)return;userData.diario.unshift({f:new Date().toLocaleString(),c:t});registrarActividad("Diario","Guardaste pensamiento");save();document.getElementById('texto-diario').value="";renderHistory();lockDiary();}
-        function updateNotebookView(){const a=document.getElementById('texto-diario');if(currentPageIndex===-1){a.value="";a.readOnly=false;}else{const e=userData.diario[currentPageIndex];a.value=e.c;a.readOnly=true;}}
+        function openDiary() { document.getElementById('diario-lock').classList.add('hidden-section'); document.getElementById('diario-open').classList.remove('hidden-section'); currentPageIndex=-1; updateNotebookView(); }
+        function saveDiary() { const t=document.getElementById('texto-diario').value; if(!t) return; userData.diario.unshift({f:new Date().toLocaleString(),c:t}); registrarActividad("Diario","Guardaste pensamiento"); save(); document.getElementById('texto-diario').value=""; renderHistory(); lockDiary(); }
+        function updateNotebookView(){ const a=document.getElementById('texto-diario'); const dLab=document.getElementById('page-date-display'); if(currentPageIndex===-1){a.value="";a.readOnly=false;dLab.innerText="Nueva Página: "+new Date().toLocaleString();}else{const e=userData.diario[currentPageIndex];a.value=e.c;a.readOnly=true;dLab.innerText=e.f;} }
         function prevPage(){if(currentPageIndex<userData.diario.length-1){currentPageIndex++;updateNotebookView();}}
         function nextPage(){if(currentPageIndex>-1){currentPageIndex--;updateNotebookView();}}
         function lockDiary(){document.getElementById('diario-lock').classList.remove('hidden-section');document.getElementById('diario-open').classList.add('hidden-section');document.getElementById('pin').value="";}
         function renderHistory(){document.getElementById('historial-diario').innerHTML=userData.diario.map(d=>`<div class="bg-white/50 p-4 text-xs italic rounded-xl border border-indigo-50"><p class="font-bold opacity-30">${d.f}</p><p>"${d.c}"</p></div>`).join('');}
-        function save(){localStorage.setItem('bj_stable_final_v13',JSON.stringify(userData));}
+        function toggleRecovery(){document.getElementById('recovery-box').classList.toggle('hidden-section');}
+        function verifyRecovery(){const e=document.getElementById('recovery-email').value.trim().toLowerCase();if(e===userData.email.toLowerCase()){const n=prompt("Nuevo PIN (4 números):");if(n && n.length===4){userData.pin=n;save();alert("PIN actualizado.");toggleRecovery();}}else alert("Correo incorrecto.");}
+        function save(){localStorage.setItem('bj_v15_stable',JSON.stringify(userData));}
         function setTheme(t){document.body.className='theme-'+t;localStorage.setItem('bj_theme',t);}
         function logout(){if(confirm("¿Borrar todo?")){localStorage.clear();location.reload();}}
     </script>
